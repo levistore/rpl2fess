@@ -84,6 +84,7 @@ export function DashboardSidebar({ unreadCount = 0 }: DashboardNavProps) {
               <Link
                 key={item.href}
                 href={item.href}
+                prefetch={true}
                 className={cn(
                   "flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium tracking-wide transition-all duration-150 border",
                   isActive
@@ -179,6 +180,7 @@ export function MobileBottomNav({ unreadCount = 0 }: DashboardNavProps) {
           <Link
             key={item.href}
             href={item.href}
+            prefetch={true}
             className={cn(
               "relative flex flex-col items-center justify-center p-2 rounded-xl min-w-[72px] transition-all text-xs",
               isActive

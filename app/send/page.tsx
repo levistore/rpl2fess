@@ -45,7 +45,7 @@ export default async function SendPage() {
           <div className="lg:col-span-7 space-y-6">
             <div className="space-y-2">
               <span className="text-xs font-mono uppercase tracking-widest text-[#3D5CFF]">
-                &#8226; X PPLG 2 &#8226; PESAN ANONIM
+                X PPLG 2 / PESAN ANONIM
               </span>
               <h1 className="text-4xl sm:text-6xl font-display font-normal uppercase tracking-tight leading-none text-[#F5F5F2]">
                 KIRIM <span className="text-[#3D5CFF]">SESUATU.</span>
@@ -55,7 +55,7 @@ export default async function SendPage() {
               </p>
             </div>
 
-            {/* The Form */}
+            {/* The Paper Writing Surface Form */}
             <SendForm
               acceptingMessages={settings.accepting_messages}
               maxLength={settings.max_length}
@@ -65,7 +65,7 @@ export default async function SendPage() {
             <div className="pt-1">
               <Link
                 href="/privacy"
-                className="inline-flex items-center gap-1.5 text-xs text-[#9A9DA5] hover:text-[#F5F5F2] transition-colors underline underline-offset-4"
+                className="inline-flex items-center gap-1.5 text-xs text-[#9A9DA5] hover:text-[#F5F5F2] transition-colors underline underline-offset-4 font-mono"
               >
                 <Shield className="w-3.5 h-3.5 text-[#42D392]" /> Pelajari bagaimana pesanmu dijaga tetap anonim
               </Link>
@@ -86,32 +86,35 @@ export default async function SendPage() {
                   sizes="(max-width: 768px) 100vw, 400px"
                 />
 
-                <div className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded bg-black/60 backdrop-blur-sm border border-white/10 text-[9px] font-mono tracking-widest text-[#7B8DFF] flex items-center gap-1">
+                <div className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded bg-black/70 backdrop-blur-sm border border-white/10 text-[9px] font-mono tracking-widest text-[#7B8DFF] flex items-center gap-1">
                   <Camera className="w-3 h-3 text-[#3D5CFF]" />
-                  <span>DOKUMENTASI KELAS</span>
+                  <span>DOCUMENTATION / NOTE</span>
                 </div>
 
-                <div className="absolute bottom-2.5 right-2.5 px-1.5 py-0.5 rounded bg-black/60 backdrop-blur-sm text-[10px] font-mono text-[#FFB84D]">
+                <div className="absolute bottom-2.5 right-2.5 px-1.5 py-0.5 rounded bg-black/70 backdrop-blur-sm text-[10px] font-mono text-[#FFB84D]">
                   &apos;26 09 04
                 </div>
               </div>
 
-              <div className="pt-3 pb-1 px-1">
+              <div className="pt-3 pb-1 px-1 space-y-1">
                 <p className="font-handwriting text-xl text-[#F5F5F2]">
-                  &ldquo;pesanmu akan dibaca oleh kami sekelas&rdquo;
+                  &ldquo;pesanmu akan dibaca oleh kami sekelas.&rdquo;
                 </p>
                 <span className="text-[10px] font-mono uppercase text-[#9A9DA5] tracking-wider block">
-                  Kelas RPL / PPLG 2 &#8226; 2026
+                  Kelas RPL / PPLG 2 / 2026
                 </span>
               </div>
             </div>
 
             {/* Note block */}
-            <div className="p-4 rounded-xl bg-[#111318] border border-[#2A2D34] text-xs text-[#9A9DA5] space-y-1">
-              <p className="font-medium text-[#F5F5F2]">
-                ✦ Jaminan Kerahasiaan
-              </p>
-              <p className="leading-relaxed">
+            <div className="p-4 rounded-xl bg-[#111318] border border-[#2A2D34] text-xs text-[#9A9DA5] space-y-1.5">
+              <div className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#42D392]" />
+                <span className="font-mono text-[11px] uppercase tracking-wider text-[#F5F5F2]">
+                  Jaminan Kerahasiaan
+                </span>
+              </div>
+              <p className="leading-relaxed text-[11px]">
                 Pesan dikirim tanpa login, tanpa cookie pelacak, dan tanpa IP mentah. Hanya teks pesan yang sampai di dashboard kami.
               </p>
             </div>

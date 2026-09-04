@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Copy, Check, Sparkles } from "lucide-react";
+import { Copy, Check, Link as LinkIcon } from "lucide-react";
 import { useToast } from "@/components/ui/toast";
 import { Button } from "@/components/ui/button";
 
@@ -24,7 +24,7 @@ export function CopyLinkBanner() {
     <div className="p-4 sm:p-5 rounded-2xl bg-[#111318] border border-[#2A2D34] shadow-xl shadow-black/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
       <div className="space-y-1">
         <div className="flex items-center gap-1.5 text-xs font-mono uppercase tracking-widest text-[#7B8DFF]">
-          <Sparkles className="w-3.5 h-3.5 text-[#3D5CFF]" />
+          <LinkIcon className="w-3.5 h-3.5 text-[#3D5CFF]" />
           <span>LINK KIRIM PESAN PUBLIK</span>
         </div>
         <p className="text-xs sm:text-sm font-mono text-[#F5F5F2] break-all bg-[#181B21] px-3 py-1.5 rounded-lg border border-[#2A2D34]/70 inline-block">

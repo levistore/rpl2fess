@@ -78,8 +78,9 @@ function LoginForm() {
             className="w-full h-11 px-4 rounded-lg bg-[#111318] text-[#F5F5F2] font-normal placeholder:text-[#9A9DA5]/40 border border-[#2A2D34] focus:outline-none focus:border-[#3D5CFF] focus:shadow-[0_0_20px_-4px_rgba(61,92,255,0.4)] transition-all duration-150"
           />
           {state?.fieldErrors?.password?.[0] && (
-            <p className="text-xs font-medium text-[#FF4D4D] mt-1.5 flex items-center gap-1">
-              <span>⚠</span> {state.fieldErrors.password[0]}
+            <p className="text-xs font-medium text-[#FF4D4D] mt-1.5 flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#FF4D4D] inline-block shrink-0" />
+              <span>{state.fieldErrors.password[0]}</span>
             </p>
           )}
         </div>

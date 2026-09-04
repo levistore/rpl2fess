@@ -8,6 +8,16 @@ export interface GetInboxOptions {
   limit?: number;
 }
 
+export async function getUnreadCount(): Promise<number> {
+  const supabase = await createClient();
+  const { count } = await supabase
+    .from("messages")
+    .select("*", { count: "exact", head: true })
+    .eq("is_deleted", false)
+    .eq("is_read", false);
+  return count || 0;
+}
+
 export async function getInboxMessages(
   options: GetInboxOptions = {}
 ): Promise<{ messages: Message[]; unreadCount: number; totalCount: number }> {
@@ -34,27 +44,26 @@ export async function getInboxMessages(
     query = query.limit(options.limit);
   }
 
-  const { data: messages, error } = await query;
+  // Execute message query and counts in parallel (1 network roundtrip instead of 3 sequential roundtrips)
+  const [messagesRes, unreadRes, totalRes] = await Promise.all([
+    query,
+    supabase
+      .from("messages")
+      .select("*", { count: "exact", head: true })
+      .eq("is_deleted", false)
+      .eq("is_read", false),
+    supabase
+      .from("messages")
+      .select("*", { count: "exact", head: true })
+      .eq("is_deleted", false),
+  ]);
 
-  if (error || !messages) {
-    console.error("Error fetching inbox messages:", error);
+  if (messagesRes.error || !messagesRes.data) {
+    console.error("Error fetching inbox messages:", messagesRes.error);
     return { messages: [], unreadCount: 0, totalCount: 0 };
   }
 
-  // Count unread
-  const { count: unreadCount } = await supabase
-    .from("messages")
-    .select("*", { count: "exact", head: true })
-    .eq("is_deleted", false)
-    .eq("is_read", false);
-
-  // Count total
-  const { count: totalCount } = await supabase
-    .from("messages")
-    .select("*", { count: "exact", head: true })
-    .eq("is_deleted", false);
-
-  let result = messages as Message[];
+  let result = messagesRes.data as Message[];
 
   if (options.search && options.search.trim()) {
     const s = options.search.toLowerCase();
@@ -63,8 +72,8 @@ export async function getInboxMessages(
 
   return {
     messages: result,
-    unreadCount: unreadCount || 0,
-    totalCount: totalCount || 0,
+    unreadCount: unreadRes.count || 0,
+    totalCount: totalRes.count || 0,
   };
 }
 

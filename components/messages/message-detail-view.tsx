@@ -10,18 +10,17 @@ import {
   markMessageUnreadAction,
 } from "@/lib/actions/inbox";
 import { useToast } from "@/components/ui/toast";
-import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
   ArrowLeft,
-  Clock,
   Eye,
   EyeOff,
   Trash2,
   Flag,
   ShieldBan,
-  Lock,
+  ShieldCheck,
 } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { ReportModal } from "./report-modal";
 import { BlockModal } from "./block-modal";
 import { DeleteModal } from "./delete-modal";
@@ -79,83 +78,137 @@ export function MessageDetailView({ message }: MessageDetailViewProps) {
         </Link>
       </div>
 
-      {/* Main Reading Card */}
-      <Card variant="surface" className="p-6 sm:p-10 space-y-6 border border-[#2A2D34] shadow-2xl shadow-black/80">
-        {/* Header */}
-        <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-[#2A2D34]">
-          <div className="flex items-center gap-2">
-            <span className="px-2.5 py-1 rounded-md bg-[#3D5CFF]/15 border border-[#3D5CFF]/30 text-xs font-mono tracking-wider text-[#7B8DFF]">
-              PESAN ANONIM
-            </span>
-            <span className="flex items-center gap-1 text-xs text-[#42D392] font-mono">
-              <Lock className="w-3.5 h-3.5" /> 100% RAHASIA
-            </span>
-          </div>
+      {/* Digital Letter / Archived Paper Note */}
+      <div className="relative rounded-2xl bg-[#0E1015] border border-[#2A2D34] p-6 sm:p-10 space-y-6 shadow-2xl shadow-black/80">
+        {/* Tape Accent */}
+        <div className="scrapbook-tape w-24 -top-3 left-8 rotate-[-1deg]" />
 
-          <div className="flex items-center gap-1.5 text-xs font-mono text-[#9A9DA5]">
-            <Clock className="w-3.5 h-3.5" />
-            <span>{formatDate(message.created_at)}</span>
+        {/* Paper Sheet Header */}
+        <div className="flex items-center justify-between border-b border-[#2A2D34] pb-4 text-xs font-mono">
+          <div className="flex items-center gap-2">
+            <span className="text-[#3D5CFF] font-semibold tracking-wider uppercase">
+              ARCHIVE / MESSAGE #{message.id.slice(0, 8).toUpperCase()}
+            </span>
           </div>
+          <span className="text-[#9A9DA5] uppercase tracking-wider text-[11px]">
+            DOKUMENTASI KELAS
+          </span>
         </div>
 
-        {/* Big Confession Text */}
-        <div className="py-4">
-          <p className="text-xl sm:text-2xl md:text-3xl font-normal text-[#F5F5F2] leading-relaxed break-words">
+        {/* Handwritten subtitle */}
+        <div className="flex items-center justify-between">
+          <p className="font-handwriting text-xl text-[#7B8DFF]">
+            catatan pesan anonim
+          </p>
+          <span className="text-[10px] font-mono px-2 py-0.5 rounded border border-[#2A2D34] text-[#9A9DA5]">
+            TERVERIFIKASI ANONIM
+          </span>
+        </div>
+
+        {/* Digital Letter Message Body */}
+        <div className="py-6 px-1">
+          <p className="text-xl sm:text-2xl md:text-3xl font-normal text-[#F5F5F2] leading-relaxed break-words font-sans selection:bg-[#3D5CFF] selection:text-white">
             &ldquo;{message.content}&rdquo;
           </p>
         </div>
 
-        {/* Action Buttons */}
-        <div className="pt-6 border-t border-[#2A2D34] flex flex-wrap items-center justify-between gap-3">
-          <div className="flex items-center gap-2">
-            <Button
-              type="button"
-              variant="secondary"
-              size="sm"
-              onClick={toggleRead}
-            >
-              {isRead ? (
-                <>
-                  <EyeOff className="w-4 h-4 mr-1.5" /> Tandai Belum Dibaca
-                </>
-              ) : (
-                <>
-                  <Eye className="w-4 h-4 mr-1.5" /> Tandai Sudah Dibaca
-                </>
-              )}
-            </Button>
+        {/* Thin Rule Divider */}
+        <div className="border-t border-[#2A2D34]" />
 
-            <Button
-              type="button"
-              variant="secondary"
-              size="sm"
-              onClick={() => setShowReport(true)}
-            >
-              <Flag className="w-4 h-4 mr-1.5" /> Laporkan
-            </Button>
+        {/* Metadata Grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-1 text-xs font-mono">
+          <div>
+            <span className="text-[10px] text-[#9A9DA5]/70 block uppercase tracking-wider">
+              RECEIVED
+            </span>
+            <span className="text-[#F5F5F2] mt-0.5 block">
+              {formatDate(message.created_at)}
+            </span>
           </div>
 
-          <div className="flex items-center gap-2">
-            <Button
-              type="button"
-              variant="secondary"
-              size="sm"
-              onClick={() => setShowBlock(true)}
-            >
-              <ShieldBan className="w-4 h-4 mr-1.5" /> Blokir Pengirim
-            </Button>
+          <div>
+            <span className="text-[10px] text-[#9A9DA5]/70 block uppercase tracking-wider">
+              STATUS
+            </span>
+            <div className="flex items-center gap-1.5 mt-0.5">
+              <span
+                className={cn(
+                  "w-2 h-2 rounded-full",
+                  isRead ? "bg-[#9A9DA5]" : "bg-[#3D5CFF]"
+                )}
+              />
+              <span
+                className={cn(
+                  "font-bold uppercase",
+                  isRead ? "text-[#9A9DA5]" : "text-[#3D5CFF]"
+                )}
+              >
+                {isRead ? "READ" : "UNREAD"}
+              </span>
+            </div>
+          </div>
 
-            <Button
-              type="button"
-              variant="danger"
-              size="sm"
-              onClick={() => setShowDelete(true)}
-            >
-              <Trash2 className="w-4 h-4 mr-1.5" /> Hapus
-            </Button>
+          <div className="col-span-2 sm:col-span-1">
+            <span className="text-[10px] text-[#9A9DA5]/70 block uppercase tracking-wider">
+              SECURITY
+            </span>
+            <span className="text-[#42D392] mt-0.5 flex items-center gap-1">
+              <ShieldCheck className="w-3.5 h-3.5" /> HASH VERIFIED
+            </span>
           </div>
         </div>
-      </Card>
+      </div>
+
+      {/* Action Buttons below Paper Sheet */}
+      <div className="pt-2 flex flex-wrap items-center justify-between gap-3">
+        <div className="flex items-center gap-2">
+          <Button
+            type="button"
+            variant="secondary"
+            size="sm"
+            onClick={toggleRead}
+          >
+            {isRead ? (
+              <>
+                <EyeOff className="w-4 h-4 mr-1.5" /> Tandai Belum Dibaca
+              </>
+            ) : (
+              <>
+                <Eye className="w-4 h-4 mr-1.5" /> Tandai Sudah Dibaca
+              </>
+            )}
+          </Button>
+
+          <Button
+            type="button"
+            variant="secondary"
+            size="sm"
+            onClick={() => setShowReport(true)}
+          >
+            <Flag className="w-4 h-4 mr-1.5" /> Laporkan
+          </Button>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <Button
+            type="button"
+            variant="secondary"
+            size="sm"
+            onClick={() => setShowBlock(true)}
+          >
+            <ShieldBan className="w-4 h-4 mr-1.5" /> Blokir Pengirim
+          </Button>
+
+          <Button
+            type="button"
+            variant="danger"
+            size="sm"
+            onClick={() => setShowDelete(true)}
+          >
+            <Trash2 className="w-4 h-4 mr-1.5" /> Hapus
+          </Button>
+        </div>
+      </div>
 
       {/* Modals */}
       <ReportModal

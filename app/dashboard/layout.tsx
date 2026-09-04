@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { getInboxMessages } from "@/lib/queries/messages";
+import { getUnreadCount } from "@/lib/queries/messages";
 import {
   DashboardSidebar,
   MobileDashboardHeader,
@@ -21,7 +21,7 @@ export default async function DashboardLayout({
     redirect("/login?redirectTo=/dashboard");
   }
 
-  const { unreadCount } = await getInboxMessages();
+  const unreadCount = await getUnreadCount();
 
   return (
     <div className="min-h-screen bg-[#08090B] flex flex-col lg:flex-row text-[#F5F5F2] selection:bg-[#3D5CFF] selection:text-white">

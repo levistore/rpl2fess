@@ -78,8 +78,9 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
           <p className="text-xs text-[#9A9DA5]/70">{hint}</p>
         )}
         {error && (
-          <p className="text-xs font-medium text-[#FF4D4D] flex items-center gap-1">
-            <span>⚠</span> {error}
+          <p className="text-xs font-medium text-[#FF4D4D] flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#FF4D4D] inline-block shrink-0" />
+            <span>{error}</span>
           </p>
         )}
       </div>
