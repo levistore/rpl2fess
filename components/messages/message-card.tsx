@@ -48,14 +48,14 @@ export function MessageCard({ message }: MessageCardProps) {
     try {
       if (newStatus) {
         await markMessageReadAction(message.id);
-        toast("Marked as read", "info");
+        toast("Ditandai sudah dibaca", "info");
       } else {
         await markMessageUnreadAction(message.id);
-        toast("Marked as unread", "info");
+        toast("Ditandai belum dibaca", "info");
       }
     } catch {
       setIsRead(!newStatus);
-      toast("Failed to update message status", "error");
+      toast("Gagal mengubah status pesan", "error");
     } finally {
       setIsUpdatingRead(false);
     }
@@ -64,26 +64,28 @@ export function MessageCard({ message }: MessageCardProps) {
   return (
     <>
       <div
-        className={`group relative rounded-[8px] border-[3px] border-[#111111] p-5 sm:p-6 transition-all duration-150 ${
+        className={`group relative rounded-2xl border transition-all duration-200 p-5 sm:p-6 ${
           !isRead
-            ? "bg-[#FFFFFF] shadow-[6px_6px_0_#111111] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[4px_4px_0_#111111]"
-            : "bg-[#F6F3EA] shadow-[3px_3px_0_#111111] opacity-90 hover:opacity-100 hover:bg-[#FFFFFF]"
+            ? "bg-[#111318] border-[#3D5CFF]/30 shadow-xl shadow-black/60 hover:border-[#3D5CFF]/60"
+            : "bg-[#111318]/60 border-[#2A2D34] opacity-80 hover:opacity-100 hover:border-[#3E424C]"
         }`}
       >
         {/* Top Header */}
         <div className="flex items-center justify-between gap-3 mb-3">
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-black uppercase tracking-wider text-[#111111]">
-              Anonymous
-            </span>
-            {!isRead && (
-              <span className="px-2 py-0.5 rounded-[4px] bg-[#FFD84D] border-[1.5px] border-[#111111] text-[10px] font-black uppercase tracking-wider shadow-[1.5px_1.5px_0_#111111]">
-                • NEW
+          <div className="flex items-center gap-2.5">
+            {!isRead ? (
+              <span className="flex items-center gap-1.5 text-xs font-medium text-[#7B8DFF]">
+                <span className="w-2 h-2 rounded-full bg-[#3D5CFF] animate-pulse shadow-[0_0_8px_#3D5CFF]" />
+                <span>Pesan Baru</span>
+              </span>
+            ) : (
+              <span className="text-xs font-mono text-[#9A9DA5]">
+                Sudah Dibaca
               </span>
             )}
           </div>
 
-          <div className="flex items-center gap-1.5 text-xs font-bold text-[#111111]/60">
+          <div className="flex items-center gap-1.5 text-xs font-mono text-[#9A9DA5]">
             <Clock className="w-3.5 h-3.5" />
             <span>{formatDate(message.created_at)}</span>
           </div>
@@ -92,21 +94,25 @@ export function MessageCard({ message }: MessageCardProps) {
         {/* Message Content Link */}
         <Link
           href={`/dashboard/inbox/${message.id}`}
-          className="block group-hover:text-[#5B7CFF] transition-colors"
+          className="block group-hover:text-[#7B8DFF] transition-colors"
         >
-          <p className="text-base sm:text-lg font-bold text-[#111111] leading-relaxed line-clamp-4 break-words font-sans">
-            “{message.content}”
+          <p
+            className={`text-base sm:text-lg leading-relaxed line-clamp-4 break-words font-normal ${
+              !isRead ? "text-[#F5F5F2] font-medium" : "text-[#9A9DA5]"
+            }`}
+          >
+            &ldquo;{message.content}&rdquo;
           </p>
         </Link>
 
         {/* Bottom Actions Bar */}
-        <div className="mt-5 pt-3.5 border-t-[2px] border-[#111111]/20 flex flex-wrap items-center justify-between gap-2">
+        <div className="mt-5 pt-3.5 border-t border-[#2A2D34] flex flex-wrap items-center justify-between gap-2">
           {/* Quick detail link */}
           <Link
             href={`/dashboard/inbox/${message.id}`}
-            className="inline-flex items-center gap-1 text-xs font-black uppercase tracking-wider text-[#111111] hover:text-[#5B7CFF] transition-colors"
+            className="inline-flex items-center gap-1 text-xs font-medium text-[#7B8DFF] hover:text-[#536DFF] transition-colors"
           >
-            Read Full <ArrowUpRight className="w-3.5 h-3.5" />
+            Baca Selengkapnya <ArrowUpRight className="w-3.5 h-3.5 ml-0.5" />
           </Link>
 
           {/* Action buttons */}
@@ -115,13 +121,13 @@ export function MessageCard({ message }: MessageCardProps) {
             <button
               type="button"
               onClick={toggleReadStatus}
-              title={isRead ? "Mark as unread" : "Mark as read"}
-              className="p-1.5 rounded-[4px] border-[1.5px] border-[#111111] bg-[#FFFFFF] shadow-[1.5px_1.5px_0_#111111] hover:bg-[#FFD84D] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all cursor-pointer"
+              title={isRead ? "Tandai belum dibaca" : "Tandai sudah dibaca"}
+              className="p-1.5 rounded-lg border border-[#2A2D34] bg-[#181B21] text-[#9A9DA5] hover:text-[#F5F5F2] hover:border-[#3E424C] transition-all cursor-pointer"
             >
               {isRead ? (
-                <EyeOff className="w-4 h-4 text-[#111111]" />
+                <EyeOff className="w-3.5 h-3.5" />
               ) : (
-                <Eye className="w-4 h-4 text-[#111111]" />
+                <Eye className="w-3.5 h-3.5" />
               )}
             </button>
 
@@ -129,30 +135,30 @@ export function MessageCard({ message }: MessageCardProps) {
             <button
               type="button"
               onClick={() => setShowReportModal(true)}
-              title="Report message"
-              className="p-1.5 rounded-[4px] border-[1.5px] border-[#111111] bg-[#FFFFFF] shadow-[1.5px_1.5px_0_#111111] hover:bg-[#FFD84D] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all cursor-pointer"
+              title="Laporkan pesan"
+              className="p-1.5 rounded-lg border border-[#2A2D34] bg-[#181B21] text-[#9A9DA5] hover:text-[#FFB84D] hover:border-[#FFB84D]/40 transition-all cursor-pointer"
             >
-              <Flag className="w-4 h-4 text-[#111111]" />
+              <Flag className="w-3.5 h-3.5" />
             </button>
 
             {/* Block Sender */}
             <button
               type="button"
               onClick={() => setShowBlockModal(true)}
-              title="Block sender"
-              className="p-1.5 rounded-[4px] border-[1.5px] border-[#111111] bg-[#FFFFFF] shadow-[1.5px_1.5px_0_#111111] hover:bg-[#FF6B9A] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all cursor-pointer"
+              title="Blokir pengirim"
+              className="p-1.5 rounded-lg border border-[#2A2D34] bg-[#181B21] text-[#9A9DA5] hover:text-[#FF4D4D] hover:border-[#FF4D4D]/40 transition-all cursor-pointer"
             >
-              <ShieldBan className="w-4 h-4 text-[#111111]" />
+              <ShieldBan className="w-3.5 h-3.5" />
             </button>
 
             {/* Delete */}
             <button
               type="button"
               onClick={() => setShowDeleteModal(true)}
-              title="Delete message"
-              className="p-1.5 rounded-[4px] border-[1.5px] border-[#111111] bg-[#FFFFFF] shadow-[1.5px_1.5px_0_#111111] hover:bg-[#FF6B9A] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all cursor-pointer"
+              title="Hapus pesan"
+              className="p-1.5 rounded-lg border border-[#2A2D34] bg-[#181B21] text-[#9A9DA5] hover:text-[#FF4D4D] hover:border-[#FF4D4D]/40 transition-all cursor-pointer"
             >
-              <Trash2 className="w-4 h-4 text-[#111111]" />
+              <Trash2 className="w-3.5 h-3.5" />
             </button>
           </div>
         </div>

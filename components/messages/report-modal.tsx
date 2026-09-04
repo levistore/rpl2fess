@@ -88,21 +88,21 @@ export function ReportModal({ messageId, isOpen, onClose }: ReportModalProps) {
       isOpen={isOpen}
       onClose={onClose}
       title="Report Confession"
-      description="Help keep LConfess safe. Reports are promptly reviewed by moderators."
+      description="Help keep RPLTwoFess safe. Reports are promptly reviewed by moderators."
     >
       <form onSubmit={handleSubmit} className="space-y-4 pt-2">
         <div className="space-y-2">
-          <label className="block text-xs font-black uppercase tracking-wider text-[#111111]">
+          <label className="block text-xs font-semibold uppercase tracking-wider text-[#9A9DA5]">
             Select Reason
           </label>
           <div className="space-y-2 max-h-56 overflow-y-auto pr-1">
             {REPORT_REASONS.map((r) => (
               <label
                 key={r.value}
-                className={`flex items-start gap-3 p-3 rounded-[6px] border-[2px] cursor-pointer transition-all ${
+                className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-all ${
                   selectedReason === r.value
-                    ? "bg-[#FFD84D] border-[#111111] shadow-[2px_2px_0_#111111]"
-                    : "bg-[#FFFFFF] border-[#111111]/30 hover:border-[#111111]"
+                    ? "bg-[#3D5CFF]/15 border-[#3D5CFF] shadow-[0_0_12px_rgba(61,92,255,0.2)]"
+                    : "bg-[#181B21] border-[#2A2D34] hover:border-[#3E424C]"
                 }`}
               >
                 <input
@@ -111,13 +111,13 @@ export function ReportModal({ messageId, isOpen, onClose }: ReportModalProps) {
                   value={r.value}
                   checked={selectedReason === r.value}
                   onChange={() => setSelectedReason(r.value)}
-                  className="mt-0.5 accent-[#111111]"
+                  className="mt-0.5 accent-[#3D5CFF]"
                 />
                 <div>
-                  <span className="block text-xs font-black uppercase text-[#111111]">
+                  <span className="block text-xs font-semibold text-[#F5F5F2]">
                     {r.label}
                   </span>
-                  <span className="text-[11px] font-medium text-[#111111]/70">
+                  <span className="text-[11px] text-[#9A9DA5]">
                     {r.description}
                   </span>
                 </div>
@@ -127,7 +127,7 @@ export function ReportModal({ messageId, isOpen, onClose }: ReportModalProps) {
         </div>
 
         <div className="space-y-1.5">
-          <label className="block text-xs font-black uppercase tracking-wider text-[#111111]">
+          <label className="block text-xs font-semibold uppercase tracking-wider text-[#9A9DA5]">
             Additional Details (Optional)
           </label>
           <textarea
@@ -136,14 +136,14 @@ export function ReportModal({ messageId, isOpen, onClose }: ReportModalProps) {
             maxLength={500}
             rows={3}
             placeholder="Describe any additional context..."
-            className="w-full p-3 rounded-[6px] bg-[#FFFFFF] border-[2px] border-[#111111] text-xs font-medium focus:outline-none focus:border-[#5B7CFF]"
+            className="w-full p-3 rounded-lg bg-[#181B21] border border-[#2A2D34] text-xs font-medium text-[#F5F5F2] placeholder-[#9A9DA5]/50 focus:outline-none focus:border-[#3D5CFF] focus:ring-1 focus:ring-[#3D5CFF]"
           />
         </div>
 
         <div className="flex items-center justify-end gap-3 pt-2">
           <Button
             type="button"
-            variant="white"
+            variant="secondary"
             size="sm"
             onClick={onClose}
             disabled={isSubmitting}

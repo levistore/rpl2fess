@@ -13,6 +13,7 @@ import {
   Sparkles,
   ShieldCheck,
   ArrowLeft,
+  Lock,
 } from "lucide-react";
 import confetti from "canvas-confetti";
 
@@ -50,7 +51,7 @@ export function SendForm({
             particleCount: 50,
             spread: 60,
             origin: { y: 0.7 },
-            colors: ["#5B7CFF", "#FFD84D", "#FF6B9A", "#8ED081", "#111111"],
+            colors: ["#3D5CFF", "#536DFF", "#7B8DFF", "#42D392", "#F5F5F2"],
           });
         } catch {
           // ignore if canvas unavailable
@@ -73,21 +74,23 @@ export function SendForm({
 
   if (!acceptingMessages) {
     return (
-      <Card variant="white" shadow="lg" className="p-8 text-center border-[3px] border-[#111111]">
-        <div className="w-14 h-14 rounded-[8px] bg-[#FF6B9A] border-[3px] border-[#111111] shadow-[3px_3px_0_#111111] flex items-center justify-center mx-auto mb-4 text-[#111111]">
-          <ShieldCheck className="w-7 h-7" />
+      <Card variant="surface" className="p-8 text-center border border-[#2A2D34] space-y-4">
+        <div className="w-12 h-12 rounded-xl bg-[#FF4D4D]/15 border border-[#FF4D4D]/30 flex items-center justify-center mx-auto text-[#FF4D4D]">
+          <Lock className="w-6 h-6" />
         </div>
-        <h2 className="text-2xl font-black uppercase tracking-tight text-[#111111] mb-2">
-          Penerimaan Pesan Ditutup
+        <h2 className="text-2xl font-display uppercase tracking-tight text-[#F5F5F2]">
+          PENERIMAAN PESAN DITUTUP
         </h2>
-        <p className="text-sm font-bold text-[#111111]/70 max-w-sm mx-auto mb-6">
+        <p className="text-sm text-[#9A9DA5] max-w-sm mx-auto">
           Admin RPLTwoFess sedang menonaktifkan penerimaan pesan untuk sementara waktu.
         </p>
-        <Link href="/">
-          <Button variant="primary">
-            <ArrowLeft className="w-4 h-4 mr-2" /> Kembali ke Beranda
-          </Button>
-        </Link>
+        <div className="pt-2">
+          <Link href="/">
+            <Button variant="secondary">
+              <ArrowLeft className="w-4 h-4 mr-2" /> Kembali ke Beranda
+            </Button>
+          </Link>
+        </div>
       </Card>
     );
   }
@@ -95,26 +98,29 @@ export function SendForm({
   if (isSuccess) {
     return (
       <Card
-        variant="yellow"
-        shadow="lg"
-        className="p-8 sm:p-10 text-center animate-in zoom-in-95 duration-150 border-[3px] border-[#111111]"
+        variant="surface"
+        className="p-8 sm:p-10 text-center animate-in zoom-in-95 duration-200 border border-[#3D5CFF]/40 space-y-5 shadow-2xl shadow-black/80"
       >
-        <div className="w-16 h-16 rounded-[8px] bg-[#FFFFFF] border-[3px] border-[#111111] shadow-[4px_4px_0_#111111] flex items-center justify-center mx-auto mb-4 text-[#111111]">
-          <CheckCircle2 className="w-8 h-8 text-[#111111]" />
+        <div className="w-16 h-16 rounded-2xl bg-[#3D5CFF]/15 border border-[#3D5CFF]/40 flex items-center justify-center mx-auto text-[#3D5CFF] shadow-[0_0_30px_-5px_rgba(61,92,255,0.4)]">
+          <CheckCircle2 className="w-8 h-8 text-[#42D392]" />
         </div>
 
-        <h2 className="text-2xl sm:text-3xl font-black uppercase tracking-tight text-[#111111] mb-2">
-          Pesan Terkirim.
-        </h2>
+        <div className="space-y-1">
+          <span className="text-xs font-mono uppercase tracking-widest text-[#42D392]">
+            &#8226; STATUS: TERKIRIM
+          </span>
+          <h2 className="text-3xl sm:text-4xl font-display font-normal uppercase tracking-tight text-[#F5F5F2]">
+            MESSAGE SENT.
+          </h2>
+          <p className="text-sm text-[#9A9DA5] max-w-sm mx-auto leading-relaxed">
+            Pesanmu sudah sampai secara anonim. Identitasmu tetap menjadi rahasia.
+          </p>
+        </div>
 
-        <p className="text-sm sm:text-base font-bold text-[#111111]/80 max-w-sm mx-auto mb-8 leading-relaxed">
-          Pesanmu sudah sampai secara anonim. Identitasmu tetap menjadi rahasia.
-        </p>
-
-        <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
+        <div className="pt-4 flex flex-col sm:flex-row gap-3 justify-center items-center">
           <Button
             type="button"
-            variant="white"
+            variant="primary"
             onClick={handleReset}
             className="w-full sm:w-auto"
           >
@@ -124,7 +130,7 @@ export function SendForm({
           <Link href="/" className="w-full sm:w-auto">
             <Button
               type="button"
-              variant="primary"
+              variant="secondary"
               className="w-full sm:w-auto"
             >
               Kembali ke Beranda
@@ -136,21 +142,21 @@ export function SendForm({
   }
 
   return (
-    <Card variant="white" shadow="lg" className="p-6 sm:p-8 border-[3px] border-[#111111]">
+    <Card variant="surface" className="p-6 sm:p-8 border border-[#2A2D34] shadow-2xl shadow-black/80">
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Header notice */}
-        <div className="flex items-center justify-between pb-3 border-b-[2px] border-[#111111]">
-          <span className="text-xs font-black uppercase tracking-wider text-[#111111] flex items-center gap-1.5">
-            <Sparkles className="w-4 h-4 text-[#5B7CFF]" /> Formulir Anonim
+        <div className="flex items-center justify-between pb-3.5 border-b border-[#2A2D34]">
+          <span className="text-xs font-mono text-[#7B8DFF] flex items-center gap-1.5 uppercase tracking-wider">
+            <Sparkles className="w-3.5 h-3.5 text-[#3D5CFF]" /> FORMULIR ANONIM
           </span>
-          <span className="text-[11px] font-bold text-[#111111]/70 flex items-center gap-1">
-            <ShieldCheck className="w-3.5 h-3.5 text-[#8ED081]" /> 100% Rahasia
+          <span className="text-[11px] font-mono text-[#42D392] flex items-center gap-1">
+            <ShieldCheck className="w-3.5 h-3.5" /> 100% RAHASIA
           </span>
         </div>
 
         {error && (
-          <div className="p-3.5 rounded-[6px] bg-[#FF6B9A] border-[2.5px] border-[#111111] shadow-[3px_3px_0_#111111] text-xs sm:text-sm font-bold text-[#111111]">
-            ⚠ {error}
+          <div className="p-3.5 rounded-xl bg-[#FF4D4D]/15 border border-[#FF4D4D]/30 text-xs sm:text-sm font-medium text-[#FF4D4D]">
+            &#9888; {error}
           </div>
         )}
 
@@ -159,14 +165,14 @@ export function SendForm({
           value={content}
           onChange={(e) => setContent(e.target.value)}
           maxLength={maxLength}
-          placeholder="Tulis pesan, cerita, uneg-uneg, pertanyaan, atau kesanmu untuk kelas RPL/PPLG 2..."
+          placeholder="Tulis pesan, cerita, pertanyaan, uneg-uneg, atau kesanmu untuk kelas RPL / PPLG 2..."
           rows={6}
           disabled={isLoading}
           required
         />
 
         <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
-          <p className="text-[11px] font-medium text-[#111111]/60 text-center sm:text-left leading-relaxed">
+          <p className="text-[11px] text-[#9A9DA5]/70 text-center sm:text-left leading-relaxed">
             Dilarang mengirim ancaman, pelecehan, atau ujaran kebencian.
           </p>
 
@@ -178,7 +184,7 @@ export function SendForm({
             disabled={!content.trim() || isLoading}
             className="w-full sm:w-auto"
           >
-            <Send className="w-4 h-4 mr-2" /> Kirim Pesan
+            <Send className="w-4 h-4 mr-2" /> Kirim Pesan Anonim
           </Button>
         </div>
       </form>

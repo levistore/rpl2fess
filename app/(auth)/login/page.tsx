@@ -20,23 +20,26 @@ function LoginForm() {
   );
 
   return (
-    <Card variant="white" shadow="lg" className="p-8 border-[3px] border-[#111111]">
+    <Card variant="surface" className="p-8 sm:p-9 border border-[#2A2D34] shadow-2xl shadow-black/80">
       {/* Header */}
       <div className="text-center mb-8">
-        <div className="inline-flex w-14 h-14 rounded-[8px] bg-[#5B7CFF] border-[3px] border-[#111111] shadow-[4px_4px_0_#111111] items-center justify-center text-[#111111] mb-4">
-          <MessageSquare className="w-7 h-7" />
+        <div className="inline-flex w-12 h-12 rounded-xl bg-[#181B21] border border-[#2A2D34] items-center justify-center text-[#3D5CFF] mb-4 shadow-[0_0_20px_-5px_rgba(61,92,255,0.3)]">
+          <MessageSquare className="w-6 h-6" />
         </div>
-        <h1 className="text-2xl sm:text-3xl font-black uppercase tracking-tight text-[#111111]">
-          Owner Login
+        <span className="block text-xs font-mono uppercase tracking-widest text-[#7B8DFF] mb-1">
+          &#8226; PORTAL PRIVAT &#8226;
+        </span>
+        <h1 className="text-3xl sm:text-4xl font-display font-normal uppercase tracking-tight text-[#F5F5F2]">
+          OWNER LOGIN
         </h1>
-        <p className="text-xs sm:text-sm font-bold text-[#111111]/70 mt-1">
-          Login khusus pemilik website RPLTwoFess.
+        <p className="text-xs sm:text-sm text-[#9A9DA5] mt-1">
+          Masuk ke dashboard untuk mengelola pesan dan pengaturan kelas.
         </p>
       </div>
 
       {/* Global Error Alert */}
       {state?.error && (
-        <div className="mb-6 p-3.5 rounded-[6px] bg-[#FF6B9A] border-[2.5px] border-[#111111] shadow-[3px_3px_0_#111111] text-xs sm:text-sm font-bold text-[#111111] flex items-center gap-2">
+        <div className="mb-6 p-3.5 rounded-xl bg-[#FF4D4D]/15 border border-[#FF4D4D]/30 text-xs sm:text-sm font-medium text-[#FF4D4D] flex items-center gap-2">
           <ShieldAlert className="w-5 h-5 shrink-0" />
           <span>{state.error}</span>
         </div>
@@ -57,12 +60,12 @@ function LoginForm() {
 
         <div>
           <div className="flex items-center justify-between mb-1.5">
-            <label className="block text-xs font-black uppercase tracking-wider text-[#111111]">
+            <label className="block text-xs font-medium uppercase tracking-wider text-[#9A9DA5]">
               Password
             </label>
             <Link
               href="/forgot-password"
-              className="text-xs font-bold text-[#5B7CFF] hover:underline"
+              className="text-xs text-[#7B8DFF] hover:text-[#536DFF] transition-colors"
             >
               Lupa Password?
             </Link>
@@ -72,10 +75,10 @@ function LoginForm() {
             type="password"
             placeholder="••••••••"
             required
-            className="w-full h-12 px-4 rounded-[6px] bg-[#FFFFFF] text-[#111111] font-medium placeholder:text-[#111111]/40 border-[3px] border-[#111111] shadow-[3px_3px_0_#111111] focus:outline-none focus:border-[#5B7CFF] focus:shadow-[5px_5px_0_#111111] transition-all duration-120"
+            className="w-full h-11 px-4 rounded-lg bg-[#111318] text-[#F5F5F2] font-normal placeholder:text-[#9A9DA5]/40 border border-[#2A2D34] focus:outline-none focus:border-[#3D5CFF] focus:shadow-[0_0_20px_-4px_rgba(61,92,255,0.4)] transition-all duration-150"
           />
           {state?.fieldErrors?.password?.[0] && (
-            <p className="text-xs font-bold text-[#FF6B9A] mt-1.5 flex items-center gap-1">
+            <p className="text-xs font-medium text-[#FF4D4D] mt-1.5 flex items-center gap-1">
               <span>⚠</span> {state.fieldErrors.password[0]}
             </p>
           )}
@@ -97,18 +100,21 @@ function LoginForm() {
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen bg-[#F6F3EA] flex flex-col justify-center items-center px-4 py-12">
-      <div className="w-full max-w-md mb-6">
+    <div className="min-h-screen bg-[#08090B] flex flex-col justify-center items-center px-4 py-12 relative overflow-hidden selection:bg-[#3D5CFF] selection:text-white">
+      {/* Background glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[300px] bg-[#3D5CFF]/10 blur-[120px] pointer-events-none rounded-full" />
+
+      <div className="w-full max-w-md mb-6 relative z-10">
         <Link
           href="/"
-          className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-[#111111] hover:text-[#5B7CFF] transition-colors"
+          className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-[#9A9DA5] hover:text-[#F5F5F2] transition-colors"
         >
           <ArrowLeft className="w-4 h-4" /> Kembali ke Beranda
         </Link>
       </div>
 
-      <div className="w-full max-w-md">
-        <Suspense fallback={<div className="p-8 text-center font-bold">Memuat portal login...</div>}>
+      <div className="w-full max-w-md relative z-10">
+        <Suspense fallback={<div className="p-8 text-center text-[#9A9DA5] font-mono">Memuat portal login...</div>}>
           <LoginForm />
         </Suspense>
       </div>

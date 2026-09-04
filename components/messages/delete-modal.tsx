@@ -51,14 +51,14 @@ export function DeleteModal({
       maxWidth="sm"
     >
       <div className="space-y-4 pt-1">
-        <p className="text-xs sm:text-sm font-medium text-[#111111]/80 leading-relaxed">
+        <p className="text-xs sm:text-sm text-[#9A9DA5] leading-relaxed">
           Are you sure you want to remove this message from your inbox? It will be safely archived and hidden from view.
         </p>
 
         <div className="flex items-center justify-end gap-3 pt-2">
           <Button
             type="button"
-            variant="white"
+            variant="secondary"
             size="sm"
             onClick={onClose}
             disabled={isSubmitting}

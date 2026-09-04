@@ -13,85 +13,85 @@ export const metadata: Metadata = {
 
 export default function PrivacyPage() {
   return (
-    <div className="min-h-screen bg-[#F6F3EA] text-[#111111] flex flex-col justify-between">
+    <div className="min-h-screen bg-[#08090B] text-[#F5F5F2] flex flex-col justify-between selection:bg-[#3D5CFF] selection:text-white">
       <Navbar />
 
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 py-12 w-full space-y-8">
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 py-14 w-full space-y-10">
         <div>
           <Link
             href="/"
-            className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-wider text-[#111111] hover:text-[#5B7CFF] mb-3"
+            className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-[#9A9DA5] hover:text-[#F5F5F2] mb-4 transition-colors"
           >
             <ArrowLeft className="w-3.5 h-3.5" /> Kembali ke Beranda
           </Link>
-          <div className="inline-block px-3 py-1 rounded-[4px] bg-[#8ED081] border-[2px] border-[#111111] shadow-[2px_2px_0_#111111] text-xs font-black uppercase tracking-wider mb-2">
-            Privasi &amp; Keamanan
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#181B21] border border-[#2A2D34] text-xs font-mono text-[#42D392] mb-3">
+            <span>&#8226; PRIVASI &amp; KEAMANAN</span>
           </div>
-          <h1 className="text-3xl sm:text-5xl font-black uppercase tracking-tight text-[#111111]">
-            Kebijakan Privasi RPLTwoFess
+          <h1 className="text-4xl sm:text-6xl font-display font-normal uppercase tracking-tight text-[#F5F5F2]">
+            KEBIJAKAN PRIVASI RPLTWOFESS
           </h1>
-          <p className="text-sm sm:text-base font-bold text-[#111111]/70 mt-1">
-            Prinsip privasi sederhana, jujur, dan melindungi semua pihak.
+          <p className="text-sm sm:text-base text-[#9A9DA5] mt-1">
+            Prinsip privasi sederhana, transparan, dan melindungi semua pihak.
           </p>
         </div>
 
         <div className="space-y-6">
           {/* Card 1: Anonimitas */}
-          <Card variant="white" shadow="md" className="p-6 sm:p-8 space-y-3 border-[3px] border-[#111111]">
+          <Card variant="surface" className="p-6 sm:p-8 space-y-3">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-[6px] bg-[#5B7CFF] border-[2px] border-[#111111] flex items-center justify-center text-[#111111]">
-                <EyeOff className="w-5 h-5" />
+              <div className="w-9 h-9 rounded-lg bg-[#3D5CFF]/15 border border-[#3D5CFF]/30 flex items-center justify-center text-[#7B8DFF]">
+                <EyeOff className="w-4 h-4" />
               </div>
-              <h2 className="text-xl font-black uppercase text-[#111111]">
+              <h2 className="text-lg font-bold text-[#F5F5F2]">
                 1. Pesan 100% Anonim
               </h2>
             </div>
-            <p className="text-sm font-medium text-[#111111]/80 leading-relaxed">
+            <p className="text-sm text-[#9A9DA5] leading-relaxed">
               Saat kamu mengirim pesan melalui halaman <strong>/send</strong>, kamu tidak diminta untuk login, mendaftar akun, memasukkan nama, nomor telepon, atau alamat email. Pesan yang terkirim masuk ke dashboard pemilik tanpa nama atau profil pengirim.
             </p>
           </Card>
 
           {/* Card 2: Perlindungan Anti-Spam */}
-          <Card variant="white" shadow="md" className="p-6 sm:p-8 space-y-3 border-[3px] border-[#111111]">
+          <Card variant="surface" className="p-6 sm:p-8 space-y-3">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-[6px] bg-[#FFD84D] border-[2px] border-[#111111] flex items-center justify-center text-[#111111]">
-                <Lock className="w-5 h-5" />
+              <div className="w-9 h-9 rounded-lg bg-[#FFB84D]/15 border border-[#FFB84D]/30 flex items-center justify-center text-[#FFB84D]">
+                <Lock className="w-4 h-4" />
               </div>
-              <h2 className="text-xl font-black uppercase text-[#111111]">
+              <h2 className="text-lg font-bold text-[#F5F5F2]">
                 2. Data Teknis Minimum &amp; Hashing
               </h2>
             </div>
-            <p className="text-sm font-medium text-[#111111]/80 leading-relaxed">
+            <p className="text-sm text-[#9A9DA5] leading-relaxed">
               Untuk mencegah serangan bot spam, flooding, dan pelecehan terus-menerus, sistem menggunakan pengacakan kriptografis satu arah (HMAC-SHA256). <strong>Kami tidak menyimpan alamat IP mentah pengirim ke dalam database</strong>. Identifier hash tersebut hanya digunakan secara otomatis oleh sistem untuk membatasi frekuensi kirim (rate limiting) dan memblokir spammer jika dilaporkan.
             </p>
           </Card>
 
           {/* Card 3: Hak Penghapusan */}
-          <Card variant="white" shadow="md" className="p-6 sm:p-8 space-y-3 border-[3px] border-[#111111]">
+          <Card variant="surface" className="p-6 sm:p-8 space-y-3">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-[6px] bg-[#8ED081] border-[2px] border-[#111111] flex items-center justify-center text-[#111111]">
-                <ShieldCheck className="w-5 h-5" />
+              <div className="w-9 h-9 rounded-lg bg-[#42D392]/15 border border-[#42D392]/30 flex items-center justify-center text-[#42D392]">
+                <ShieldCheck className="w-4 h-4" />
               </div>
-              <h2 className="text-xl font-black uppercase text-[#111111]">
+              <h2 className="text-lg font-bold text-[#F5F5F2]">
                 3. Hak Penghapusan Pesan
               </h2>
             </div>
-            <p className="text-sm font-medium text-[#111111]/80 leading-relaxed">
+            <p className="text-sm text-[#9A9DA5] leading-relaxed">
               Pemilik website memiliki hak penuh untuk menghapus pesan apa pun dari kotak masuk secara berkala atau seketika jika pesan dinilai tidak relevan, kasar, atau merugikan.
             </p>
           </Card>
 
           {/* Card 4: Moderasi & Pelaporan */}
-          <Card variant="white" shadow="md" className="p-6 sm:p-8 space-y-3 border-[3px] border-[#111111]">
+          <Card variant="surface" className="p-6 sm:p-8 space-y-3">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-[6px] bg-[#FF6B9A] border-[2px] border-[#111111] flex items-center justify-center text-[#111111]">
-                <ShieldAlert className="w-5 h-5" />
+              <div className="w-9 h-9 rounded-lg bg-[#FF4D4D]/15 border border-[#FF4D4D]/30 flex items-center justify-center text-[#FF4D4D]">
+                <ShieldAlert className="w-4 h-4" />
               </div>
-              <h2 className="text-xl font-black uppercase text-[#111111]">
+              <h2 className="text-lg font-bold text-[#F5F5F2]">
                 4. Batasan &amp; Moderasi
               </h2>
             </div>
-            <p className="text-sm font-medium text-[#111111]/80 leading-relaxed">
+            <p className="text-sm text-[#9A9DA5] leading-relaxed">
               RPLTwoFess adalah wadah untuk bercerita, menyapa, dan saling menghargai. Penggunaan platform untuk ancaman kekerasan fisik, doxxing, pornografi ilegal, atau pencemaran nama baik yang melanggar hukum tidak ditoleransi dan dapat diblokir permanen oleh sistem.
             </p>
           </Card>

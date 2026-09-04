@@ -1,14 +1,6 @@
 import type { Metadata } from "next";
-import { Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { ToastProvider } from "@/components/ui/toast";
-
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: {
@@ -18,7 +10,7 @@ export const metadata: Metadata = {
   description:
     "Platform pesan dan confession anonim resmi kelas RPL/PPLG 2. Sampaikan pesan, cerita, pertanyaan, atau sesuatu yang ingin kamu katakan tanpa perlu mencantumkan nama.",
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_APP_URL || "https://rpltwofess.web.id"
+    process.env.NEXT_PUBLIC_APP_URL || "https://rpl2fess.vercel.app"
   ),
   openGraph: {
     title: "RPLTwoFess — Satu Kelas. Banyak Cerita.",
@@ -41,8 +33,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="id" className={`${spaceGrotesk.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col bg-[#F6F3EA] text-[#111111]">
+    <html lang="id" className="h-full antialiased">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Caveat:wght@400..700&family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body className="min-h-full flex flex-col bg-[#08090B] text-[#F5F5F2] selection:bg-[#3D5CFF] selection:text-white font-sans">
         <ToastProvider>{children}</ToastProvider>
       </body>
     </html>

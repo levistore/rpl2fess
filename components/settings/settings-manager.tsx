@@ -80,22 +80,22 @@ export function SettingsManager({ settings }: SettingsManagerProps) {
   return (
     <div className="space-y-8 max-w-3xl">
       {/* 1. Pengaturan Pesan */}
-      <Card variant="white" shadow="md" className="p-6 sm:p-8 space-y-6 border-[3px] border-[#111111]">
-        <div className="flex items-center gap-2 pb-3 border-b-[2px] border-[#111111]">
-          <Sliders className="w-5 h-5 text-[#5B7CFF]" />
-          <h3 className="text-xl font-black uppercase tracking-tight text-[#111111]">
+      <Card className="p-6 sm:p-8 space-y-6 bg-[#111318] border border-[#2A2D34]">
+        <div className="flex items-center gap-2.5 pb-4 border-b border-[#2A2D34]">
+          <Sliders className="w-5 h-5 text-[#3D5CFF]" />
+          <h3 className="text-xl font-display uppercase tracking-wide text-[#F5F5F2]">
             Penerimaan Pesan Anonim
           </h3>
         </div>
 
         <form onSubmit={handleSaveSettings} className="space-y-5">
           {/* Status Penerimaan Toggle */}
-          <label className="flex items-start justify-between gap-4 p-4 rounded-[6px] border-[2px] border-[#111111] bg-[#F6F3EA] cursor-pointer">
-            <div className="space-y-0.5">
-              <span className="text-sm font-black uppercase text-[#111111] flex items-center gap-2">
-                <Send className="w-4 h-4 text-[#5B7CFF]" /> Terima Pesan Masuk
+          <label className="flex items-start justify-between gap-4 p-4 rounded-xl border border-[#2A2D34] bg-[#181B21] cursor-pointer hover:border-[#3E424C] transition-colors">
+            <div className="space-y-1">
+              <span className="text-sm font-semibold text-[#F5F5F2] flex items-center gap-2">
+                <Send className="w-4 h-4 text-[#3D5CFF]" /> Terima Pesan Masuk
               </span>
-              <p className="text-xs font-medium text-[#111111]/70">
+              <p className="text-xs text-[#9A9DA5]">
                 Jika dinonaktifkan, pengunjung tidak dapat mengirim pesan baru di halaman /send.
               </p>
             </div>
@@ -103,7 +103,7 @@ export function SettingsManager({ settings }: SettingsManagerProps) {
               type="checkbox"
               checked={acceptingMessages}
               onChange={(e) => setAcceptingMessages(e.target.checked)}
-              className="w-5 h-5 accent-[#111111] mt-0.5 cursor-pointer"
+              className="w-5 h-5 accent-[#3D5CFF] mt-0.5 cursor-pointer"
             />
           </label>
 
@@ -141,28 +141,26 @@ export function SettingsManager({ settings }: SettingsManagerProps) {
 
       {/* 2. Danger Zone */}
       <Card
-        variant="white"
-        shadow="md"
-        className="p-6 sm:p-8 space-y-5 border-[3px] border-[#FF6B9A] bg-[#FF6B9A]/5"
+        className="p-6 sm:p-8 space-y-5 border border-[#FF4D4D]/30 bg-[#FF4D4D]/5"
       >
-        <div className="flex items-center gap-2 text-[#FF6B9A]">
+        <div className="flex items-center gap-2 text-[#FF4D4D]">
           <AlertTriangle className="w-5 h-5" />
-          <h3 className="text-xl font-black uppercase tracking-tight text-[#111111]">
+          <h3 className="text-xl font-display uppercase tracking-wide text-[#FF4D4D]">
             Zona Bahaya
           </h3>
         </div>
 
-        <p className="text-xs sm:text-sm font-medium text-[#111111]/80 leading-relaxed">
+        <p className="text-xs sm:text-sm text-[#9A9DA5] leading-relaxed">
           Tindakan ini permanen. Semua pesan yang tersimpan di inbox akan disembunyikan/dihapus.
         </p>
 
         <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
           <Button
             type="button"
-            variant="white"
+            variant="secondary"
             size="sm"
             onClick={() => setShowPurgeModal(true)}
-            className="border-[#FF6B9A]"
+            className="border-[#FF4D4D]/40 text-[#FF4D4D] hover:bg-[#FF4D4D]/10"
           >
             Kosongkan Semua Pesan Inbox
           </Button>
@@ -183,13 +181,13 @@ export function SettingsManager({ settings }: SettingsManagerProps) {
         maxWidth="sm"
       >
         <div className="space-y-4 pt-1">
-          <p className="text-xs sm:text-sm font-medium text-[#111111] leading-relaxed">
+          <p className="text-xs sm:text-sm text-[#9A9DA5] leading-relaxed">
             Apakah Anda yakin ingin menghapus semua pesan di inbox? Tindakan ini tidak dapat dibatalkan.
           </p>
           <div className="flex items-center justify-end gap-3 pt-2">
             <Button
               type="button"
-              variant="white"
+              variant="secondary"
               size="sm"
               onClick={() => setShowPurgeModal(false)}
             >

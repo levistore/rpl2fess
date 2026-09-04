@@ -51,21 +51,21 @@ export function BlockModal({
       maxWidth="sm"
     >
       <div className="space-y-4 pt-1">
-        <div className="p-3.5 rounded-[6px] bg-[#FF6B9A]/20 border-[2px] border-[#FF6B9A] flex items-start gap-3">
-          <ShieldBan className="w-5 h-5 text-[#FF6B9A] shrink-0 mt-0.5" />
-          <p className="text-xs font-bold text-[#111111] leading-relaxed">
+        <div className="p-3.5 rounded-lg bg-[#FF4D4D]/10 border border-[#FF4D4D]/30 flex items-start gap-3">
+          <ShieldBan className="w-5 h-5 text-[#FF4D4D] shrink-0 mt-0.5" />
+          <p className="text-xs font-semibold text-[#F5F5F2] leading-relaxed">
             This will permanently prevent this sender from sending any new messages to your inbox.
           </p>
         </div>
 
-        <p className="text-xs font-medium text-[#111111]/70 leading-relaxed">
+        <p className="text-xs text-[#9A9DA5] leading-relaxed">
           Note: In accordance with privacy preservation rules, blocking is enforced via cryptographic hash matching. No private sender identities are exposed.
         </p>
 
         <div className="flex items-center justify-end gap-3 pt-2">
           <Button
             type="button"
-            variant="white"
+            variant="secondary"
             size="sm"
             onClick={onClose}
             disabled={isSubmitting}

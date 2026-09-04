@@ -73,26 +73,26 @@ export function MessageDetailView({ message }: MessageDetailViewProps) {
       <div>
         <Link
           href="/dashboard/inbox"
-          className="inline-flex items-center gap-2 text-sm font-black uppercase tracking-wider text-[#111111] hover:text-[#5B7CFF] transition-colors"
+          className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-[#9A9DA5] hover:text-[#F5F5F2] transition-colors"
         >
           <ArrowLeft className="w-4 h-4" /> Kembali ke Kotak Masuk
         </Link>
       </div>
 
       {/* Main Reading Card */}
-      <Card variant="white" shadow="lg" className="p-6 sm:p-10 space-y-6 border-[3px] border-[#111111]">
+      <Card variant="surface" className="p-6 sm:p-10 space-y-6 border border-[#2A2D34] shadow-2xl shadow-black/80">
         {/* Header */}
-        <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b-[2px] border-[#111111]/20">
+        <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-[#2A2D34]">
           <div className="flex items-center gap-2">
-            <span className="px-2.5 py-1 rounded-[4px] bg-[#5B7CFF] border-[1.5px] border-[#111111] text-xs font-black uppercase tracking-wider text-[#111111] shadow-[1.5px_1.5px_0_#111111]">
-              Pesan Anonim
+            <span className="px-2.5 py-1 rounded-md bg-[#3D5CFF]/15 border border-[#3D5CFF]/30 text-xs font-mono tracking-wider text-[#7B8DFF]">
+              PESAN ANONIM
             </span>
-            <span className="flex items-center gap-1 text-xs font-bold text-[#111111]/60">
-              <Lock className="w-3.5 h-3.5 text-[#8ED081]" /> Rahasia
+            <span className="flex items-center gap-1 text-xs text-[#42D392] font-mono">
+              <Lock className="w-3.5 h-3.5" /> 100% RAHASIA
             </span>
           </div>
 
-          <div className="flex items-center gap-1.5 text-xs font-bold text-[#111111]/60">
+          <div className="flex items-center gap-1.5 text-xs font-mono text-[#9A9DA5]">
             <Clock className="w-3.5 h-3.5" />
             <span>{formatDate(message.created_at)}</span>
           </div>
@@ -100,17 +100,17 @@ export function MessageDetailView({ message }: MessageDetailViewProps) {
 
         {/* Big Confession Text */}
         <div className="py-4">
-          <p className="text-xl sm:text-2xl md:text-3xl font-bold text-[#111111] leading-relaxed break-words font-sans selection:bg-[#FFD84D]">
-            “{message.content}”
+          <p className="text-xl sm:text-2xl md:text-3xl font-normal text-[#F5F5F2] leading-relaxed break-words">
+            &ldquo;{message.content}&rdquo;
           </p>
         </div>
 
         {/* Action Buttons */}
-        <div className="pt-6 border-t-[2.5px] border-[#111111] flex flex-wrap items-center justify-between gap-3">
+        <div className="pt-6 border-t border-[#2A2D34] flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <Button
               type="button"
-              variant="white"
+              variant="secondary"
               size="sm"
               onClick={toggleRead}
             >
@@ -127,7 +127,7 @@ export function MessageDetailView({ message }: MessageDetailViewProps) {
 
             <Button
               type="button"
-              variant="white"
+              variant="secondary"
               size="sm"
               onClick={() => setShowReport(true)}
             >
@@ -138,7 +138,7 @@ export function MessageDetailView({ message }: MessageDetailViewProps) {
           <div className="flex items-center gap-2">
             <Button
               type="button"
-              variant="white"
+              variant="secondary"
               size="sm"
               onClick={() => setShowBlock(true)}
             >

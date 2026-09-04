@@ -8,29 +8,29 @@ export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
 
 export const Badge = ({
   className,
-  variant = "yellow",
+  variant = "blue",
   size = "md",
   children,
   ...props
 }: BadgeProps) => {
   const variantStyles = {
-    yellow: "bg-[#FFD84D] text-[#111111] border-[#111111]",
-    blue: "bg-[#5B7CFF] text-[#111111] border-[#111111]",
-    pink: "bg-[#FF6B9A] text-[#111111] border-[#111111]",
-    green: "bg-[#8ED081] text-[#111111] border-[#111111]",
-    white: "bg-[#FFFFFF] text-[#111111] border-[#111111]",
-    ink: "bg-[#111111] text-[#F6F3EA] border-[#111111]",
+    blue: "bg-[#3D5CFF]/15 text-[#7B8DFF] border-[#3D5CFF]/30",
+    yellow: "bg-[#FFB84D]/15 text-[#FFB84D] border-[#FFB84D]/30",
+    pink: "bg-[#FF4D4D]/15 text-[#FF4D4D] border-[#FF4D4D]/30",
+    green: "bg-[#42D392]/15 text-[#42D392] border-[#42D392]/30",
+    white: "bg-white/10 text-[#F5F5F2] border-white/20",
+    ink: "bg-[#181B21] text-[#9A9DA5] border-[#2A2D34]",
   };
 
   const sizeStyles = {
-    sm: "text-[11px] px-2 py-0.5 border-[2px]",
-    md: "text-xs px-2.5 py-1 border-[2.5px]",
+    sm: "text-[11px] px-2 py-0.5 rounded-md border",
+    md: "text-xs px-2.5 py-1 rounded-md border font-medium",
   };
 
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1 font-black uppercase tracking-wider rounded-[4px] shadow-[2px_2px_0_#111111]",
+        "inline-flex items-center gap-1 font-medium tracking-wide",
         variantStyles[variant],
         sizeStyles[size],
         className

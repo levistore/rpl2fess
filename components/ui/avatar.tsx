@@ -19,10 +19,10 @@ export const Avatar = ({
   const [imageError, setImageError] = React.useState(false);
 
   const sizeMap = {
-    sm: "w-8 h-8 text-xs border-[2px]",
-    md: "w-12 h-12 text-sm border-[3px]",
-    lg: "w-20 h-20 text-xl border-[3px]",
-    xl: "w-28 h-28 text-3xl border-[4px]",
+    sm: "w-8 h-8 text-xs border",
+    md: "w-10 h-10 text-sm border",
+    lg: "w-16 h-16 text-lg border",
+    xl: "w-24 h-24 text-2xl border",
   };
 
   const getInitials = (n: string) => {
@@ -37,7 +37,7 @@ export const Avatar = ({
   return (
     <div
       className={cn(
-        "relative rounded-full overflow-hidden shrink-0 border-[#111111] shadow-[3px_3px_0_#111111] bg-[#FFD84D] flex items-center justify-center font-black text-[#111111] select-none",
+        "relative rounded-full overflow-hidden shrink-0 border-[#2A2D34] bg-[#181B21] text-[#F5F5F2] flex items-center justify-center font-bold select-none",
         sizeMap[size],
         className
       )}

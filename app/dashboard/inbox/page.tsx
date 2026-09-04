@@ -28,38 +28,41 @@ export default async function InboxPage({ searchParams }: InboxPageProps) {
 
   return (
     <div className="p-4 sm:p-6 lg:p-10 max-w-5xl mx-auto w-full space-y-6">
-      {/* Page Title */}
+      {/* Page Title & Stats */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl sm:text-4xl font-black uppercase tracking-tight text-[#111111]">
-            Kotak Masuk
+          <span className="text-xs font-mono uppercase tracking-widest text-[#3D5CFF]">
+            &#8226; PESAN MASUK &#8226;
+          </span>
+          <h1 className="text-4xl sm:text-5xl font-display font-normal uppercase tracking-tight text-[#F5F5F2]">
+            KOTAK MASUK
           </h1>
-          <p className="text-sm font-bold text-[#111111]/70 mt-0.5">
-            Daftar semua pesan dan confession anonim yang diterima.
+          <p className="text-xs sm:text-sm text-[#9A9DA5] mt-0.5">
+            Daftar semua pesan dan confession anonim yang diterima untuk kelas RPL 2.
           </p>
         </div>
 
         {/* Quick Stat Badges */}
         <div className="flex items-center gap-3">
-          <div className="p-3 px-4 rounded-[6px] bg-[#FFFFFF] border-[2.5px] border-[#111111] shadow-[3px_3px_0_#111111] flex items-center gap-3">
-            <Mail className="w-5 h-5 text-[#5B7CFF]" />
+          <div className="p-3 px-4 rounded-xl bg-[#111318] border border-[#2A2D34] flex items-center gap-3 shadow-lg shadow-black/40">
+            <Mail className="w-5 h-5 text-[#7B8DFF]" />
             <div>
-              <span className="block font-black text-xl leading-none text-[#111111]">
+              <span className="block font-display text-2xl leading-none text-[#F5F5F2]">
                 {totalCount}
               </span>
-              <span className="text-[10px] font-black uppercase tracking-wider text-[#111111]/60">
+              <span className="text-[10px] font-mono uppercase tracking-wider text-[#9A9DA5]">
                 Total
               </span>
             </div>
           </div>
 
-          <div className="p-3 px-4 rounded-[6px] bg-[#FFD84D] border-[2.5px] border-[#111111] shadow-[3px_3px_0_#111111] flex items-center gap-3">
-            <MailOpen className="w-5 h-5 text-[#111111]" />
+          <div className="p-3 px-4 rounded-xl bg-[#111318] border border-[#3D5CFF]/40 flex items-center gap-3 shadow-[0_0_20px_-5px_rgba(61,92,255,0.2)]">
+            <MailOpen className="w-5 h-5 text-[#3D5CFF]" />
             <div>
-              <span className="block font-black text-xl leading-none text-[#111111]">
+              <span className="block font-display text-2xl leading-none text-[#F5F5F2]">
                 {unreadCount}
               </span>
-              <span className="text-[10px] font-black uppercase tracking-wider text-[#111111]/80">
+              <span className="text-[10px] font-mono uppercase tracking-wider text-[#7B8DFF]">
                 Belum Dibaca
               </span>
             </div>
@@ -71,7 +74,7 @@ export default async function InboxPage({ searchParams }: InboxPageProps) {
       <CopyLinkBanner />
 
       {/* Toolbar */}
-      <Suspense fallback={<div className="h-14 bg-white border-[3px] border-[#111111] rounded-[8px]" />}>
+      <Suspense fallback={<div className="h-14 bg-[#111318] border border-[#2A2D34] rounded-2xl animate-pulse" />}>
         <InboxToolbar
           currentFilter={filter}
           currentSort={sort}
@@ -82,16 +85,16 @@ export default async function InboxPage({ searchParams }: InboxPageProps) {
       {/* Messages List or Empty State */}
       {messages.length === 0 ? (
         <EmptyState
-          title={search ? "Tidak Ada Pesan yang Cocok" : "Belum Ada Pesan."}
+          title={search ? "Tidak Ada Pesan yang Cocok" : "Belum Ada Pesan"}
           description={
             search
               ? `Tidak ditemukan pesan dengan kata kunci "${search}". Coba cari kata lain.`
               : "Sepertinya kotak masuk masih sepi. Bagikan link /send ke teman-teman di luar kelas untuk mulai menerima cerita."
           }
-          icon={<Inbox className="w-8 h-8 text-[#111111]" />}
+          icon={<Inbox className="w-6 h-6 text-[#7B8DFF]" />}
         />
       ) : (
-        <div className="space-y-4">
+        <div className="space-y-3.5">
           {messages.map((msg) => (
             <MessageCard key={msg.id} message={msg} />
           ))}

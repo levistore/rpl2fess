@@ -50,7 +50,7 @@ export function Modal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#111111]/70 backdrop-blur-[2px] animate-in fade-in duration-150">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-150">
       {/* Backdrop click */}
       <div
         className="absolute inset-0"
@@ -63,21 +63,21 @@ export function Modal({
         aria-modal="true"
         aria-labelledby="modal-title"
         className={cn(
-          "relative w-full rounded-[8px] bg-[#F6F3EA] border-[3px] border-[#111111] shadow-[10px_10px_0_#111111] z-10 p-6 md:p-8 animate-in zoom-in-95 duration-150",
+          "relative w-full rounded-2xl bg-[#111318] border border-[#2A2D34] shadow-2xl shadow-black/80 z-10 p-6 sm:p-7 animate-in zoom-in-95 duration-150",
           maxWidthStyles[maxWidth],
           className
         )}
       >
-        <div className="flex items-start justify-between gap-4 mb-4">
+        <div className="flex items-start justify-between gap-4 mb-5 pb-4 border-b border-[#2A2D34]">
           <div>
             <h2
               id="modal-title"
-              className="text-xl md:text-2xl font-black uppercase tracking-tight text-[#111111]"
+              className="text-lg sm:text-xl font-bold tracking-tight text-[#F5F5F2]"
             >
               {title}
             </h2>
             {description && (
-              <p className="text-sm font-medium text-[#111111]/70 mt-1">
+              <p className="text-xs sm:text-sm text-[#9A9DA5] mt-1">
                 {description}
               </p>
             )}
@@ -86,9 +86,9 @@ export function Modal({
             type="button"
             onClick={onClose}
             aria-label="Close dialog"
-            className="p-1 rounded-[4px] border-[2px] border-[#111111] bg-[#FFFFFF] shadow-[2px_2px_0_#111111] hover:bg-[#FF6B9A] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all duration-120 cursor-pointer"
+            className="p-1.5 rounded-lg border border-[#2A2D34] bg-[#181B21] text-[#9A9DA5] hover:text-[#F5F5F2] hover:border-[#3E424C] transition-all cursor-pointer"
           >
-            <X className="w-5 h-5 text-[#111111]" />
+            <X className="w-4 h-4" />
           </button>
         </div>
 

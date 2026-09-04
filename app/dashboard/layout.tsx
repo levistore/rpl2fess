@@ -24,7 +24,7 @@ export default async function DashboardLayout({
   const { unreadCount } = await getInboxMessages();
 
   return (
-    <div className="min-h-screen bg-[#F6F3EA] flex flex-col lg:flex-row text-[#111111]">
+    <div className="min-h-screen bg-[#08090B] flex flex-col lg:flex-row text-[#F5F5F2] selection:bg-[#3D5CFF] selection:text-white">
       {/* Desktop Sidebar */}
       <DashboardSidebar unreadCount={unreadCount} />
 

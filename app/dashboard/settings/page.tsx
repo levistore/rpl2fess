@@ -8,13 +8,13 @@ export default async function SettingsPage() {
   return (
     <div className="p-4 sm:p-6 lg:p-10 max-w-5xl mx-auto w-full space-y-8">
       <div>
-        <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-[4px] bg-[#FF6B9A] border-[1.5px] border-[#111111] text-xs font-black uppercase tracking-wider mb-2">
+        <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-[#3D5CFF]/15 border border-[#3D5CFF]/30 text-xs font-mono font-medium text-[#7B8DFF] uppercase tracking-wider mb-2">
           <Settings className="w-3.5 h-3.5" /> Konfigurasi
         </div>
-        <h1 className="text-3xl sm:text-4xl font-black uppercase tracking-tight text-[#111111]">
+        <h1 className="text-4xl sm:text-5xl font-display uppercase tracking-wide text-[#F5F5F2]">
           Pengaturan
         </h1>
-        <p className="text-sm font-bold text-[#111111]/70 mt-0.5">
+        <p className="text-sm text-[#9A9DA5] mt-1">
           Atur status penerimaan pesan, batas karakter, dan manajemen data inbox.
         </p>
       </div>

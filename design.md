@@ -1,1295 +1,757 @@
-# DESIGN SYSTEM - LConfess
+# RPLTwoFess Design System
 
 ## 1. Design Direction
 
-LConfess uses a **high-quality Neo-Brutalism** visual language.
+RPLTwoFess menggunakan visual direction:
 
-The goal is not to make the website look like a random brutalist template.
+**Cinematic Editorial + Digital Scrapbook + Modern Dark UI**
 
-It should feel like a real modern social product with:
+Website harus terasa seperti website eksklusif milik sebuah kelas, bukan aplikasi confession generik dan bukan clone NGL.
 
-* Strong typography
-* Hard shadows
-* Bold borders
-* Flat colors
-* Controlled asymmetry
-* Playful motion
-* Editorial layouts
-* Strong visual hierarchy
+Visual utama menggunakan:
 
-The design should feel intentionally designed by a human designer.
+* Foto kelas sebagai elemen visual utama.
+* Dark cinematic background.
+* Typography besar dan kuat.
+* Aksen biru elektrik.
+* Foto landscape dengan frame seperti foto dokumentasi.
+* Sedikit elemen scrapbook seperti tape, handwritten text, paper labels, dan stamp.
+* Grain/film texture yang sangat halus.
+* Layout editorial yang tidak terlalu simetris.
+* Animasi modern dan subtle.
+
+Desain harus terlihat dibuat oleh designer manusia, bukan hasil template AI.
 
 ---
 
-# 2. Core Visual Principle
+# 2. Brand
 
-The visual formula:
+Nama:
 
-```text
-Bold Typography
-+
-Flat Color
-+
-Black/Dark Borders
-+
-Offset Shadows
-+
-Controlled Imperfection
-+
-Smooth Motion
-=
-LConfess
-```
+**RPLTwoFess**
 
-Avoid turning every component into a card.
+Tagline:
 
-Not everything needs:
+**Satu Kelas. Banyak Cerita.**
 
-```text
-border-radius: 24px
-```
+Brand personality:
 
-Neo-Brutalism should use a mixture of:
+* muda
+* modern
+* sedikit nostalgic
+* personal
+* misterius
+* friendly
+* confident
+* tidak terlalu formal
 
-* sharp corners
-* slightly rounded corners
-* rectangular containers
-* oversized typography
-* asymmetric layouts
+RPLTwoFess harus terasa seperti tempat untuk meninggalkan pesan kepada sebuah kelas, bukan social media.
 
 ---
 
 # 3. Color System
 
-Use a restrained palette.
-
-## Primary
+### Primary
 
 ```text
-Ink:
-#111111
+Background:
+#08090B
 
-Paper:
-#F6F3EA
+Surface:
+#111318
 
-Blue:
-#5B7CFF
-
-Yellow:
-#FFD84D
-
-Pink:
-#FF6B9A
-
-Green:
-#8ED081
+Surface Secondary:
+#181B21
 
 White:
-#FFFFFF
+#F5F5F2
+
+Muted:
+#9A9DA5
+
+Border:
+#2A2D34
 ```
 
-Use black/dark ink for most borders and typography.
-
-Do not use gradients as a primary visual element.
-
-No:
+### Accent
 
 ```text
-purple → blue gradient
-pink → orange gradient
-rainbow gradient
+Electric Blue:
+#3D5CFF
+
+Bright Blue:
+#536DFF
+
+Soft Blue:
+#7B8DFF
 ```
+
+### Status
+
+```text
+Success:
+#42D392
+
+Danger:
+#FF4D4D
+
+Warning:
+#FFB84D
+```
+
+Gunakan biru sebagai warna identitas utama.
+
+Jangan menggunakan gradient warna yang berlebihan.
+
+Jika menggunakan gradient, hanya gunakan gradient sangat subtle untuk lighting/background decoration.
 
 ---
 
 # 4. Typography
 
-Use a bold modern sans-serif.
+Gunakan kombinasi:
 
-Preferred:
+### Primary UI Font
 
-```text
-Space Grotesk
-```
+**Inter**
 
-Fallback:
+Untuk:
 
-```text
-Inter
-system-ui
-sans-serif
-```
+* navigation
+* body
+* buttons
+* forms
+* dashboard
+* labels
 
-Typography hierarchy:
+### Display Font
 
-### Hero
+Gunakan font display yang condensed/strong seperti:
+**Bebas Neue / Archivo Black / Anton**
 
-Very large.
+Untuk:
 
-```text
-clamp(3.5rem, 10vw, 8rem)
-```
+* hero heading
+* section heading
+* angka besar
+* statement text
 
-Weight:
+### Handwritten Accent
 
-`800-900`
+Gunakan font handwritten hanya untuk elemen kecil seperti:
 
-### Page Heading
+* annotation
+* caption foto
+* label
+* decorative text
 
-```text
-2.5rem - 4rem
-```
-
-Weight:
-
-`800`
-
-### Card Heading
-
-```text
-1.1rem - 1.5rem
-```
-
-Weight:
-
-`700`
-
-### Body
-
-```text
-1rem
-```
-
-Line-height:
-
-`1.5`
-
-Do not use tiny gray text for important information.
+Jangan menggunakan handwritten font untuk body text.
 
 ---
 
-# 5. Borders
+# 5. Overall Visual Style
 
-Primary border:
+Gunakan dark interface dengan kontras tinggi.
 
-```text
-3px solid #111111
-```
-
-Secondary:
+Karakter:
 
 ```text
-2px solid #111111
+Dark
++
+Photography
++
+Editorial Typography
++
+Scrapbook Details
++
+Electric Blue Accent
 ```
 
-Borders should be visually obvious.
+Jangan membuat semua elemen menjadi card.
 
-Avoid subtle 1px gray borders.
+Gunakan:
+
+* whitespace
+* typography
+* foto
+* garis
+* negative space
+
+sebagai bagian dari layout.
 
 ---
 
-# 6. Shadows
+# 6. Photography
 
-Main Neo-Brutalist shadow:
+Foto kelas adalah bagian penting dari identitas RPLTwoFess.
 
-```text
-6px 6px 0 #111111
-```
+Gunakan foto landscape dengan rasio:
 
-Large:
+* 16:9
+* 4:3
+* 3:2
 
-```text
-10px 10px 0 #111111
-```
+Foto utama dapat menggunakan ukuran besar.
 
-Small:
+Contoh struktur:
 
 ```text
-3px 3px 0 #111111
+        ┌───────────────────────────────┐
+        │                               │
+        │          FOTO KELAS           │
+        │                               │
+        └───────────────────────────────┘
 ```
 
-Never use huge blurred shadows.
+Foto dapat menggunakan:
 
-Avoid:
+* sedikit rounded corners
+* thin border
+* subtle shadow
+* tape decoration
+* handwritten caption
+* date/location label
+
+Jangan menggunakan semua dekorasi sekaligus.
+
+Satu foto cukup memiliki 1-2 decorative elements.
+
+### Photo Treatment
+
+Foto boleh diberi:
+
+* subtle grain
+* slight contrast
+* subtle dark overlay jika dibutuhkan untuk text
+
+Jangan:
+
+* membuat foto terlalu gelap
+* menggunakan filter ekstrem
+* membuat foto terlihat AI-generated
+* mengubah wajah orang di foto
+
+Gunakan placeholder lokal jika foto asli belum tersedia.
+
+Contoh:
 
 ```text
-0 20px 50px rgba(...)
+/public/images/class/
+├── class-main.jpg
+├── class-01.jpg
+├── class-02.jpg
+├── class-03.jpg
+└── class-04.jpg
 ```
-
-The shadow should feel physical and offset, not like generic SaaS elevation.
 
 ---
 
-# 7. Border Radius
+# 7. Landing Page
 
-Use selectively.
+Landing page harus menjadi visual utama website.
 
-Default:
-
-```text
-8px
-```
-
-Buttons:
-
-```text
-6px
-```
-
-Some feature cards:
-
-```text
-12px
-```
-
-Profile avatar:
-
-`50%`
-
-Do not globally apply one giant border radius.
-
----
-
-# 8. Buttons
-
-Buttons are major visual elements.
-
-Primary button:
-
-```text
-background: #5B7CFF
-color: #111111
-border: 3px solid #111111
-box-shadow: 5px 5px 0 #111111
-```
-
-Hover:
-
-```text
-transform: translate(2px, 2px)
-box-shadow: 3px 3px 0 #111111
-```
-
-Active:
-
-```text
-transform: translate(5px, 5px)
-box-shadow: 0 0 0 #111111
-```
-
-Transition:
-
-```text
-120-180ms
-```
-
-Buttons should feel tactile.
-
----
-
-# 9. Header
+## Header
 
 Desktop:
 
 ```text
-┌──────────────────────────────────────────────────┐
-│ LCONFESS      Inbox  Profile  How it works       │
-│                                      [Create]     │
-└──────────────────────────────────────────────────┘
+RPLTwoFess                         Beranda   Tentang   Privasi   [Kirim Pesan]
 ```
 
-Header should not be a giant floating glass pill.
+Header:
 
-Use:
-
-* strong bottom border
-* solid background
-* compact height
-* bold logo
+* minimal
+* transparent/dark
+* sticky jika diperlukan
+* tidak menggunakan glassmorphism berlebihan
 
 Mobile:
 
-```text
-┌─────────────────────────┐
-│ LCONFESS          ☰     │
-└─────────────────────────┘
-```
-
-Menu should animate naturally.
+* logo
+* menu button
 
 ---
 
-# 10. Logo
+# 8. Hero
 
-Wordmark:
+Hero harus menggunakan layout editorial.
+
+Contoh:
 
 ```text
-LCONFESS
+UNTUK KELAS KITA
+
+SATU KELAS.
+BANYAK CERITA.
+
+Tempat buat menyampaikan pesan,
+cerita, pertanyaan, atau sesuatu
+yang ingin kamu katakan kepada kami.
+
+[KIRIM PESAN ANONIM]
+
+                 ┌───────────────────────┐
+                 │                       │
+                 │      FOTO KELAS       │
+                 │                       │
+                 └───────────────────────┘
 ```
 
-Typography:
+Foto utama harus menjadi focal point.
 
-* uppercase
-* bold
-* tight letter spacing
+Tambahkan beberapa foto kecil sebagai collage di sekitar foto utama jika layout memungkinkan.
 
-Optional icon:
-
-A simple abstract speech bubble / envelope shape.
-
-Do not use:
-
-* AI brain
-* robot
-* gradient blob
-* generic chat icon with smile
-* excessive 3D logo
+Jangan membuat hero terlalu penuh.
 
 ---
 
-# 11. Landing Page
+# 9. Photo Collage
 
-## Hero
+Gunakan 2-4 foto tambahan.
 
-Desktop layout should be asymmetric.
+Foto dapat memiliki sedikit perbedaan:
 
-Example:
+* rotation
+* size
+* position
+
+Contoh:
 
 ```text
-              LCONFESS
+             MAIN PHOTO
+        ┌──────────────────┐
+        │                  │
+        │   CLASS PHOTO    │
+        │                  │
+        └──────────────────┘
 
-     SEND WHAT YOU
-     WOULDN'T SAY
-     OUT LOUD.
-
-     ┌─────────────────────┐
-     │ @username           │
-     └─────────────────────┘
-
-     [ Create your link ]
-
-                    ┌──────────────┐
-                    │ anonymous    │
-                    │ message      │
-                    │              │
-                    │ "..."        │
-                    └──────────────┘
+   ┌─────────┐       ┌─────────┐
+   │ PHOTO 1 │       │ PHOTO 2 │
+   └─────────┘       └─────────┘
 ```
 
-Hero should feel editorial and energetic.
+Rotation harus sangat kecil.
 
-Do not center every element.
+Maksimal sekitar:
+`-3deg sampai +3deg`
+
+Tujuannya terasa natural, bukan berantakan.
 
 ---
 
-# 12. Hero Animation
+# 10. Scrapbook Elements
 
-Use subtle but noticeable motion.
+Gunakan elemen seperti:
 
-Possible elements:
+* masking tape
+* small labels
+* handwritten annotation
+* date stamp
+* paper note
+* tiny arrows
+* circle marker
 
-* message cards floating slightly
-* text reveal
-* button press animation
-* decorative shapes moving slowly
-* marquee text
+Gunakan secara restrained.
 
-Animation should have purpose.
-
-Example:
+Contoh:
 
 ```text
-Message card:
-opacity 0 → 1
-translateY(20px) → 0
-rotate(-3deg) → -1deg
+X PPLG 2
+2026
+
+BEST CLASS.
+
+[photo]
 ```
 
-Stagger:
+Elemen scrapbook hanya menjadi aksen.
 
-`80-120ms`
-
-Do not animate everything simultaneously.
+Jangan membuat seluruh website seperti papan mading.
 
 ---
 
-# 13. Decorative Elements
+# 11. Send Message Page
 
-Use simple geometric elements:
-
-* stars
-* circles
-* arrows
-* underlines
-* hand-drawn style marks
-* rectangular stickers
-
-Examples:
-
-```text
-✦
-↗
-★
-~
-```
-
-However, icons inside the actual interface should use SVG/icon components rather than decorative Unicode characters.
-
-Decorations should never interfere with usability.
-
----
-
-# 14. How It Works Section
-
-Three steps:
-
-```text
-01
-MAKE YOUR LINK
-
-02
-SHARE IT
-
-03
-GET ANONYMOUS MESSAGES
-```
-
-Use large numbers.
-
-Each step can have a different accent background.
-
-Avoid three identical rounded cards.
-
-Instead use an editorial horizontal composition.
-
----
-
-# 15. Public Profile Page
-
-Example:
-
-```text
-┌────────────────────────────────────┐
-│                                    │
-│             [ avatar ]             │
-│                                    │
-│             Levi                   │
-│             @levi                  │
-│                                    │
-│     "send me something honest."    │
-│                                    │
-└────────────────────────────────────┘
-
-        SEND ANONYMOUS MESSAGE
-
-┌────────────────────────────────────┐
-│                                    │
-│ Tell Levi something...             │
-│                                    │
-│                                    │
-│ 0 / 500                            │
-└────────────────────────────────────┘
-
-[ SEND ANONYMOUSLY ]
-```
-
-The message composer is the main focus.
-
----
-
-# 16. Message Composer
-
-Composer should feel tactile.
-
-Structure:
-
-```text
-┌───────────────────────────────┐
-│                               │
-│ What's on your mind?          │
-│                               │
-│                               │
-│                               │
-├───────────────────────────────┤
-│ 500 characters       [ SEND ] │
-└───────────────────────────────┘
-```
-
-Textarea:
-
-* strong border
-* paper background
-* visible focus
-* no excessive rounded corners
-
-Focus state:
-
-```text
-border-color: #5B7CFF
-box-shadow: 5px 5px 0 #111111
-```
-
----
-
-# 17. Send Animation
-
-After successful send:
-
-1. Button becomes loading.
-2. Message disappears into a small envelope animation.
-3. Success state appears.
-
-Example:
-
-```text
-MESSAGE SENT.
-
-Your secret is safe with the inbox.
-```
-
-Do not overdo the animation.
-
-Maximum duration:
-
-`500-700ms`
-
-Respect reduced motion.
-
----
-
-# 18. Dashboard
-
-Dashboard should prioritize inbox.
+Halaman kirim pesan harus fokus pada form.
 
 Layout:
 
 ```text
-┌──────────────────────────────────────────────┐
-│ LCONFESS                         @levi       │
-├──────────────┬───────────────────────────────┤
-│              │                               │
-│ Inbox        │  Inbox                        │
-│ Profile      │                               │
-│ Analytics    │  24 messages                  │
-│ Settings     │                               │
-│              │  ┌─────────────────────────┐  │
-│              │  │ Anonymous               │  │
-│              │  │ "..."                   │  │
-│              │  │ 2 minutes ago           │  │
-│              │  └─────────────────────────┘  │
-│              │                               │
-└──────────────┴───────────────────────────────┘
+KIRIM
+sesuatu.
+
+Sampaikan apa yang ingin kamu katakan
+kepada kami.
+
+┌────────────────────────────────┐
+│                                │
+│ Tulis pesanmu di sini...       │
+│                                │
+│                                │
+│                         0/500  │
+└────────────────────────────────┘
+
+[ CAPTCHA ]
+
+[KIRIM PESAN  →]
 ```
 
-Desktop sidebar.
+Tambahkan satu foto kelas di sisi kanan desktop.
 
-Mobile bottom navigation or compact top navigation.
+Pada mobile:
+
+* form terlebih dahulu
+* foto di bawah atau sebagai decorative element
 
 ---
 
-# 19. Inbox Message Card
+# 12. Success State
 
-Message cards should not all look identical.
-
-Use subtle variation while maintaining consistency.
-
-Example:
+Setelah pesan berhasil:
 
 ```text
-┌───────────────────────────────────┐
-│ ANONYMOUS                    • NEW│
-│                                   │
-│ "Your message content..."         │
-│                                   │
-│ 4 MIN AGO                         │
-│                                   │
-│ [READ] [DELETE] [REPORT]          │
-└───────────────────────────────────┘
+MESSAGE SENT.
+
+Pesanmu sudah sampai
+secara anonim.
+
+[ KIRIM PESAN LAGI ]
 ```
 
-Use accent colors sparingly.
+Gunakan animasi kecil:
 
-Unread messages should have stronger visual weight.
+* checkmark
+* message card movement
+* subtle scale
+* fade
+
+Jangan membuat animasi berlebihan.
 
 ---
 
-# 20. Message Detail
+# 13. Dashboard
 
-Use a focused reading layout.
+Dashboard menggunakan dark UI yang lebih functional.
 
-```text
-← Back to inbox
+Tetap menggunakan visual identity RPLTwoFess.
 
-ANONYMOUS
-
-"Message content..."
-
-Received 4 minutes ago
-
-[ Mark unread ]
-
-[ Delete ]
-
-[ Report ]
-```
-
-Avoid opening a giant generic modal if a dedicated responsive panel is more usable.
-
----
-
-# 21. Dashboard Statistics
-
-Use brutalist stat blocks.
-
-Example:
+Layout:
 
 ```text
-┌──────────────┐
-│ 24           │
-│ MESSAGES     │
-└──────────────┘
+RPLTwoFess
 
-┌──────────────┐
-│ 7            │
-│ UNREAD       │
-└──────────────┘
-```
-
-Large numbers.
-
-Small labels.
-
-Hard shadows.
-
----
-
-# 22. Analytics
-
-Charts should be simple.
-
-Do not use:
-
-* giant gradients
-* glass cards
-* excessive chart decoration
-
-Use a simple line/bar chart with strong axes and typography.
-
-The chart should answer:
-
-`How many messages am I receiving?`
-
-Nothing more.
-
----
-
-# 23. Settings
-
-Settings page should feel like a control panel.
-
-Sections:
-
-```text
-ACCOUNT
-PROFILE
-PRIVACY
-NOTIFICATIONS
-SECURITY
-DANGER ZONE
-```
-
-Danger Zone should visually communicate importance without becoming dramatic.
-
----
-
-# 24. Toasts
-
-Use compact notification blocks.
-
-Example:
-
-```text
-┌────────────────────────────┐
-│ ✓ Message deleted          │
-└────────────────────────────┘
-```
-
-Toast:
-
-* dark border
-* solid background
-* hard shadow
-
-Animation:
-
-```text
-translateY(20px)
-opacity: 0
-
-→
-
-translateY(0)
-opacity: 1
-```
-
----
-
-# 25. Loading States
-
-Do not use generic spinning circles everywhere.
-
-Use skeletons where content layout is known.
-
-Example:
-
-```text
-██████████████
-████████
-████████████████
-```
-
-For buttons:
-
-```text
-Sending...
-```
-
-Use spinners only where necessary.
-
----
-
-# 26. Empty State
-
-Inbox empty:
-
-```text
-NO MESSAGES YET.
-
-Your inbox is quiet.
-
-Share your link and let people
-say what they normally wouldn't.
-```
-
-CTA:
-
-```text
-COPY MY LINK
-```
-
-Make the empty state visually interesting with one geometric illustration.
-
----
-
-# 27. Error State
-
-Example:
-
-```text
-SOMETHING BROKE.
-
-We couldn't complete that action.
-
-[ TRY AGAIN ]
-```
-
-Do not show:
-
-```text
-Error: TypeError...
-Supabase request failed...
-```
-
-Technical errors belong in logs, not UI.
-
----
-
-# 28. 404 Page
-
-Make it part of the brand.
-
-```text
-404
-
-THIS PAGE
-DOESN'T EXIST.
-
-Maybe someone deleted it.
-Maybe it never existed.
-
-[ GO HOME ]
-```
-
-Use a large `404` with Neo-Brutalist typography.
-
----
-
-# 29. Motion System
-
-Animation philosophy:
-
-**Fast, physical, purposeful.**
-
-Micro interactions:
-
-`100-180ms`
-
-Standard transitions:
-
-`200-300ms`
-
-Page transitions:
-
-`300-500ms`
-
-Large decorative animations:
-
-`3-8s`
-
-Use spring-like easing for tactile UI where appropriate.
-
-Do not animate every element.
-
----
-
-# 30. Hover Behavior
-
-Desktop interactions should feel physical.
-
-Button:
-
-```text
-rest:
-shadow 5px 5px
-
-hover:
-shadow 3px 3px
-translate 2px 2px
-
-active:
-shadow 0
-translate 5px 5px
-```
-
-Cards:
-
-Small translate or shadow change.
-
-Do not make cards fly across the screen.
-
----
-
-# 31. Page Transitions
-
-Use subtle fade/slide.
-
-Example:
-
-```text
-opacity: 0
-translateY(8px)
-
-→
-
-opacity: 1
-translateY(0)
-```
-
-Duration:
-
-`250ms`
-
-No cinematic transitions.
-
-This is a messaging platform, not a Christopher Nolan film.
-
----
-
-# 32. Mobile Navigation
-
-Mobile navigation should be compact.
-
-Potential structure:
-
-```text
-Home
+Dashboard
 Inbox
-Profile
 Settings
+Logout
 ```
 
-Use SVG icons.
+Dashboard overview:
 
-Active state:
+```text
+24
+TOTAL PESAN
 
-* stronger background
-* bold text
-* small accent marker
+8
+BELUM DIBACA
 
-No giant floating glass navigation.
+5
+HARI INI
+
+1
+DILAPORKAN
+```
+
+Gunakan statistic cards sederhana.
+
+Jangan membuat dashboard terlihat seperti enterprise SaaS.
 
 ---
 
-# 33. Icons
+# 14. Inbox
 
-Use:
+Inbox harus menjadi fokus dashboard.
 
-* Lucide
-* custom SVG
+Contoh:
 
-Rules:
+```text
+INBOX
 
-* consistent stroke width
-* consistent size
-* no emoji icons
-* no random icon styles
+[ Search messages... ]
 
-Examples:
+Semua   Belum Dibaca   Dibaca
 
-Inbox:
+●  Bro, mau nanya sesuatu...
+   2 menit lalu
 
-Envelope icon.
+○  Semangat buat lombanya!
+   18 menit lalu
 
-Settings:
+○  Ada yang mau disampaikan...
+   1 jam lalu
+```
 
-Gear icon.
+Unread message:
 
-Report:
+* accent blue
+* indicator dot
+* stronger typography
 
-Flag icon.
+Read message:
 
-Delete:
-
-Trash icon.
-
-Share:
-
-Share icon.
+* muted
 
 ---
 
-# 34. Responsive Layout
+# 15. Message Detail
 
-Mobile:
-
-```text
-padding: 16px
-```
-
-Tablet:
+Detail message:
 
 ```text
-padding: 24px
+MESSAGE
+
+"Bro, mau nanya sesuatu..."
+
+2 menit lalu
+
+[ Tandai Dibaca ]
+
+[ Hapus ]
+
+[ Laporkan ]
 ```
+
+Jangan menampilkan:
+
+* IP
+* User-Agent
+* informasi pribadi pengirim
+
+---
+
+# 16. Navigation
 
 Desktop:
 
-```text
-max-width: 1200-1280px
-```
+* top navigation untuk public pages
+* sidebar untuk dashboard
 
-Avoid excessive whitespace on mobile.
+Mobile:
 
-Desktop can use asymmetric compositions.
+* compact header
+* bottom navigation untuk dashboard jika diperlukan
 
----
-
-# 35. Accessibility
-
-Every interactive component must have:
-
-* accessible label
-* keyboard support
-* focus state
-* sufficient contrast
-
-Motion must respect:
-
-```text
-prefers-reduced-motion: reduce
-```
-
-When reduced motion is enabled:
-
-* disable decorative movement
-* remove large transitions
-* preserve essential state changes
+Navigation harus minimal.
 
 ---
 
-# 36. AI-Slop Prevention Rules
+# 17. Buttons
 
-This section is mandatory.
+Primary button:
 
-DO NOT generate:
+Dark/blue high contrast.
 
-* purple/blue AI gradients
-* excessive glassmorphism
-* huge rounded cards
-* generic SaaS dashboards
-* random blobs
-* floating 3D objects
-* stock illustrations
-* robot illustrations
-* "AI-generated" visual patterns
-* excessive shadows
-* 15 different accent colors
-* excessive pill buttons
-* every section centered
-* giant text with no information
-* meaningless decorative UI
+Karakter:
+
+* medium radius
+* strong typography
+* subtle border
+* hover brightness
+* press animation
+
+Contoh:
+
+```text
+[ KIRIM PESAN ANONIM  → ]
+```
+
+Interaction:
+
+Hover:
+
+* sedikit translate
+* accent glow sangat subtle
+
+Active:
+
+* scale `0.97`
+
+Jangan menggunakan giant pill buttons.
+
+---
+
+# 18. Cards
+
+Card tidak boleh terlalu rounded.
+
+Gunakan:
+
+* radius 10-16px
+* thin border
+* dark surface
+* subtle shadow
+
+Tidak semua section harus menggunakan card.
+
+---
+
+# 19. Motion
+
+Gunakan Motion.
+
+Animation principles:
+
+### Page entrance
+
+Fade + translate kecil.
+
+### Photo
+
+Subtle scale on hover.
+
+### Button
+
+Small press feedback.
+
+### Message sent
+
+Short success animation.
+
+### Scroll
+
+Subtle reveal.
+
+Durasi umum:
+`200-500ms`
+
+Gunakan easing natural.
+
+Hormati:
+
+`prefers-reduced-motion`
+
+---
+
+# 20. Background
+
+Background utama:
+
+Dark near-black.
+
+Boleh menggunakan:
+
+* subtle noise
+* film grain
+* radial lighting
+* very subtle blue glow
+
+Tetapi jangan menggunakan:
+
+* neon background
+* giant gradient
+* animated gradient
 * excessive blur
-* generic landing-page template layouts
-
-Do not use:
-
-```text
-rounded-[32px]
-backdrop-blur
-bg-gradient-to-r
-```
-
-as default styling patterns.
-
-Neo-Brutalism must come from:
-
-```text
-Typography
-Borders
-Shadows
-Composition
-Color blocking
-Spacing
-Motion
-```
-
-not from randomly adding black borders to generic SaaS cards.
+* aurora background
 
 ---
 
-# 37. Anti-Template Rule
+# 21. Mobile Design
 
-Every major page should have a distinct composition.
+Mobile harus menjadi prioritas.
 
-Landing:
-
-Editorial + asymmetric.
-
-Public profile:
-
-Focused + personal.
-
-Inbox:
-
-Dense + functional.
-
-Analytics:
-
-Data-first.
-
-Settings:
-
-Control-panel.
-
-404:
-
-Playful.
-
-Do not copy the same card grid into every page.
-
----
-
-# 38. Visual Consistency
-
-Maintain:
-
-* same border language
-* same shadow language
-* same typography
-* same spacing scale
-* same interaction behavior
-
-But allow different compositions.
-
-Consistency does not mean every component must look identical.
-
----
-
-# 39. Spacing System
-
-Base:
+Target:
 
 ```text
-4px
-8px
-12px
-16px
-24px
-32px
-48px
-64px
-96px
-128px
+360px
+390px
+430px
+768px
+1024px
+1440px
 ```
 
-Use large spacing between major sections.
+Foto tetap menjadi bagian penting.
 
-Use tighter spacing inside controls.
+Hero mobile:
+
+```text
+RPLTwoFess
+
+SATU KELAS.
+BANYAK CERITA.
+
+[description]
+
+[KIRIM PESAN]
+
+┌─────────────────┐
+│                 │
+│   FOTO KELAS    │
+│                 │
+└─────────────────┘
+```
+
+Jangan mengecilkan desktop secara mentah.
+
+Buat layout mobile secara intentional.
 
 ---
 
-# 40. Component Architecture
+# 22. Accessibility
 
-Create reusable components:
+Pastikan:
 
-```text
-Button
-Input
-Textarea
-Avatar
-MessageCard
-MessageComposer
-ProfileHeader
-StatBlock
-Toast
-Modal
-Dropdown
-Tabs
-Navbar
-Sidebar
-BottomNav
-EmptyState
-ErrorState
-Skeleton
-ConfirmDialog
-```
-
-Components should be composable.
-
-Do not duplicate styling across pages.
+* contrast tinggi
+* focus state jelas
+* keyboard accessible
+* semantic HTML
+* alt text untuk foto
+* tombol memiliki label jelas
+* reduced motion support
 
 ---
 
-# 41. Frontend Architecture
+# 23. AI-SLOP PREVENTION
 
-Recommended structure:
+Jangan menghasilkan desain yang terlihat seperti template AI.
 
-```text
-app/
-├── page.tsx
-├── login/
-├── register/
-├── forgot-password/
-├── u/
-│   └── [username]/
-├── dashboard/
-│   ├── page.tsx
-│   ├── inbox/
-│   ├── analytics/
-│   ├── profile/
-│   └── settings/
-└── admin/
+DILARANG:
 
-components/
-├── ui/
-├── auth/
-├── profile/
-├── messages/
-├── dashboard/
-└── admin/
+* purple AI gradient
+* glassmorphism berlebihan
+* floating blobs
+* random 3D objects
+* stock illustration
+* excessive rounded cards
+* excessive shadows
+* excessive gradients
+* excessive animations
+* dashboard template generik
+* terlalu banyak badge
+* terlalu banyak icon
+* terlalu banyak decorative elements
 
-lib/
-├── supabase/
-├── validation/
-├── rate-limit/
-├── moderation/
-└── utils/
-```
+RPLTwoFess harus terlihat seperti produk yang sengaja didesain untuk satu kelas.
 
 ---
 
-# 42. Design Tokens
+# 24. Design Principle
 
-Define tokens centrally.
-
-Example:
-
-```css
---ink: #111111;
---paper: #F6F3EA;
---blue: #5B7CFF;
---yellow: #FFD84D;
---pink: #FF6B9A;
---green: #8ED081;
-
---border: 3px;
---shadow-sm: 3px 3px 0 var(--ink);
---shadow-md: 6px 6px 0 var(--ink);
---shadow-lg: 10px 10px 0 var(--ink);
-
---radius-sm: 6px;
---radius-md: 8px;
---radius-lg: 12px;
-```
-
-Do not scatter hardcoded values throughout the application.
-
----
-
-# 43. Implementation Principle
-
-The final result should look like a designer deliberately made every visual decision.
-
-It should NOT look like:
+Prioritas visual:
 
 ```text
-AI generated SaaS template
-+
-random gradients
-+
-rounded cards
-+
-Lucide icons
-+
-Tailwind defaults
+1. FOTO KELAS
+2. TYPOGRAPHY
+3. MESSAGE EXPERIENCE
+4. BRAND
+5. DECORATION
 ```
 
-The design should have:
+Decoration tidak boleh mengalahkan content.
 
-```text
-personality
-hierarchy
-rhythm
-contrast
-restraint
-```
+Prinsip utama:
 
----
+**Less UI, More Personality.**
 
-# 44. Final Visual Test
-
-Before considering the UI complete, inspect every page at:
-
-```text
-360 × 800
-390 × 844
-430 × 932
-768 × 1024
-1440 × 900
-```
-
-Check:
-
-* No horizontal overflow.
-* No clipped text.
-* No overlapping elements.
-* Buttons remain usable.
-* Typography hierarchy remains strong.
-* Shadows remain intentional.
-* Navigation remains usable.
-* Animations do not cause layout shifts.
-* Empty states look designed.
-* Error states look designed.
-* Loading states look designed.
-
-If a page looks like a generic AI-generated website, redesign the composition instead of adding more decoration.
+RPLTwoFess harus terasa:
+**personal, cinematic, modern, memorable.**

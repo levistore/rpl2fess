@@ -40,13 +40,13 @@ export function InboxToolbar({
   };
 
   const filterTabs = [
-    { key: "all", label: "All" },
-    { key: "unread", label: "Unread" },
-    { key: "reported", label: "Reported" },
+    { key: "all", label: "Semua" },
+    { key: "unread", label: "Belum Dibaca" },
+    { key: "read", label: "Sudah Dibaca" },
   ];
 
   return (
-    <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 p-3 rounded-[8px] bg-[#FFFFFF] border-[3px] border-[#111111] shadow-[4px_4px_0_#111111]">
+    <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 p-3 rounded-2xl bg-[#111318] border border-[#2A2D34] shadow-xl shadow-black/50">
       {/* Filter Tabs */}
       <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
         {filterTabs.map((tab) => {
@@ -56,10 +56,10 @@ export function InboxToolbar({
               key={tab.key}
               type="button"
               onClick={() => updateParams({ filter: tab.key })}
-              className={`px-3.5 py-1.5 rounded-[4px] font-black text-xs uppercase tracking-wider transition-all cursor-pointer ${
+              className={`px-3.5 py-1.5 rounded-lg text-xs font-medium tracking-wide transition-all cursor-pointer whitespace-nowrap ${
                 isActive
-                  ? "bg-[#FFD84D] border-[2px] border-[#111111] shadow-[2px_2px_0_#111111] text-[#111111]"
-                  : "bg-transparent text-[#111111]/70 hover:text-[#111111] hover:bg-[#111111]/5"
+                  ? "bg-[#3D5CFF]/20 border border-[#3D5CFF]/40 text-[#7B8DFF] shadow-[0_0_15px_-3px_rgba(61,92,255,0.3)]"
+                  : "bg-transparent text-[#9A9DA5] hover:text-[#F5F5F2] hover:bg-white/5 border border-transparent"
               }`}
             >
               {tab.label}
@@ -71,15 +71,15 @@ export function InboxToolbar({
       {/* Search & Sort */}
       <div className="flex items-center gap-2">
         {/* Search bar */}
-        <form onSubmit={handleSearchSubmit} className="relative flex-1 sm:w-56">
+        <form onSubmit={handleSearchSubmit} className="relative flex-1 sm:w-60">
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search confessions..."
-            className="w-full h-9 pl-8 pr-3 rounded-[4px] border-[2px] border-[#111111] text-xs font-bold bg-[#F6F3EA] placeholder:text-[#111111]/40 focus:outline-none focus:bg-[#FFFFFF]"
+            placeholder="Cari pesan..."
+            className="w-full h-9 pl-8 pr-3 rounded-lg border border-[#2A2D34] text-xs text-[#F5F5F2] bg-[#181B21] placeholder:text-[#9A9DA5]/40 focus:outline-none focus:border-[#3D5CFF] transition-all"
           />
-          <Search className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-[#111111]/50" />
+          <Search className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-[#9A9DA5]" />
         </form>
 
         {/* Sort selector */}
@@ -87,10 +87,10 @@ export function InboxToolbar({
           <select
             value={currentSort}
             onChange={(e) => updateParams({ sort: e.target.value })}
-            className="h-9 px-2.5 rounded-[4px] border-[2px] border-[#111111] bg-[#FFFFFF] shadow-[1.5px_1.5px_0_#111111] text-xs font-black uppercase tracking-wider text-[#111111] cursor-pointer focus:outline-none"
+            className="h-9 px-3 rounded-lg border border-[#2A2D34] bg-[#181B21] text-xs font-medium text-[#F5F5F2] cursor-pointer focus:outline-none focus:border-[#3D5CFF] transition-all"
           >
-            <option value="newest">Newest</option>
-            <option value="oldest">Oldest</option>
+            <option value="newest" className="bg-[#111318]">Terbaru</option>
+            <option value="oldest" className="bg-[#111318]">Terlama</option>
           </select>
         </div>
       </div>

@@ -17,7 +17,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
         {label && (
           <label
             htmlFor={inputId}
-            className="block text-xs font-black uppercase tracking-wider text-[#111111]"
+            className="block text-xs font-medium uppercase tracking-wider text-[#9A9DA5]"
           >
             {label}
           </label>
@@ -27,17 +27,17 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           type={type}
           ref={ref}
           className={cn(
-            "w-full h-12 px-4 rounded-[6px] bg-[#FFFFFF] text-[#111111] font-medium placeholder:text-[#111111]/40 border-[3px] border-[#111111] shadow-[3px_3px_0_#111111] focus:outline-none focus:border-[#5B7CFF] focus:shadow-[5px_5px_0_#111111] transition-all duration-120 disabled:opacity-60 disabled:bg-[#ECE6D8]",
-            error && "border-[#FF6B9A] focus:border-[#FF6B9A] shadow-[3px_3px_0_#FF6B9A]",
+            "w-full h-11 px-4 rounded-lg bg-[#111318] text-[#F5F5F2] font-normal placeholder:text-[#9A9DA5]/40 border border-[#2A2D34] focus:outline-none focus:border-[#3D5CFF] focus:shadow-[0_0_20px_-4px_rgba(61,92,255,0.4)] transition-all duration-150 disabled:opacity-50 disabled:bg-[#08090B]",
+            error && "border-[#FF4D4D] focus:border-[#FF4D4D] focus:shadow-[0_0_20px_-4px_rgba(255,77,77,0.4)]",
             className
           )}
           {...props}
         />
         {hint && !error && (
-          <p className="text-xs font-medium text-[#111111]/70">{hint}</p>
+          <p className="text-xs text-[#9A9DA5]/70">{hint}</p>
         )}
         {error && (
-          <p className="text-xs font-bold text-[#FF6B9A] flex items-center gap-1">
+          <p className="text-xs font-medium text-[#FF4D4D] flex items-center gap-1">
             <span>⚠</span> {error}
           </p>
         )}

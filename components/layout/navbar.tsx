@@ -2,54 +2,60 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { MessageSquare, Menu, X, ShieldCheck, Send } from "lucide-react";
+import { MessageSquare, Menu, X, Shield, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
 
   return (
-    <header className="sticky top-0 z-40 w-full bg-[#F6F3EA] border-b-[3px] border-[#111111]">
+    <header className="sticky top-0 z-40 w-full bg-[#08090B]/85 backdrop-blur-md border-b border-[#2A2D34]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 h-18 flex items-center justify-between">
         {/* Brand Logo */}
-        <Link href="/" className="flex items-center gap-2.5 group select-none">
-          <div className="w-10 h-10 rounded-[6px] bg-[#5B7CFF] border-[2.5px] border-[#111111] shadow-[2.5px_2.5px_0_#111111] flex items-center justify-center group-hover:translate-x-[1px] group-hover:translate-y-[1px] group-hover:shadow-[1.5px_1.5px_0_#111111] transition-all">
-            <MessageSquare className="w-5 h-5 text-[#111111]" />
+        <Link href="/" className="flex items-center gap-3 group select-none">
+          <div className="w-9 h-9 rounded-lg bg-[#181B21] border border-[#2A2D34] flex items-center justify-center text-[#7B8DFF] group-hover:border-[#3D5CFF] group-hover:shadow-[0_0_15px_-3px_rgba(61,92,255,0.4)] transition-all">
+            <MessageSquare className="w-4 h-4 text-[#3D5CFF]" />
           </div>
           <div>
-            <span className="font-black text-2xl tracking-tighter text-[#111111] uppercase block leading-none">
-              RPLTwoFess
+            <span className="font-bold text-xl tracking-tight text-[#F5F5F2] block leading-none font-display">
+              RPLTWOFESS
             </span>
-            <span className="text-[10px] font-black uppercase tracking-wider text-[#111111]/70">
-              RPL / PPLG 2
+            <span className="text-[10px] font-mono tracking-widest text-[#9A9DA5] uppercase">
+              X PPLG 2 &#8226; 2026
             </span>
           </div>
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-6">
+        <nav className="hidden md:flex items-center gap-7">
+          <Link
+            href="/"
+            className="text-xs font-medium uppercase tracking-wider text-[#9A9DA5] hover:text-[#F5F5F2] transition-colors"
+          >
+            Beranda
+          </Link>
           <Link
             href="/#cara-kerja"
-            className="text-sm font-bold uppercase tracking-wider text-[#111111] hover:text-[#5B7CFF] transition-colors"
+            className="text-xs font-medium uppercase tracking-wider text-[#9A9DA5] hover:text-[#F5F5F2] transition-colors"
           >
             Cara Kerja
           </Link>
           <Link
-            href="/#keamanan"
-            className="text-sm font-bold uppercase tracking-wider text-[#111111] hover:text-[#5B7CFF] transition-colors flex items-center gap-1"
+            href="/#dokumentasi"
+            className="text-xs font-medium uppercase tracking-wider text-[#9A9DA5] hover:text-[#F5F5F2] transition-colors"
           >
-            <ShieldCheck className="w-4 h-4 text-[#8ED081]" /> Keamanan
+            Dokumentasi
           </Link>
           <Link
             href="/privacy"
-            className="text-sm font-bold uppercase tracking-wider text-[#111111] hover:text-[#5B7CFF] transition-colors"
+            className="text-xs font-medium uppercase tracking-wider text-[#9A9DA5] hover:text-[#F5F5F2] transition-colors flex items-center gap-1.5"
           >
-            Privasi
+            <Shield className="w-3.5 h-3.5 text-[#42D392]" /> Privasi
           </Link>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 pl-2 border-l border-[#2A2D34]">
             <Link href="/login">
-              <Button variant="white" size="sm">
+              <Button variant="ghost" size="sm">
                 Owner Login
               </Button>
             </Link>
@@ -62,7 +68,7 @@ export function Navbar() {
         </nav>
 
         {/* Mobile Menu Toggle */}
-        <div className="flex md:hidden items-center gap-2">
+        <div className="flex md:hidden items-center gap-2.5">
           <Link href="/send">
             <Button variant="primary" size="sm">
               Kirim
@@ -73,7 +79,7 @@ export function Navbar() {
             type="button"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Buka menu navigasi"
-            className="p-2 rounded-[6px] border-[2.5px] border-[#111111] bg-[#FFFFFF] shadow-[2px_2px_0_#111111] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none cursor-pointer"
+            className="p-2 rounded-lg border border-[#2A2D34] bg-[#111318] text-[#F5F5F2] hover:bg-[#181B21] transition-colors cursor-pointer"
           >
             {isMobileMenuOpen ? (
               <X className="w-5 h-5" />
@@ -86,36 +92,43 @@ export function Navbar() {
 
       {/* Mobile Menu Dropdown */}
       {isMobileMenuOpen && (
-        <div className="md:hidden border-t-[3px] border-[#111111] bg-[#F6F3EA] p-4 flex flex-col gap-3 animate-in slide-in-from-top-2 duration-150">
+        <div className="md:hidden border-t border-[#2A2D34] bg-[#08090B] p-5 flex flex-col gap-3 animate-in slide-in-from-top-2 duration-150">
+          <Link
+            href="/"
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="p-3 text-sm font-medium tracking-wide text-[#F5F5F2] border border-[#2A2D34] rounded-xl bg-[#111318]"
+          >
+            Beranda
+          </Link>
           <Link
             href="/#cara-kerja"
             onClick={() => setIsMobileMenuOpen(false)}
-            className="p-2 font-bold uppercase tracking-wider text-sm border-[2px] border-[#111111] rounded-[6px] bg-[#FFFFFF] shadow-[2px_2px_0_#111111]"
+            className="p-3 text-sm font-medium tracking-wide text-[#F5F5F2] border border-[#2A2D34] rounded-xl bg-[#111318]"
           >
             Cara Kerja
           </Link>
           <Link
-            href="/#keamanan"
+            href="/#dokumentasi"
             onClick={() => setIsMobileMenuOpen(false)}
-            className="p-2 font-bold uppercase tracking-wider text-sm border-[2px] border-[#111111] rounded-[6px] bg-[#FFFFFF] shadow-[2px_2px_0_#111111] flex items-center gap-1.5"
+            className="p-3 text-sm font-medium tracking-wide text-[#F5F5F2] border border-[#2A2D34] rounded-xl bg-[#111318]"
           >
-            <ShieldCheck className="w-4 h-4 text-[#8ED081]" /> Keamanan &amp; Privasi
+            Dokumentasi Kelas
           </Link>
           <Link
             href="/privacy"
             onClick={() => setIsMobileMenuOpen(false)}
-            className="p-2 font-bold uppercase tracking-wider text-sm border-[2px] border-[#111111] rounded-[6px] bg-[#FFFFFF] shadow-[2px_2px_0_#111111]"
+            className="p-3 text-sm font-medium tracking-wide text-[#F5F5F2] border border-[#2A2D34] rounded-xl bg-[#111318] flex items-center gap-2"
           >
-            Kebijakan Privasi
+            <Shield className="w-4 h-4 text-[#42D392]" /> Kebijakan Privasi
           </Link>
-          <div className="pt-2 border-t-[2px] border-[#111111] flex flex-col gap-2">
+          <div className="pt-2 border-t border-[#2A2D34] flex flex-col gap-2.5">
             <Link href="/send" onClick={() => setIsMobileMenuOpen(false)}>
               <Button variant="primary" className="w-full">
                 <Send className="w-4 h-4 mr-2" /> Kirim Pesan Sekarang
               </Button>
             </Link>
             <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
-              <Button variant="white" className="w-full">
+              <Button variant="secondary" className="w-full">
                 Owner Login
               </Button>
             </Link>
