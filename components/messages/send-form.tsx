@@ -161,7 +161,7 @@ export function SendForm({
         {/* Paper Handwritten Prompt */}
         <div className="pt-1">
           <p className="font-handwriting text-2xl sm:text-3xl text-[#F5F5F2] leading-none">
-            Tulis sesuatu untuk kelas kami.
+            Tulis sesuatu untuk seseorang.
           </p>
         </div>
 
@@ -179,7 +179,7 @@ export function SendForm({
             value={content}
             onChange={(e) => setContent(e.target.value)}
             maxLength={maxLength}
-            placeholder="Pertanyaan, cerita, uneg-uneg, atau kesanmu untuk anak-anak RPL 2..."
+            placeholder="Tulis pesan, cerita, pertanyaan, atau sesuatu yang ingin kamu sampaikan kepada seseorang..."
             rows={7}
             disabled={isLoading}
             required
@@ -216,7 +216,7 @@ export function SendForm({
       <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
         <p className="text-xs text-[#9A9DA5] flex items-center gap-2 leading-relaxed">
           <ShieldCheck className="w-3.5 h-3.5 text-[#42D392] shrink-0" />
-          <span>Pesan dikirim tanpa nama, rahasia &amp; aman.</span>
+          <span>Pesan ini dikirim secara anonim &amp; hanya dapat dilihat oleh penerima.</span>
         </p>
 
         <Button

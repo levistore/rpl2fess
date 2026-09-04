@@ -33,7 +33,7 @@ function LoginForm() {
           OWNER LOGIN
         </h1>
         <p className="text-xs sm:text-sm text-[#9A9DA5] mt-1">
-          Masuk ke dashboard untuk mengelola pesan dan pengaturan kelas.
+          Masuk ke dashboard untuk mengelola pesan dan pengaturan akun.
         </p>
       </div>
 

@@ -56,7 +56,7 @@ export default async function DashboardPage() {
             DASHBOARD
           </h1>
           <p className="text-xs sm:text-sm text-[#9A9DA5] mt-0.5">
-            Pantau pesan dan confession masuk untuk kelas RPL/PPLG 2 secara real-time.
+            Pantau pesan anonim yang masuk untukmu secara real-time.
           </p>
         </div>
 
@@ -101,7 +101,7 @@ export default async function DashboardPage() {
               PESAN TERBARU
             </h2>
             <p className="text-xs text-[#9A9DA5]">
-              Pesan anonim terbaru yang masuk ke kotak pesan kelas.
+              Pesan anonim terbaru yang kamu terima.
             </p>
           </div>
           <Link
@@ -115,7 +115,7 @@ export default async function DashboardPage() {
         {messages.length === 0 ? (
           <Card variant="surface" className="p-8 text-center border border-[#2A2D34]">
             <p className="text-sm text-[#9A9DA5]">
-              Belum ada pesan yang masuk. Bagikan link website ke teman-teman di luar kelas untuk mulai menerima cerita!
+              Belum ada pesan. Pesan anonim yang masuk untukmu akan muncul di sini. Bagikan tautan /send untuk mulai menerima pesan!
             </p>
           </Card>
         ) : (

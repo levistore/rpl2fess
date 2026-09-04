@@ -8,14 +8,14 @@ export const metadata: Metadata = {
     template: "%s | RPLTwoFess",
   },
   description:
-    "Platform pesan dan confession anonim resmi kelas RPL/PPLG 2. Sampaikan pesan, cerita, pertanyaan, atau sesuatu yang ingin kamu katakan tanpa perlu mencantumkan nama.",
+    "Platform pesan anonim personal dari kelas RPL/PPLG 2. Sampaikan pesan, cerita, pertanyaan, atau sesuatu yang ingin kamu sampaikan kepada seseorang secara rahasia.",
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_APP_URL || "https://rpl2fess.vercel.app"
   ),
   openGraph: {
     title: "RPLTwoFess — Satu Kelas. Banyak Cerita.",
     description:
-      "Kirim pesan anonim ke kelas RPL/PPLG 2. 100% rahasia, tanpa perlu login.",
+      "Kirim pesan anonim kepada seseorang secara personal. 100% rahasia, tanpa perlu login.",
     siteName: "RPLTwoFess",
     type: "website",
   },
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "RPLTwoFess — Satu Kelas. Banyak Cerita.",
     description:
-      "Kirim pesan anonim ke kelas RPL/PPLG 2. 100% rahasia, tanpa perlu login.",
+      "Kirim pesan anonim kepada seseorang secara personal. 100% rahasia, tanpa perlu login.",
   },
 };
 

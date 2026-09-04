@@ -91,14 +91,14 @@ export function MessageDetailView({ message }: MessageDetailViewProps) {
             </span>
           </div>
           <span className="text-[#9A9DA5] uppercase tracking-wider text-[11px]">
-            DOKUMENTASI KELAS
+            PESAN ANONIM
           </span>
         </div>
 
         {/* Handwritten subtitle */}
         <div className="flex items-center justify-between">
           <p className="font-handwriting text-xl text-[#7B8DFF]">
-            catatan pesan anonim
+            Seseorang mengirim pesan anonim kepadamu.
           </p>
           <span className="text-[10px] font-mono px-2 py-0.5 rounded border border-[#2A2D34] text-[#9A9DA5]">
             TERVERIFIKASI ANONIM

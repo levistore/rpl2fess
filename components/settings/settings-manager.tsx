@@ -121,7 +121,7 @@ export function SettingsManager({ settings }: SettingsManagerProps) {
 
           {/* Tagline */}
           <Input
-            label="Tagline Kelas"
+            label="Tagline Website"
             value={tagline}
             onChange={(e) => setTagline(e.target.value)}
             hint="Ditampilkan pada judul dan landing page."

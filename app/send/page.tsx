@@ -8,7 +8,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Kirim Pesan Anonim | RPLTwoFess",
   description:
-    "Kirimkan pesan, pertanyaan, atau cerita secara anonim ke kelas RPL/PPLG 2.",
+    "Kirimkan pesan, pertanyaan, atau cerita secara anonim kepada seseorang secara personal.",
 };
 
 export default async function SendPage() {
@@ -51,7 +51,7 @@ export default async function SendPage() {
                 KIRIM <span className="text-[#3D5CFF]">SESUATU.</span>
               </h1>
               <p className="text-sm text-[#9A9DA5] leading-relaxed">
-                Sampaikan apa yang ingin kamu katakan kepada kami. Pertanyaan, cerita, apresiasi, atau uneg-uneg tanpa perlu mencantumkan nama.
+                Sampaikan apa yang ingin kamu katakan secara anonim. Tulis pesan, cerita, pertanyaan, atau sesuatu yang ingin kamu sampaikan tanpa perlu mencantumkan nama.
               </p>
             </div>
 
@@ -98,7 +98,7 @@ export default async function SendPage() {
 
               <div className="pt-3 pb-1 px-1 space-y-1">
                 <p className="font-handwriting text-xl text-[#F5F5F2]">
-                  &ldquo;pesanmu akan dibaca oleh kami sekelas.&rdquo;
+                  &ldquo;Dokumentasi kecil dari satu kelas yang sama.&rdquo;
                 </p>
                 <span className="text-[10px] font-mono uppercase text-[#9A9DA5] tracking-wider block">
                   Kelas RPL / PPLG 2 / 2026
@@ -115,7 +115,7 @@ export default async function SendPage() {
                 </span>
               </div>
               <p className="leading-relaxed text-[11px]">
-                Pesan dikirim tanpa login, tanpa cookie pelacak, dan tanpa IP mentah. Hanya teks pesan yang sampai di dashboard kami.
+                Pesan ini dikirim secara anonim tanpa perlu nama atau login. Hanya teks pesan yang sampai ke penerima secara privat.
               </p>
             </div>
           </div>

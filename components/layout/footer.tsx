@@ -22,7 +22,7 @@ export function Footer() {
               </div>
             </div>
             <p className="text-sm text-[#9A9DA5] max-w-md leading-relaxed font-normal">
-              Platform pesan anonim dan confession resmi kelas RPL/PPLG 2. Tempat untuk menyampaikan pesan, cerita, pertanyaan, atau sesuatu yang ingin kamu katakan tanpa perlu mencantumkan nama.
+              Platform pesan anonim personal dari kelas RPL/PPLG 2. Tempat untuk menyampaikan pesan, cerita, pertanyaan, atau sesuatu yang ingin kamu sampaikan kepada seseorang secara rahasia tanpa perlu nama.
             </p>
             <div className="flex flex-wrap items-center gap-2 pt-1">
               <span className="inline-flex items-center gap-1.5 text-[11px] font-mono tracking-wider px-2.5 py-1 rounded-md bg-[#111318] border border-[#2A2D34] text-[#42D392]">

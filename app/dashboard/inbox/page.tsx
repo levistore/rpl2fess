@@ -38,7 +38,7 @@ export default async function InboxPage({ searchParams }: InboxPageProps) {
             KOTAK MASUK
           </h1>
           <p className="text-xs sm:text-sm text-[#9A9DA5] mt-0.5">
-            Daftar semua pesan dan confession anonim yang diterima untuk kelas RPL 2.
+            Daftar semua pesan anonim yang kamu terima.
           </p>
         </div>
 
@@ -89,7 +89,7 @@ export default async function InboxPage({ searchParams }: InboxPageProps) {
           description={
             search
               ? `Tidak ditemukan pesan dengan kata kunci "${search}". Coba cari kata lain.`
-              : "Sepertinya kotak masuk masih sepi. Bagikan link /send ke teman-teman di luar kelas untuk mulai menerima cerita."
+              : "Belum ada pesan. Pesan anonim yang masuk untukmu akan muncul di sini."
           }
           icon={<Inbox className="w-6 h-6 text-[#7B8DFF]" />}
         />

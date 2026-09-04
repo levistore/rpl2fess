@@ -31,7 +31,7 @@ export default async function HomePage() {
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#181B21] border border-[#2A2D34] text-xs font-mono text-[#7B8DFF]">
               <span className="w-1.5 h-1.5 rounded-full bg-[#3D5CFF] shrink-0" />
               <span className="tracking-widest uppercase text-[11px]">
-                UNTUK KELAS KITA / X PPLG 2
+                RPLTWOFESS / X PPLG 2
               </span>
             </div>
 
@@ -41,12 +41,12 @@ export default async function HomePage() {
                 <span className="text-[#3D5CFF]">BANYAK CERITA.</span>
               </h1>
               <p className="font-handwriting text-2xl text-[#9A9DA5] pt-1">
-                &ldquo;sampaikan apa yang ingin kamu katakan kepada kami...&rdquo;
+                &ldquo;sampaikan apa yang ingin kamu katakan kepada seseorang...&rdquo;
               </p>
             </div>
 
             <p className="text-sm sm:text-base text-[#9A9DA5] max-w-lg leading-relaxed font-normal">
-              Tempat buat menyampaikan pesan, cerita, pertanyaan, atau sesuatu yang ingin kamu katakan kepada kami. Tanpa perlu mencantumkan nama atau login akun.
+              Tempat buat menyampaikan pesan, cerita, pertanyaan, atau sesuatu yang ingin kamu sampaikan kepada seseorang secara anonim tanpa perlu mencantumkan nama.
             </p>
 
             {/* CTA Buttons */}
@@ -108,7 +108,7 @@ export default async function HomePage() {
             BAGAIMANA CARA KERJANYA?
           </h2>
           <p className="text-sm sm:text-base text-[#9A9DA5] max-w-md">
-            Sangat sederhana. Pengunjung di luar kelas tidak perlu mendaftar atau membuat akun apa pun.
+            Sangat sederhana. Pengirim tidak perlu mendaftar atau membuat akun apa pun.
           </p>
         </div>
 
@@ -160,7 +160,7 @@ export default async function HomePage() {
               Pesan Sampai di Dashboard
             </h3>
             <p className="text-sm text-[#9A9DA5] leading-relaxed">
-              Pesanmu langsung masuk ke dashboard kelas kami secara rahasia dan aman. Identitasmu tetap menjadi rahasia selamanya.
+              Pesanmu langsung masuk ke dashboard penerima secara rahasia dan aman. Identitasmu tetap menjadi rahasia selamanya.
             </p>
           </Card>
         </div>
@@ -337,7 +337,7 @@ export default async function HomePage() {
                 Pemblokiran Spammer
               </h4>
               <p className="text-xs sm:text-sm text-[#9A9DA5] leading-relaxed">
-                Pesan bernada pelecehan atau ancaman dapat langsung diblokir secara permanen oleh admin kelas.
+                Pesan bernada pelecehan atau ancaman dapat langsung diblokir secara permanen oleh penerima.
               </p>
             </Card>
           </div>
@@ -355,7 +355,7 @@ export default async function HomePage() {
             PUNYA SESUATU YANG INGIN DISAMPAIKAN?
           </h2>
           <p className="text-sm sm:text-base text-[#9A9DA5] max-w-lg mx-auto leading-relaxed">
-            Jangan dipendam. Kirimkan ceritamu, pertanyaan, atau kesanmu untuk kelas RPL/PPLG 2 sekarang juga.
+            Jangan dipendam. Kirimkan ceritamu, pertanyaan, atau pesan anonim untuk seseorang sekarang juga.
           </p>
           <div className="pt-2">
             <Link href="/send">
