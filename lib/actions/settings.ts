@@ -15,6 +15,7 @@ export async function updateSiteSettingsAction(
   const acceptingMessages = formData.get("acceptingMessages") === "true";
   const maxLength = parseInt((formData.get("maxLength") as string) || "500", 10);
   const tagline = (formData.get("tagline") as string) || "Satu Kelas. Banyak Cerita.";
+  const recipientName = ((formData.get("recipientName") as string) || "Owner RPL 2").trim();
 
   const supabase = await createClient();
   const {
@@ -30,6 +31,7 @@ export async function updateSiteSettingsAction(
     accepting_messages: acceptingMessages,
     max_length: maxLength,
     tagline: tagline,
+    recipient_name: recipientName,
     updated_at: new Date().toISOString(),
   });
 

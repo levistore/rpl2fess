@@ -18,12 +18,14 @@ export async function sendAnonymousMessageAction(
   formData: FormData
 ): Promise<SendMessageResult> {
   const rawContent = formData.get("content");
+  const rawSenderName = formData.get("sender_name");
   const turnstileToken = formData.get("turnstileToken");
   const tokenStr = typeof turnstileToken === "string" ? turnstileToken : null;
 
   // 1. Zod schema validation
   const validation = messageSchema.safeParse({
     content: typeof rawContent === "string" ? rawContent : "",
+    senderName: typeof rawSenderName === "string" && rawSenderName.trim() ? rawSenderName.trim() : null,
     turnstileToken: tokenStr,
   });
 
@@ -42,6 +44,10 @@ export async function sendAnonymousMessageAction(
       error: "Pesan tidak boleh kosong.",
     };
   }
+
+  const cleanSenderName = validation.data.senderName
+    ? sanitizeMessageContent(validation.data.senderName).slice(0, 50).trim() || null
+    : null;
 
   const supabase = await createClient();
 
@@ -107,6 +113,7 @@ export async function sendAnonymousMessageAction(
   // 8. Insert into messages table
   const { error: insertError } = await supabase.from("messages").insert({
     content: cleanContent,
+    sender_name: cleanSenderName,
     sender_hash: senderHash,
     is_read: false,
     is_deleted: false,

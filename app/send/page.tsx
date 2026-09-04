@@ -45,13 +45,13 @@ export default async function SendPage() {
           <div className="lg:col-span-7 space-y-6">
             <div className="space-y-2">
               <span className="text-xs font-mono uppercase tracking-widest text-[#3D5CFF]">
-                X PPLG 2 / PESAN ANONIM
+                RPL 2 • PESAN ANONIM
               </span>
               <h1 className="text-4xl sm:text-6xl font-display font-normal uppercase tracking-tight leading-none text-[#F5F5F2]">
                 KIRIM <span className="text-[#3D5CFF]">SESUATU.</span>
               </h1>
               <p className="text-sm text-[#9A9DA5] leading-relaxed">
-                Sampaikan apa yang ingin kamu katakan secara anonim. Tulis pesan, cerita, pertanyaan, atau sesuatu yang ingin kamu sampaikan tanpa perlu mencantumkan nama.
+                Sampaikan sesuatu yang ingin kamu katakan secara anonim. Tulis pesan, cerita, pertanyaan, atau sesuatu yang ingin kamu sampaikan kepada seseorang.
               </p>
             </div>
 
@@ -59,6 +59,7 @@ export default async function SendPage() {
             <SendForm
               acceptingMessages={settings.accepting_messages}
               maxLength={settings.max_length}
+              recipientName={settings.recipient_name || "Owner RPL 2"}
             />
 
             {/* Privacy note */}
@@ -80,7 +81,7 @@ export default async function SendPage() {
               <div className="relative aspect-[4/3] w-full rounded-xl overflow-hidden bg-[#08090B]">
                 <Image
                   src="/images/class/class-main.jpg"
-                  alt="Dokumentasi Kelas RPL / PPLG 2"
+                  alt="Dokumentasi Kelas RPL 2"
                   fill
                   className="object-cover"
                   sizes="(max-width: 768px) 100vw, 400px"
@@ -101,7 +102,7 @@ export default async function SendPage() {
                   &ldquo;Dokumentasi kecil dari satu kelas yang sama.&rdquo;
                 </p>
                 <span className="text-[10px] font-mono uppercase text-[#9A9DA5] tracking-wider block">
-                  Kelas RPL / PPLG 2 / 2026
+                  Kelas RPL 2 / 2026
                 </span>
               </div>
             </div>
@@ -124,7 +125,7 @@ export default async function SendPage() {
 
       {/* Mini footer */}
       <footer className="text-center pt-10 text-xs font-mono uppercase tracking-wider text-[#9A9DA5]/50 relative z-10">
-        RPLTwoFess &#8226; Kelas RPL / PPLG 2
+        RPLTwoFess &#8226; Kelas RPL 2
       </footer>
     </div>
   );

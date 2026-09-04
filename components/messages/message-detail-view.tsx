@@ -27,9 +27,10 @@ import { DeleteModal } from "./delete-modal";
 
 interface MessageDetailViewProps {
   message: Message;
+  recipientName?: string;
 }
 
-export function MessageDetailView({ message }: MessageDetailViewProps) {
+export function MessageDetailView({ message, recipientName = "Owner RPL 2" }: MessageDetailViewProps) {
   const router = useRouter();
   const { toast } = useToast();
   const [isRead, setIsRead] = React.useState(message.is_read);
@@ -91,23 +92,59 @@ export function MessageDetailView({ message }: MessageDetailViewProps) {
             </span>
           </div>
           <span className="text-[#9A9DA5] uppercase tracking-wider text-[11px]">
-            PESAN ANONIM
+            RPL 2 / 2026
           </span>
         </div>
 
-        {/* Handwritten subtitle */}
+        {/* Dari & Untuk Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 rounded-xl bg-[#181B21] border border-[#2A2D34] text-xs font-mono">
+          <div className="space-y-1">
+            <span className="text-[10px] text-[#7B8DFF] uppercase tracking-widest block font-semibold">
+              DARI
+            </span>
+            <span className="text-base font-semibold text-[#F5F5F2] font-display uppercase tracking-tight block">
+              {message.sender_name || "Anonim"}
+            </span>
+            {!message.sender_name && (
+              <span className="text-[10px] text-[#9A9DA5] block">
+                Identitas dirahasiakan
+              </span>
+            )}
+          </div>
+
+          <div className="space-y-1 sm:border-l sm:border-[#2A2D34] sm:pl-4">
+            <span className="text-[10px] text-[#7B8DFF] uppercase tracking-widest block font-semibold">
+              UNTUK
+            </span>
+            <span className="text-base font-semibold text-[#F5F5F2] font-display uppercase tracking-tight block">
+              {recipientName}
+            </span>
+            <span className="text-[10px] text-[#9A9DA5] block">
+              Penerima Pesan Personal
+            </span>
+          </div>
+        </div>
+
+        {/* Handwritten prompt */}
         <div className="flex items-center justify-between">
           <p className="font-handwriting text-xl text-[#7B8DFF]">
-            Seseorang mengirim pesan anonim kepadamu.
+            Pesan anonim untukmu:
           </p>
           <span className="text-[10px] font-mono px-2 py-0.5 rounded border border-[#2A2D34] text-[#9A9DA5]">
-            TERVERIFIKASI ANONIM
+            TERVERIFIKASI PRIVAT
           </span>
         </div>
 
-        {/* Digital Letter Message Body */}
-        <div className="py-6 px-1">
-          <p className="text-xl sm:text-2xl md:text-3xl font-normal text-[#F5F5F2] leading-relaxed break-words font-sans selection:bg-[#3D5CFF] selection:text-white">
+        {/* Digital Letter Message Body with Paper Lines */}
+        <div
+          className="py-6 px-4 rounded-xl bg-[#111318]/50 border border-[#2A2D34]/50"
+          style={{
+            backgroundImage:
+              "repeating-linear-gradient(transparent, transparent 31px, rgba(255, 255, 255, 0.04) 31px, rgba(255, 255, 255, 0.04) 32px)",
+            lineHeight: "32px",
+          }}
+        >
+          <p className="text-xl sm:text-2xl font-normal text-[#F5F5F2] leading-[32px] break-words font-sans selection:bg-[#3D5CFF] selection:text-white">
             &ldquo;{message.content}&rdquo;
           </p>
         </div>

@@ -9,6 +9,7 @@ create extension if not exists "pgcrypto";
 create table if not exists public.messages (
   id uuid primary key default gen_random_uuid(),
   content text not null,
+  sender_name text,
   is_read boolean default false not null,
   is_deleted boolean default false not null,
   sender_hash text,
@@ -40,6 +41,7 @@ create table if not exists public.site_settings (
   max_length integer default 500 not null,
   site_title text default 'RPLTwoFess' not null,
   tagline text default 'Satu Kelas. Banyak Cerita.' not null,
+  recipient_name text default 'Owner RPL 2' not null,
   updated_at timestamptz default now() not null
 );
 
@@ -118,4 +120,33 @@ create policy "Public can read site settings"
 create policy "Owner can update site settings"
   on public.site_settings
   for update
+  using (auth.role() = 'authenticated');
+
+-- 6. DOCUMENTATION TABLE
+create table if not exists public.documentation (
+  id uuid primary key default gen_random_uuid(),
+  title text not null default '',
+  caption text not null default '',
+  category_label text not null default 'DOCUMENTATION',
+  meta_text text not null default 'X RPL 2 / 2026',
+  overlay_text text default '',
+  image_url text not null,
+  storage_path text,
+  display_order integer not null default 1,
+  is_active boolean not null default true,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create index if not exists idx_documentation_active_order on public.documentation (is_active, display_order asc);
+
+alter table public.documentation enable row level security;
+
+-- DOCUMENTATION POLICIES
+create policy "Public can view active documentation"
+  on public.documentation for select
+  using (is_active = true);
+
+create policy "Authenticated users can manage documentation"
+  on public.documentation for all
   using (auth.role() = 'authenticated');

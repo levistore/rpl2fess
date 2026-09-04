@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     template: "%s | RPLTwoFess",
   },
   description:
-    "Platform pesan anonim personal dari kelas RPL/PPLG 2. Sampaikan pesan, cerita, pertanyaan, atau sesuatu yang ingin kamu sampaikan kepada seseorang secara rahasia.",
+    "Platform pesan anonim personal dari kelas RPL 2. Sampaikan pesan, cerita, pertanyaan, atau sesuatu yang ingin kamu sampaikan kepada seseorang secara rahasia.",
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_APP_URL || "https://rpl2fess.vercel.app"
   ),

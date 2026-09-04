@@ -1,6 +1,6 @@
 # RPLTwoFess — Satu Kelas. Banyak Cerita.
 
-Platform pesan anonim dan confession resmi untuk **kelas RPL/PPLG 2**. Dibangun menggunakan **Next.js 16 (App Router)**, **TypeScript**, **Tailwind CSS v4**, **Supabase PostgreSQL**, **Motion**, dan **Lucide Icons** dengan estetika **Modern Neo-Brutalism**.
+Platform pesan anonim dan confession resmi untuk **kelas RPL 2**. Dibangun menggunakan **Next.js 16 (App Router)**, **TypeScript**, **Tailwind CSS v4**, **Supabase PostgreSQL**, **Motion**, dan **Lucide Icons** dengan estetika **Modern Neo-Brutalism**.
 
 ---
 

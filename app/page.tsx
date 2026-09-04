@@ -13,8 +13,10 @@ import {
   ShieldAlert,
   Camera,
 } from "lucide-react";
+import { getActiveDocumentation } from "@/lib/queries/documentation";
 
 export default async function HomePage() {
+  const documentationItems = await getActiveDocumentation();
   return (
     <div className="min-h-screen bg-[#08090B] text-[#F5F5F2] flex flex-col selection:bg-[#3D5CFF] selection:text-white">
       {/* Top Navigation */}
@@ -31,7 +33,7 @@ export default async function HomePage() {
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#181B21] border border-[#2A2D34] text-xs font-mono text-[#7B8DFF]">
               <span className="w-1.5 h-1.5 rounded-full bg-[#3D5CFF] shrink-0" />
               <span className="tracking-widest uppercase text-[11px]">
-                RPLTWOFESS / X PPLG 2
+                RPLTWOFESS / X RPL 2
               </span>
             </div>
 
@@ -90,7 +92,7 @@ export default async function HomePage() {
           <span>SATU KELAS. BANYAK CERITA /</span>
           <span>PESAN ANONIM /</span>
           <span>TANPA NAMA /</span>
-          <span>RPL / PPLG 2 /</span>
+          <span>RPL 2 /</span>
           <span>RAHASIA TERJAMIN /</span>
           <span>DOKUMENTASI KELAS /</span>
           <span>SATU KELAS. BANYAK CERITA /</span>
@@ -186,105 +188,59 @@ export default async function HomePage() {
 
           {/* Photo Collage Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {/* Photo 1 */}
-            <div className="relative rounded-xl bg-[#111318] border border-[#2A2D34] p-3 shadow-xl shadow-black/50 rotate-[-1deg] hover:rotate-0 transition-transform duration-300 flex flex-col justify-between">
-              <div className="scrapbook-tape w-16 -top-2 left-4 rotate-[-3deg]" />
-              <div className="relative aspect-[4/3] w-full rounded-lg overflow-hidden bg-[#08090B]">
-                <Image
-                  src="/images/class/class-01.jpg"
-                  alt="Dokumentasi Kelas X PPLG 2"
-                  fill
-                  className="object-cover hover:scale-105 transition-transform duration-500"
-                  sizes="(max-width: 768px) 100vw, 250px"
-                />
-              </div>
-              <div className="pt-3 pb-1 px-1 space-y-1">
-                <span className="text-[10px] font-mono uppercase tracking-widest text-[#3D5CFF] block">
-                  DOCUMENTATION / 01
-                </span>
-                <p className="font-handwriting text-lg text-[#F5F5F2] leading-tight">
-                  &ldquo;X PPLG 2 — awal dari banyak cerita.&rdquo;
-                </p>
-                <span className="text-[10px] font-mono text-[#9A9DA5] block">
-                  X PPLG 2 / 2026
-                </span>
-              </div>
-            </div>
+            {documentationItems.map((doc, index) => {
+              const cardRotations = [
+                "rotate-[-1deg] hover:rotate-0",
+                "rotate-[1.5deg] hover:rotate-0",
+                "rotate-[-1.5deg] hover:rotate-0",
+                "rotate-[1deg] hover:rotate-0",
+              ];
+              const tapeClasses = [
+                "scrapbook-tape w-16 -top-2 left-4 rotate-[-3deg]",
+                "scrapbook-tape w-16 -top-2 right-4 rotate-[2deg]",
+                "scrapbook-tape w-16 -top-2 left-6 rotate-[-2deg]",
+                "scrapbook-tape w-16 -top-2 right-6 rotate-[3deg]",
+              ];
+              const rotationClass = cardRotations[index % cardRotations.length];
+              const tapeClass = tapeClasses[index % tapeClasses.length];
+              const orderLabel = String(index + 1).padStart(2, "0");
 
-            {/* Photo 2 */}
-            <div className="relative rounded-xl bg-[#111318] border border-[#2A2D34] p-3 shadow-xl shadow-black/50 rotate-[1.5deg] hover:rotate-0 transition-transform duration-300 flex flex-col justify-between">
-              <div className="scrapbook-tape w-16 -top-2 right-4 rotate-[2deg]" />
-              <div className="relative aspect-[4/3] w-full rounded-lg overflow-hidden bg-[#08090B]">
-                <Image
-                  src="/images/class/class-02.jpg"
-                  alt="Lab Komputer RPL 2"
-                  fill
-                  className="object-cover hover:scale-105 transition-transform duration-500"
-                  sizes="(max-width: 768px) 100vw, 250px"
-                />
-              </div>
-              <div className="pt-3 pb-1 px-1 space-y-1">
-                <span className="text-[10px] font-mono uppercase tracking-widest text-[#3D5CFF] block">
-                  DOCUMENTATION / 02
-                </span>
-                <p className="font-handwriting text-lg text-[#F5F5F2] leading-tight">
-                  &ldquo;Di balik tugas, deadline, dan hari-hari biasa.&rdquo;
-                </p>
-                <span className="text-[10px] font-mono text-[#9A9DA5] block">
-                  LAB KOMPUTER / 2026
-                </span>
-              </div>
-            </div>
-
-            {/* Photo 3 */}
-            <div className="relative rounded-xl bg-[#111318] border border-[#2A2D34] p-3 shadow-xl shadow-black/50 rotate-[-1.5deg] hover:rotate-0 transition-transform duration-300 flex flex-col justify-between">
-              <div className="scrapbook-tape w-16 -top-2 left-6 rotate-[-2deg]" />
-              <div className="relative aspect-[4/3] w-full rounded-lg overflow-hidden bg-[#08090B]">
-                <Image
-                  src="/images/class/class-03.jpg"
-                  alt="Sesi Projek RPL 2"
-                  fill
-                  className="object-cover hover:scale-105 transition-transform duration-500"
-                  sizes="(max-width: 768px) 100vw, 250px"
-                />
-              </div>
-              <div className="pt-3 pb-1 px-1 space-y-1">
-                <span className="text-[10px] font-mono uppercase tracking-widest text-[#3D5CFF] block">
-                  DOCUMENTATION / 03
-                </span>
-                <p className="font-handwriting text-lg text-[#F5F5F2] leading-tight">
-                  &ldquo;Dokumentasi kecil dari satu kelas yang sama.&rdquo;
-                </p>
-                <span className="text-[10px] font-mono text-[#9A9DA5] block">
-                  SESI PROJEK / 2026
-                </span>
-              </div>
-            </div>
-
-            {/* Photo 4 */}
-            <div className="relative rounded-xl bg-[#111318] border border-[#2A2D34] p-3 shadow-xl shadow-black/50 rotate-[1deg] hover:rotate-0 transition-transform duration-300 flex flex-col justify-between">
-              <div className="scrapbook-tape w-16 -top-2 right-6 rotate-[3deg]" />
-              <div className="relative aspect-[4/3] w-full rounded-lg overflow-hidden bg-[#08090B]">
-                <Image
-                  src="/images/class/class-04.jpg"
-                  alt="Kebersamaan Kelas"
-                  fill
-                  className="object-cover hover:scale-105 transition-transform duration-500"
-                  sizes="(max-width: 768px) 100vw, 250px"
-                />
-              </div>
-              <div className="pt-3 pb-1 px-1 space-y-1">
-                <span className="text-[10px] font-mono uppercase tracking-widest text-[#3D5CFF] block">
-                  DOCUMENTATION / 04
-                </span>
-                <p className="font-handwriting text-lg text-[#F5F5F2] leading-tight">
-                  &ldquo;Beberapa momen yang layak disimpan.&rdquo;
-                </p>
-                <span className="text-[10px] font-mono text-[#9A9DA5] block">
-                  KEBERSAMAAN / 2026
-                </span>
-              </div>
-            </div>
+              return (
+                <div
+                  key={doc.id}
+                  className={`relative rounded-xl bg-[#111318] border border-[#2A2D34] p-3 shadow-xl shadow-black/50 ${rotationClass} transition-transform duration-300 flex flex-col justify-between`}
+                >
+                  <div className={tapeClass} />
+                  <div className="relative aspect-[4/3] w-full rounded-lg overflow-hidden bg-[#08090B]">
+                    <Image
+                      src={doc.image_url}
+                      alt={doc.title || doc.caption || "Dokumentasi Kelas"}
+                      fill
+                      priority={index === 0}
+                      loading={index === 0 ? undefined : "lazy"}
+                      className="object-cover hover:scale-105 transition-transform duration-500"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                    />
+                    {doc.overlay_text && (
+                      <div className="absolute bottom-2 left-2 px-2 py-0.5 rounded bg-black/75 backdrop-blur-sm border border-white/10 text-[9px] font-mono tracking-widest text-[#F5F5F2] uppercase">
+                        {doc.overlay_text}
+                      </div>
+                    )}
+                  </div>
+                  <div className="pt-3 pb-1 px-1 space-y-1">
+                    <span className="text-[10px] font-mono uppercase tracking-widest text-[#3D5CFF] block">
+                      {doc.category_label || `DOCUMENTATION / ${orderLabel}`}
+                    </span>
+                    <p className="font-handwriting text-lg text-[#F5F5F2] leading-tight">
+                      &ldquo;{doc.caption}&rdquo;
+                    </p>
+                    <span className="text-[10px] font-mono text-[#9A9DA5] block">
+                      {doc.meta_text || "X RPL 2 / 2026"}
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>

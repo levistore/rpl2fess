@@ -11,6 +11,7 @@ import {
   ShieldCheck,
   ArrowLeft,
   Lock,
+  User,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import confetti from "canvas-confetti";
@@ -18,13 +19,16 @@ import confetti from "canvas-confetti";
 interface SendFormProps {
   acceptingMessages: boolean;
   maxLength: number;
+  recipientName?: string;
 }
 
 export function SendForm({
   acceptingMessages,
   maxLength = 500,
+  recipientName = "Owner RPL 2",
 }: SendFormProps) {
   const [content, setContent] = React.useState("");
+  const [senderName, setSenderName] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
   const [isSuccess, setIsSuccess] = React.useState(false);
@@ -38,6 +42,9 @@ export function SendForm({
 
     const formData = new FormData();
     formData.append("content", content.trim());
+    if (senderName.trim()) {
+      formData.append("sender_name", senderName.trim());
+    }
 
     try {
       const res = await sendAnonymousMessageAction(formData);
@@ -66,6 +73,7 @@ export function SendForm({
 
   const handleReset = () => {
     setContent("");
+    setSenderName("");
     setError(null);
     setIsSuccess(false);
   };
@@ -111,7 +119,9 @@ export function SendForm({
             MESSAGE SENT.
           </h2>
           <p className="text-sm text-[#9A9DA5] max-w-md mx-auto leading-relaxed">
-            Pesanmu sudah tercatat secara anonim. Identitas pengirim tetap menjadi rahasia selamanya.
+            {senderName.trim()
+              ? `Pesanmu telah dikirim kepada ${recipientName} dengan nama "${senderName.trim()}".`
+              : `Pesanmu telah dikirim kepada ${recipientName} secara anonim.`}
           </p>
         </div>
 
@@ -141,7 +151,50 @@ export function SendForm({
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      {/* Paper Writing Surface */}
+      {/* 1. Recipient Target Header */}
+      <div className="p-4 rounded-xl bg-[#111318] border border-[#2A2D34] flex items-center justify-between gap-4">
+        <div className="space-y-0.5">
+          <span className="text-[10px] font-mono uppercase tracking-widest text-[#7B8DFF] block">
+            UNTUK
+          </span>
+          <span className="text-sm sm:text-base font-semibold text-[#F5F5F2] font-display uppercase tracking-tight">
+            {recipientName || "Owner RPL 2"}
+          </span>
+        </div>
+        <div className="px-2.5 py-1 rounded-md bg-[#3D5CFF]/10 border border-[#3D5CFF]/30 text-[10px] font-mono text-[#7B8DFF] uppercase tracking-wider">
+          PESAN PERSONAL
+        </div>
+      </div>
+
+      {/* 2. Optional Sender Name Field */}
+      <div className="p-4 rounded-xl bg-[#111318] border border-[#2A2D34] space-y-2">
+        <div className="flex items-center justify-between">
+          <label htmlFor="sender-name" className="text-xs font-mono uppercase tracking-wider text-[#9A9DA5] flex items-center gap-1.5">
+            <User className="w-3.5 h-3.5 text-[#7B8DFF]" />
+            <span>NAMA PENGIRIM</span>
+            <span className="text-[#555A64] font-sans lowercase">(opsional)</span>
+          </label>
+          <span className="text-[10px] font-mono text-[#555A64]">
+            {senderName.length} / 50
+          </span>
+        </div>
+        <input
+          id="sender-name"
+          name="sender_name"
+          type="text"
+          value={senderName}
+          onChange={(e) => setSenderName(e.target.value)}
+          maxLength={50}
+          placeholder="Masukkan nama atau panggilan"
+          disabled={isLoading}
+          className="w-full rounded-lg bg-[#181B21] border border-[#2A2D34] px-3.5 py-2.5 text-xs sm:text-sm text-[#F5F5F2] placeholder-[#555A64] focus:outline-none focus:border-[#3D5CFF] focus:ring-1 focus:ring-[#3D5CFF] transition-all"
+        />
+        <p className="text-[11px] text-[#9A9DA5] leading-tight">
+          Kosongkan jika ingin tetap anonim.
+        </p>
+      </div>
+
+      {/* 3. Paper Writing Surface */}
       <div className="relative rounded-2xl bg-[#0E1015] border border-[#2A2D34] p-5 sm:p-7 shadow-2xl shadow-black/80 space-y-4">
         {/* Tape Accent */}
         <div className="scrapbook-tape w-24 -top-3 left-8 rotate-[-1.5deg]" />
@@ -154,7 +207,7 @@ export function SendForm({
             </span>
           </div>
           <span className="text-[#9A9DA5] uppercase tracking-wider text-[11px]">
-            X PPLG 2 / 2026
+            RPL 2 / 2026
           </span>
         </div>
 
@@ -205,9 +258,9 @@ export function SendForm({
             {content.length} / {maxLength}
           </span>
           <div className="text-right text-[#9A9DA5] text-[11px]">
-            <span>X PPLG 2</span>
+            <span>RPL 2</span>
             <span className="mx-1.5">/</span>
-            <span>04.09.2026</span>
+            <span>2026</span>
           </div>
         </div>
       </div>
@@ -216,7 +269,7 @@ export function SendForm({
       <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
         <p className="text-xs text-[#9A9DA5] flex items-center gap-2 leading-relaxed">
           <ShieldCheck className="w-3.5 h-3.5 text-[#42D392] shrink-0" />
-          <span>Pesan ini dikirim secara anonim &amp; hanya dapat dilihat oleh penerima.</span>
+          <span>Pesan ini dikirim secara privat &amp; hanya dapat dibaca oleh penerima.</span>
         </p>
 
         <Button

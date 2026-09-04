@@ -22,7 +22,7 @@ export function Footer() {
               </div>
             </div>
             <p className="text-sm text-[#9A9DA5] max-w-md leading-relaxed font-normal">
-              Platform pesan anonim personal dari kelas RPL/PPLG 2. Tempat untuk menyampaikan pesan, cerita, pertanyaan, atau sesuatu yang ingin kamu sampaikan kepada seseorang secara rahasia tanpa perlu nama.
+              Platform pesan anonim personal dari kelas RPL 2. Tempat untuk menyampaikan pesan, cerita, pertanyaan, atau sesuatu yang ingin kamu sampaikan kepada seseorang secara rahasia tanpa perlu nama.
             </p>
             <div className="flex flex-wrap items-center gap-2 pt-1">
               <span className="inline-flex items-center gap-1.5 text-[11px] font-mono tracking-wider px-2.5 py-1 rounded-md bg-[#111318] border border-[#2A2D34] text-[#42D392]">
@@ -91,7 +91,7 @@ export function Footer() {
 
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-[#2A2D34] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#9A9DA5]/60 font-mono">
-          <p>&#169; {new Date().getFullYear()} RPLTwoFess &#8226; Kelas RPL / PPLG 2.</p>
+          <p>&#169; {new Date().getFullYear()} RPLTwoFess &#8226; Kelas RPL 2.</p>
           <div className="flex items-center gap-1 text-xs">
             <span>Dibuat dengan</span>
             <Heart className="w-3.5 h-3.5 text-[#FF4D4D] fill-[#FF4D4D]" />

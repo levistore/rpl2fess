@@ -16,7 +16,7 @@ export function HeroComposerPreview() {
         <div className="relative aspect-[16/10] sm:aspect-[16/9] w-full overflow-hidden rounded-xl bg-[#08090B] border border-white/5">
           <Image
             src="/images/class/class-main.jpg"
-            alt="Dokumentasi Kelas RPL / PPLG 2"
+            alt="Dokumentasi Kelas RPL 2"
             fill
             priority
             className="object-cover transition-transform duration-500 hover:scale-[1.02]"
@@ -41,12 +41,12 @@ export function HeroComposerPreview() {
               DOCUMENTATION / 01
             </span>
             <span className="text-[10px] font-mono uppercase tracking-wider text-[#9A9DA5]">
-              X PPLG 2 / 2026
+              X RPL 2 / 2026
             </span>
           </div>
 
           <p className="font-handwriting text-xl sm:text-2xl text-[#F5F5F2] leading-snug">
-            &ldquo;X PPLG 2 — awal dari banyak cerita.&rdquo;
+            &ldquo;X RPL 2 — awal dari banyak cerita.&rdquo;
           </p>
 
           <div className="pt-2 flex items-center justify-between text-[11px] font-mono text-[#9A9DA5]/70 border-t border-white/5">

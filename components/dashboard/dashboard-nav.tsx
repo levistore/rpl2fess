@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
   Inbox,
+  Camera,
   Settings,
   LogOut,
   ExternalLink,
@@ -34,6 +35,11 @@ export function DashboardSidebar({ unreadCount = 0 }: DashboardNavProps) {
       href: "/dashboard/inbox",
       icon: Inbox,
       badge: unreadCount > 0 ? unreadCount : undefined,
+    },
+    {
+      label: "Dokumentasi",
+      href: "/dashboard/documentation",
+      icon: Camera,
     },
     {
       label: "Pengaturan",
@@ -160,6 +166,11 @@ export function MobileBottomNav({ unreadCount = 0 }: DashboardNavProps) {
       href: "/dashboard/inbox",
       icon: Inbox,
       badge: unreadCount > 0 ? unreadCount : undefined,
+    },
+    {
+      label: "Dokumentasi",
+      href: "/dashboard/documentation",
+      icon: Camera,
     },
     {
       label: "Pengaturan",

@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { getMessageById } from "@/lib/queries/messages";
+import { getMessageById, getSiteSettings } from "@/lib/queries/messages";
 import { MessageDetailView } from "@/components/messages/message-detail-view";
 
 interface MessageDetailPageProps {
@@ -12,7 +12,10 @@ export default async function MessageDetailPage({
   params,
 }: MessageDetailPageProps) {
   const { id } = await params;
-  const message = await getMessageById(id);
+  const [message, settings] = await Promise.all([
+    getMessageById(id),
+    getSiteSettings(),
+  ]);
 
   if (!message) {
     notFound();
@@ -20,7 +23,10 @@ export default async function MessageDetailPage({
 
   return (
     <div className="p-4 sm:p-6 lg:p-10 max-w-4xl mx-auto w-full">
-      <MessageDetailView message={message} />
+      <MessageDetailView
+        message={message}
+        recipientName={settings.recipient_name || "Owner RPL 2"}
+      />
     </div>
   );
 }

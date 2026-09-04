@@ -279,14 +279,14 @@ Hero harus menggunakan layout editorial.
 Contoh:
 
 ```text
-UNTUK KELAS KITA
+UNTUK SESEORANG
 
 SATU KELAS.
 BANYAK CERITA.
 
 Tempat buat menyampaikan pesan,
 cerita, pertanyaan, atau sesuatu
-yang ingin kamu katakan kepada kami.
+yang ingin kamu katakan secara personal.
 
 [KIRIM PESAN ANONIM]
 
@@ -356,7 +356,7 @@ Gunakan secara restrained.
 Contoh:
 
 ```text
-X PPLG 2
+X RPL 2
 2026
 
 BEST CLASS.

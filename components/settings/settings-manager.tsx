@@ -31,6 +31,9 @@ export function SettingsManager({ settings }: SettingsManagerProps) {
   );
   const [maxLength, setMaxLength] = React.useState(String(settings.max_length));
   const [tagline, setTagline] = React.useState(settings.tagline);
+  const [recipientName, setRecipientName] = React.useState(
+    settings.recipient_name || "Owner RPL 2"
+  );
   const [isSaving, setIsSaving] = React.useState(false);
 
   // Danger Zone Modal
@@ -45,6 +48,7 @@ export function SettingsManager({ settings }: SettingsManagerProps) {
     formData.append("acceptingMessages", String(acceptingMessages));
     formData.append("maxLength", maxLength);
     formData.append("tagline", tagline);
+    formData.append("recipientName", recipientName);
 
     try {
       const res = await updateSiteSettingsAction(formData);
@@ -125,6 +129,15 @@ export function SettingsManager({ settings }: SettingsManagerProps) {
             value={tagline}
             onChange={(e) => setTagline(e.target.value)}
             hint="Ditampilkan pada judul dan landing page."
+            required
+          />
+
+          {/* Nama Penerima Pesan (Personal) */}
+          <Input
+            label="Nama Penerima Pesan (Personal)"
+            value={recipientName}
+            onChange={(e) => setRecipientName(e.target.value)}
+            hint="Nama pemilik atau penerima yang ditampilkan pada halaman /send dan inbox (misal: Owner RPL 2)."
             required
           />
 

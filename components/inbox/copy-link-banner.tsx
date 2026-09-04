@@ -8,10 +8,11 @@ import { Button } from "@/components/ui/button";
 export function CopyLinkBanner() {
   const { toast } = useToast();
   const [copied, setCopied] = React.useState(false);
+  const [url, setUrl] = React.useState("/send");
 
-  const url = `${
-    typeof window !== "undefined" ? window.location.origin : ""
-  }/send`;
+  React.useEffect(() => {
+    setUrl(`${window.location.origin}/send`);
+  }, []);
 
   const handleCopy = () => {
     navigator.clipboard.writeText(url);

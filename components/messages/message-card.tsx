@@ -24,9 +24,10 @@ import { DeleteModal } from "./delete-modal";
 
 interface MessageCardProps {
   message: Message;
+  recipientName?: string;
 }
 
-export function MessageCard({ message }: MessageCardProps) {
+export function MessageCard({ message, recipientName = "Owner RPL 2" }: MessageCardProps) {
   const { toast } = useToast();
   const [isRead, setIsRead] = React.useState(message.is_read);
   const [isUpdatingRead, setIsUpdatingRead] = React.useState(false);
@@ -71,7 +72,7 @@ export function MessageCard({ message }: MessageCardProps) {
         }`}
       >
         {/* Top Header */}
-        <div className="flex items-center justify-between gap-3 mb-3">
+        <div className="flex items-center justify-between gap-3 mb-2.5">
           <div className="flex items-center gap-2.5">
             {!isRead ? (
               <span className="flex items-center gap-1.5 text-xs font-medium text-[#7B8DFF]">
@@ -88,6 +89,22 @@ export function MessageCard({ message }: MessageCardProps) {
           <div className="flex items-center gap-1.5 text-xs font-mono text-[#9A9DA5]">
             <Clock className="w-3.5 h-3.5" />
             <span>{formatDate(message.created_at)}</span>
+          </div>
+        </div>
+
+        {/* Sender & Recipient Tag Info */}
+        <div className="flex items-center gap-2 text-xs font-mono mb-3.5 flex-wrap">
+          <div className="flex items-center gap-1.5 px-2 py-0.5 rounded bg-[#181B21] border border-[#2A2D34]">
+            <span className="text-[10px] text-[#7B8DFF] uppercase tracking-wider">Dari:</span>
+            <span className="text-[#F5F5F2] font-medium text-xs font-sans">
+              {message.sender_name || "Anonim"}
+            </span>
+          </div>
+          <div className="flex items-center gap-1.5 px-2 py-0.5 rounded bg-[#181B21] border border-[#2A2D34]">
+            <span className="text-[10px] text-[#7B8DFF] uppercase tracking-wider">Untuk:</span>
+            <span className="text-[#F5F5F2] font-medium text-xs font-sans">
+              {recipientName}
+            </span>
           </div>
         </div>
 

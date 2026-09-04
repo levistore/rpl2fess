@@ -1,6 +1,7 @@
 export interface Message {
   id: string;
   content: string;
+  sender_name?: string | null;
   is_read: boolean;
   is_deleted: boolean;
   sender_hash: string | null;
@@ -38,6 +39,7 @@ export interface SiteSettings {
   max_length: number;
   site_title: string;
   tagline: string;
+  recipient_name?: string;
   updated_at: string;
 }
 
@@ -45,4 +47,19 @@ export interface DashboardStats {
   totalMessages: number;
   unreadMessages: number;
   todayMessages: number;
+}
+
+export interface DocumentationItem {
+  id: string;
+  title: string;
+  caption: string;
+  category_label: string;
+  meta_text: string;
+  overlay_text: string | null;
+  image_url: string;
+  storage_path: string | null;
+  display_order: number;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
 }

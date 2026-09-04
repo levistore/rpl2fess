@@ -25,7 +25,7 @@ export async function getInboxMessages(
 
   let query = supabase
     .from("messages")
-    .select("id, content, is_read, is_deleted, sender_hash, created_at")
+    .select("id, content, sender_name, is_read, is_deleted, sender_hash, created_at")
     .eq("is_deleted", false);
 
   if (options.filter === "unread") {
@@ -142,6 +142,7 @@ export async function getSiteSettings(): Promise<SiteSettings> {
       max_length: 500,
       site_title: "RPLTwoFess",
       tagline: "Satu Kelas. Banyak Cerita.",
+      recipient_name: "Owner RPL 2",
       updated_at: new Date().toISOString(),
     };
   }

@@ -21,7 +21,7 @@ export function Navbar() {
               RPLTWOFESS
             </span>
             <span className="text-[10px] font-mono tracking-widest text-[#9A9DA5] uppercase">
-              X PPLG 2 &#8226; 2026
+              X RPL 2 &#8226; 2026
             </span>
           </div>
         </Link>

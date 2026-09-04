@@ -25,6 +25,11 @@ export const messageSchema = z.object({
     .trim()
     .min(1, "Pesan tidak boleh kosong")
     .max(500, "Pesan maksimal 500 karakter"),
+  senderName: z
+    .string()
+    .trim()
+    .max(50, "Nama pengirim maksimal 50 karakter")
+    .nullish(),
   turnstileToken: z.string().nullish(),
 });
 
@@ -47,4 +52,5 @@ export const siteSettingsSchema = z.object({
   maxLength: z.number().int().min(50).max(1000),
   siteTitle: z.string().min(1).max(50),
   tagline: z.string().min(1).max(100),
+  recipientName: z.string().min(1).max(100).optional(),
 });
