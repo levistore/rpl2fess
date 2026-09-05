@@ -682,7 +682,7 @@ function DocumentationFormContent({
               placeholder="Tulis kalimat atau kutipan cerita untuk foto ini..."
               rows={3}
               disabled={isSubmitting}
-              className="w-full rounded-xl bg-[#181B21] border border-[#2A2D34] p-3 text-xs sm:text-sm text-[#F5F5F2] placeholder-[#555A64] focus:outline-none focus:border-[#3D5CFF] focus:ring-1 focus:ring-[#3D5CFF] transition-all resize-none disabled:opacity-60"
+              className="w-full rounded-xl bg-[#111318] border border-[#2A2D34] p-3 text-xs sm:text-sm text-[#F5F5F2] placeholder-[#9A9DA5]/50 focus:outline-none focus:border-[#3D5CFF] focus:ring-1 focus:ring-[#3D5CFF] transition-all resize-none disabled:opacity-60"
             />
           </div>
 

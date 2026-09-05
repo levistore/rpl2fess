@@ -165,7 +165,7 @@ export function MobileDashboardHeader() {
         <Link
           href="/send"
           target="_blank"
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#3D5CFF] text-[#F5F5F2] text-xs font-medium hover:bg-[#536DFF] transition-all"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#3D5CFF] text-white text-xs font-medium hover:bg-[#536DFF] transition-all"
         >
           <Send className="w-3 h-3" />
           <span>Kirim</span>

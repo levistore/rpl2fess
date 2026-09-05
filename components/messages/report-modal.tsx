@@ -136,7 +136,7 @@ export function ReportModal({ messageId, isOpen, onClose }: ReportModalProps) {
             maxLength={500}
             rows={3}
             placeholder="Describe any additional context..."
-            className="w-full p-3 rounded-lg bg-[#181B21] border border-[#2A2D34] text-xs font-medium text-[#F5F5F2] placeholder-[#9A9DA5]/50 focus:outline-none focus:border-[#3D5CFF] focus:ring-1 focus:ring-[#3D5CFF]"
+            className="w-full p-3 rounded-lg bg-[#111318] border border-[#2A2D34] text-xs font-medium text-[#F5F5F2] placeholder-[#9A9DA5]/50 focus:outline-none focus:border-[#3D5CFF] focus:ring-1 focus:ring-[#3D5CFF]"
           />
         </div>
 

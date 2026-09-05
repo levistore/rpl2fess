@@ -91,7 +91,7 @@ export function SendForm({
 
   if (!acceptingMessages) {
     return (
-      <div className="relative rounded-2xl bg-[#0E1015] border border-[#2A2D34] p-8 text-center space-y-4 shadow-2xl">
+      <div className="relative rounded-2xl bg-[#111318] border border-[#2A2D34] p-8 text-center space-y-4 shadow-2xl">
         <div className="w-12 h-12 rounded-xl bg-[#FF4D4D]/15 border border-[#FF4D4D]/30 flex items-center justify-center mx-auto text-[#FF4D4D]">
           <Lock className="w-6 h-6" />
         </div>
@@ -114,7 +114,7 @@ export function SendForm({
 
   if (isSuccess) {
     return (
-      <div className="relative rounded-2xl bg-[#0E1015] border border-[#3D5CFF]/40 p-8 sm:p-10 text-center animate-in zoom-in-95 duration-200 space-y-6 shadow-2xl shadow-black/80">
+      <div className="relative rounded-2xl bg-[#111318] border border-[#3D5CFF]/40 p-8 sm:p-10 text-center animate-in zoom-in-95 duration-200 space-y-6 shadow-2xl">
         {/* Scrapbook Tape */}
         <div className="scrapbook-tape w-24 -top-3 left-1/2 -translate-x-1/2 rotate-1" />
 
@@ -229,7 +229,7 @@ export function SendForm({
       </div>
 
       {/* 3. Paper Writing Surface */}
-      <div className="relative rounded-2xl bg-[#0E1015] border border-[#2A2D34] p-5 sm:p-7 shadow-2xl shadow-black/80 space-y-4">
+      <div className="relative rounded-2xl bg-[#111318] border border-[#2A2D34] p-5 sm:p-7 shadow-2xl space-y-4 focus-within:border-[#3D5CFF] focus-within:shadow-[0_0_25px_-5px_rgba(61,92,255,0.35)] transition-all">
         {/* Tape Accent */}
         <div className="scrapbook-tape w-24 -top-3 left-8 rotate-[-1.5deg]" />
 
@@ -276,7 +276,7 @@ export function SendForm({
             className="w-full bg-transparent text-[#F5F5F2] placeholder-[#9A9DA5]/40 text-sm sm:text-base font-sans resize-y focus:outline-none leading-[32px] border-0 p-0 selection:bg-[#3D5CFF] selection:text-white"
             style={{
               backgroundImage:
-                "repeating-linear-gradient(transparent, transparent 31px, rgba(255, 255, 255, 0.05) 31px, rgba(255, 255, 255, 0.05) 32px)",
+                "repeating-linear-gradient(transparent, transparent 31px, var(--notebook-line, rgba(255, 255, 255, 0.05)) 31px, var(--notebook-line, rgba(255, 255, 255, 0.05)) 32px)",
               lineHeight: "32px",
               paddingTop: "2px",
             }}

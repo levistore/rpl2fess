@@ -80,7 +80,7 @@ export function MessageDetailView({ message, recipientName = "Seseorang" }: Mess
       </div>
 
       {/* Digital Letter / Archived Paper Note */}
-      <div className="relative rounded-2xl bg-[#0E1015] border border-[#2A2D34] p-6 sm:p-10 space-y-6 shadow-2xl shadow-black/80">
+      <div className="relative rounded-2xl bg-[#111318] border border-[#2A2D34] p-6 sm:p-10 space-y-6 shadow-2xl">
         {/* Tape Accent */}
         <div className="scrapbook-tape w-24 -top-3 left-8 rotate-[-1deg]" />
 
@@ -127,7 +127,7 @@ export function MessageDetailView({ message, recipientName = "Seseorang" }: Mess
 
         {/* Handwritten prompt */}
         <div className="flex items-center justify-between">
-          <p className="font-handwriting text-xl text-[#7B8DFF]">
+          <p className="font-handwriting text-xl text-[#3D5CFF]">
             Pesan anonim untukmu:
           </p>
           <span className="text-[10px] font-mono px-2 py-0.5 rounded border border-[#2A2D34] text-[#9A9DA5]">
@@ -137,10 +137,10 @@ export function MessageDetailView({ message, recipientName = "Seseorang" }: Mess
 
         {/* Digital Letter Message Body with Paper Lines */}
         <div
-          className="py-6 px-4 rounded-xl bg-[#111318]/50 border border-[#2A2D34]/50"
+          className="py-6 px-4 rounded-xl bg-[#181B21]/50 border border-[#2A2D34]/50"
           style={{
             backgroundImage:
-              "repeating-linear-gradient(transparent, transparent 31px, rgba(255, 255, 255, 0.04) 31px, rgba(255, 255, 255, 0.04) 32px)",
+              "repeating-linear-gradient(transparent, transparent 31px, var(--notebook-line, rgba(255, 255, 255, 0.04)) 31px, var(--notebook-line, rgba(255, 255, 255, 0.04)) 32px)",
             lineHeight: "32px",
           }}
         >
