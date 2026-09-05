@@ -6,6 +6,7 @@ import { generateSenderHash, getClientIp } from "@/lib/security/sender-hash";
 import { checkServerlessRateLimit } from "@/lib/security/rate-limit";
 import { sanitizeMessageContent } from "@/lib/security/sanitize";
 import { verifyTurnstileToken } from "@/lib/security/turnstile";
+import { triggerNewMessagePushNotification } from "@/lib/notifications/web-push";
 
 export interface SendMessageResult {
   success: boolean;
@@ -147,6 +148,13 @@ export async function sendAnonymousMessageAction(
       success: false,
       error: "Gagal mengirim pesan. Silakan coba sesaat lagi.",
     };
+  }
+
+  // Trigger web push notification asynchronously (failsafe, won't break message delivery)
+  try {
+    await triggerNewMessagePushNotification();
+  } catch (pushErr) {
+    console.warn("Non-fatal error dispatching push notification:", pushErr);
   }
 
   return {

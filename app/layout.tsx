@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ToastProvider } from "@/components/ui/toast";
 import { ThemeProvider } from "@/components/providers/theme-provider";
+import { ServiceWorkerRegister } from "@/components/pwa/service-worker-register";
 
 export const metadata: Metadata = {
   title: {
@@ -10,9 +11,15 @@ export const metadata: Metadata = {
   },
   description:
     "Platform pesan anonim personal dari kelas XI RPL 2. Sampaikan pesan, cerita, pertanyaan, atau sesuatu yang ingin kamu sampaikan kepada seseorang secara rahasia.",
+  manifest: "/manifest.json",
   icons: {
     icon: "/images/brand/rpl-logo.png",
-    apple: "/images/brand/rpl-logo.png",
+    apple: "/icons/apple-touch-icon.png",
+  },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "RPLTwoFess",
   },
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_APP_URL || "https://rpl2fess.vercel.app"
@@ -49,6 +56,12 @@ export default function RootLayout({
   return (
     <html lang="id" className="h-full antialiased" suppressHydrationWarning>
       <head>
+        <link rel="manifest" href="/manifest.json" />
+        <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+        <meta name="theme-color" content="#08090B" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <script
           dangerouslySetInnerHTML={{
             __html: `(function(){try{var t=localStorage.getItem("rpl-theme");if(t==="light"){document.documentElement.classList.remove("dark");document.documentElement.classList.add("light");document.documentElement.setAttribute("data-theme","light");document.documentElement.style.colorScheme="light";}else{document.documentElement.classList.remove("light");document.documentElement.classList.add("dark");document.documentElement.setAttribute("data-theme","dark");document.documentElement.style.colorScheme="dark";}}catch(e){}})();`,
@@ -57,7 +70,10 @@ export default function RootLayout({
       </head>
       <body className="min-h-full flex flex-col font-sans transition-colors duration-150">
         <ThemeProvider>
-          <ToastProvider>{children}</ToastProvider>
+          <ToastProvider>
+            <ServiceWorkerRegister />
+            {children}
+          </ToastProvider>
         </ThemeProvider>
       </body>
     </html>

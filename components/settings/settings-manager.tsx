@@ -18,6 +18,7 @@ import {
   AlertTriangle,
   Send,
 } from "lucide-react";
+import { PushNotificationSettings } from "./push-notification-settings";
 
 interface SettingsManagerProps {
   settings: SiteSettings;
@@ -152,7 +153,10 @@ export function SettingsManager({ settings }: SettingsManagerProps) {
         </form>
       </Card>
 
-      {/* 2. Danger Zone */}
+      {/* 2. Pengaturan Notifikasi Inbox (Web Push) */}
+      <PushNotificationSettings />
+
+      {/* 3. Danger Zone */}
       <Card
         className="p-6 sm:p-8 space-y-5 border border-[#FF4D4D]/30 bg-[#FF4D4D]/5"
       >

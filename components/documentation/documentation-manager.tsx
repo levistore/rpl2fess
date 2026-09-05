@@ -19,7 +19,6 @@ import {
   Trash2,
   Eye,
   EyeOff,
-  Sparkles,
   LayoutGrid,
   Send,
   Info,
@@ -243,7 +242,7 @@ export function DocumentationManager({
               : "text-[#9A9DA5] hover:text-[#F5F5F2] hover:bg-white/[0.02]"
           }`}
         >
-          <Sparkles
+          <Camera
             className={`w-4 h-4 ${
               activeTab === "featured" ? "text-[#3D5CFF]" : "text-[#9A9DA5]"
             }`}
