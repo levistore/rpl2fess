@@ -15,11 +15,12 @@ import {
   Edit3,
   AlertCircle,
   FileImage,
+  CheckCircle2,
 } from "lucide-react";
 import { useToast } from "@/components/ui/toast";
 import {
-  createDocumentationAction,
-  updateDocumentationAction,
+  getDocumentationUploadUrlAction,
+  saveDocumentationDirectAction,
 } from "@/lib/actions/documentation";
 
 interface DocumentationFormModalProps {
@@ -35,6 +36,68 @@ interface FormContentProps {
   defaultOrderNumber: number;
   onClose: () => void;
   onSuccess?: () => void;
+}
+
+type UploadStatus = "IDLE" | "SELECTED" | "UPLOADING" | "SUCCESS" | "ERROR";
+
+/**
+ * Uploads file directly to Supabase Storage via signed URL using XMLHttpRequest
+ * to ensure 100% genuine byte-level upload progress tracking.
+ */
+function uploadFileWithProgress(
+  file: File,
+  signedUrl: string,
+  onProgress: (percent: number) => void
+): Promise<{ success: boolean; error?: string }> {
+  return new Promise((resolve) => {
+    const xhr = new XMLHttpRequest();
+    const formData = new FormData();
+    formData.append("cacheControl", "3600");
+    formData.append("", file, file.name);
+
+    xhr.upload.onprogress = (event) => {
+      if (event.lengthComputable && event.total > 0) {
+        const percent = Math.min(99, Math.round((event.loaded / event.total) * 100));
+        onProgress(percent);
+      }
+    };
+
+    xhr.onload = () => {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        onProgress(100);
+        resolve({ success: true });
+      } else {
+        let errMsg = "Upload foto gagal. Periksa ukuran file dan koneksi internet.";
+        try {
+          const parsed = JSON.parse(xhr.responseText);
+          if (parsed.message) {
+            errMsg = parsed.message;
+          } else if (parsed.error) {
+            errMsg = parsed.error;
+          }
+        } catch {}
+        resolve({ success: false, error: errMsg });
+      }
+    };
+
+    xhr.onerror = () => {
+      resolve({
+        success: false,
+        error: "Koneksi terputus saat mengunggah foto. Periksa koneksi internet Anda.",
+      });
+    };
+
+    xhr.ontimeout = () => {
+      resolve({
+        success: false,
+        error: "Waktu upload habis. Periksa kecepatan koneksi internet Anda.",
+      });
+    };
+
+    xhr.timeout = 120000; // 2 minutes timeout for large files
+    xhr.open("PUT", signedUrl);
+    xhr.send(formData);
+  });
 }
 
 function DocumentationFormContent({
@@ -63,6 +126,11 @@ function DocumentationFormContent({
   const [isDragging, setIsDragging] = React.useState<boolean>(false);
   const [errorMessage, setErrorMessage] = React.useState<string>("");
   const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false);
+  const [isSavingDb, setIsSavingDb] = React.useState<boolean>(false);
+
+  // Upload state machine
+  const [uploadStatus, setUploadStatus] = React.useState<UploadStatus>("IDLE");
+  const [uploadProgress, setUploadProgress] = React.useState<number>(0);
 
   // Clean up object URL when component unmounts
   React.useEffect(() => {
@@ -84,12 +152,14 @@ function DocumentationFormContent({
 
     const validTypes = ["image/jpeg", "image/png", "image/webp"];
     if (!validTypes.includes(file.type)) {
-      setErrorMessage("Format file tidak didukung. Harap gunakan JPG, PNG, atau WebP.");
+      setErrorMessage("Format foto tidak didukung. Harap gunakan format JPG, PNG, atau WebP.");
+      setUploadStatus("ERROR");
       return;
     }
 
     if (file.size > 5 * 1024 * 1024) {
-      setErrorMessage("Ukuran file terlalu besar. Maksimum 5 MB.");
+      setErrorMessage("Ukuran foto terlalu besar. Maksimal 5 MB.");
+      setUploadStatus("ERROR");
       return;
     }
 
@@ -102,6 +172,8 @@ function DocumentationFormContent({
     setPreviewUrl(objectUrl);
     setFileName(file.name);
     setFileSize(formatBytes(file.size));
+    setUploadStatus("SELECTED");
+    setUploadProgress(0);
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -141,6 +213,8 @@ function DocumentationFormContent({
     setSelectedFile(null);
     setFileName("");
     setFileSize("");
+    setUploadStatus("IDLE");
+    setUploadProgress(0);
 
     if (itemToEdit) {
       setPreviewUrl(itemToEdit.image_url);
@@ -167,40 +241,116 @@ function DocumentationFormContent({
       return;
     }
 
+    if (isSubmitting) return; // Prevent duplicate clicks
+
     setIsSubmitting(true);
 
     try {
-      const formData = new FormData();
-      formData.append("caption", caption.trim());
-      formData.append("category_label", categoryLabel.trim());
-      formData.append("meta_text", metaText.trim());
-      formData.append("overlay_text", overlayText.trim());
-
       if (selectedFile) {
-        formData.append("image", selectedFile);
-      }
+        // Direct upload to Supabase Storage
+        setUploadStatus("UPLOADING");
+        setUploadProgress(0);
 
-      let res;
-      if (itemToEdit) {
-        res = await updateDocumentationAction(itemToEdit.id, formData);
-      } else {
-        res = await createDocumentationAction(formData);
-      }
+        // 1. Obtain signed upload URL from server
+        const urlRes = await getDocumentationUploadUrlAction({
+          fileName: selectedFile.name,
+          fileType: selectedFile.type,
+          fileSize: selectedFile.size,
+        });
 
-      if (res.success) {
-        success(res.message || "Dokumentasi berhasil disimpan.");
-        onSuccess?.();
-        onClose();
-      } else {
-        setErrorMessage(res.error || "Dokumentasi gagal disimpan. Coba lagi.");
-        toastError(res.error || "Dokumentasi gagal disimpan. Coba lagi.");
+        if (!urlRes.success || !urlRes.signedUrl || !urlRes.storagePath || !urlRes.publicUrl) {
+          const err = urlRes.error || "Gagal menyiapkan sesi upload ke server.";
+          setUploadStatus("ERROR");
+          setErrorMessage(err);
+          toastError(err);
+          setIsSubmitting(false);
+          return;
+        }
+
+        // 2. Direct upload to Supabase Storage with genuine byte progress
+        const uploadRes = await uploadFileWithProgress(
+          selectedFile,
+          urlRes.signedUrl,
+          (percent) => {
+            setUploadProgress(percent);
+          }
+        );
+
+        if (!uploadRes.success) {
+          setUploadStatus("ERROR");
+          const err =
+            uploadRes.error || "Upload foto gagal. Periksa ukuran file dan koneksi internet.";
+          setErrorMessage(err);
+          toastError(err);
+          setIsSubmitting(false);
+          // Old photo remains 100% safe
+          return;
+        }
+
+        // 3. Storage upload succeeded!
+        setUploadStatus("SUCCESS");
+        setUploadProgress(100);
+        success("Foto berhasil diunggah.");
+
+        // 4. Save metadata and path to database
+        setIsSavingDb(true);
+        const saveRes = await saveDocumentationDirectAction({
+          id: itemToEdit?.id,
+          title: caption.trim().slice(0, 40),
+          caption: caption.trim(),
+          category_label: categoryLabel.trim(),
+          meta_text: metaText.trim(),
+          overlay_text: overlayText.trim(),
+          storage_path: urlRes.storagePath,
+          image_url: urlRes.publicUrl,
+        });
+
+        setIsSavingDb(false);
+        setIsSubmitting(false);
+
+        if (saveRes.success) {
+          success("Dokumentasi berhasil disimpan.");
+          onSuccess?.();
+          onClose();
+        } else {
+          setUploadStatus("ERROR");
+          const dbErr =
+            saveRes.error || "Foto berhasil diunggah, tetapi dokumentasi gagal disimpan.";
+          setErrorMessage(dbErr);
+          toastError(dbErr);
+        }
+      } else if (itemToEdit) {
+        // Metadata only update (no new photo upload)
+        setIsSavingDb(true);
+        const saveRes = await saveDocumentationDirectAction({
+          id: itemToEdit.id,
+          title: caption.trim().slice(0, 40),
+          caption: caption.trim(),
+          category_label: categoryLabel.trim(),
+          meta_text: metaText.trim(),
+          overlay_text: overlayText.trim(),
+        });
+
+        setIsSavingDb(false);
+        setIsSubmitting(false);
+
+        if (saveRes.success) {
+          success("Dokumentasi berhasil disimpan.");
+          onSuccess?.();
+          onClose();
+        } else {
+          const dbErr = saveRes.error || "Dokumentasi gagal diperbarui. Coba lagi.";
+          setErrorMessage(dbErr);
+          toastError(dbErr);
+        }
       }
     } catch (err) {
       console.error("Form submit error:", err);
+      setUploadStatus("ERROR");
       setErrorMessage("Terjadi kesalahan teknis. Coba lagi.");
       toastError("Dokumentasi gagal disimpan. Coba lagi.");
-    } finally {
       setIsSubmitting(false);
+      setIsSavingDb(false);
     }
   };
 
@@ -211,6 +361,7 @@ function DocumentationFormContent({
         <button
           type="button"
           onClick={() => setActiveTab("form")}
+          disabled={isSubmitting}
           className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-medium transition-all ${
             activeTab === "form"
               ? "bg-[#3D5CFF] text-white shadow-sm"
@@ -223,6 +374,7 @@ function DocumentationFormContent({
         <button
           type="button"
           onClick={() => setActiveTab("preview")}
+          disabled={isSubmitting}
           className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-medium transition-all ${
             activeTab === "preview"
               ? "bg-[#3D5CFF] text-white shadow-sm"
@@ -257,12 +409,42 @@ function DocumentationFormContent({
             imageUrl={previewUrl}
           />
 
+          {/* Upload Progress Banner inside Preview Tab if submitting */}
+          {uploadStatus === "UPLOADING" && (
+            <div className="space-y-2 p-3.5 rounded-xl bg-[#181B21] border border-[#3D5CFF]/30 animate-in fade-in">
+              <div className="flex items-center justify-between text-xs font-mono">
+                <div className="flex items-center gap-2 text-[#F5F5F2]">
+                  <span className="inline-block w-2 h-2 rounded-full bg-[#3D5CFF] animate-pulse" />
+                  <span>Mengunggah foto...</span>
+                </div>
+                <span className="font-semibold text-[#7B8DFF]">{uploadProgress}%</span>
+              </div>
+              <div className="w-full h-2 rounded-full bg-[#08090B] overflow-hidden border border-[#2A2D34]">
+                <div
+                  className="h-full bg-gradient-to-r from-[#3D5CFF] to-[#536DFF] transition-all duration-150 ease-out"
+                  style={{ width: `${uploadProgress}%` }}
+                />
+              </div>
+            </div>
+          )}
+
+          {uploadStatus === "SUCCESS" && isSavingDb && (
+            <div className="flex items-center justify-between p-3 rounded-xl bg-[#22C55E]/10 border border-[#22C55E]/30 text-xs text-[#4ADE80] font-mono animate-in fade-in">
+              <div className="flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-[#22C55E] shrink-0" />
+                <span>Foto berhasil diunggah. Menyimpan dokumentasi...</span>
+              </div>
+              <span className="text-[11px] font-semibold">100%</span>
+            </div>
+          )}
+
           <div className="flex items-center justify-end gap-3 pt-4 border-t border-[#2A2D34]">
             <Button
               type="button"
               variant="outline"
               size="sm"
               onClick={() => setActiveTab("form")}
+              disabled={isSubmitting}
               className="text-xs"
             >
               Kembali ke Formulir
@@ -276,7 +458,13 @@ function DocumentationFormContent({
               disabled={isSubmitting}
               className="text-xs bg-[#3D5CFF] hover:bg-[#536DFF] text-white"
             >
-              {itemToEdit ? "Simpan Perubahan" : "Simpan Dokumentasi"}
+              {uploadStatus === "UPLOADING"
+                ? `Mengunggah (${uploadProgress}%)`
+                : isSavingDb
+                ? "Menyimpan Data..."
+                : itemToEdit
+                ? "Simpan Perubahan"
+                : "Simpan Dokumentasi"}
             </Button>
           </div>
         </div>
@@ -293,6 +481,7 @@ function DocumentationFormContent({
               type="file"
               accept="image/jpeg,image/png,image/webp"
               onChange={handleFileChange}
+              disabled={isSubmitting}
               className="hidden"
             />
 
@@ -320,7 +509,7 @@ function DocumentationFormContent({
                       </span>
                     )}
                     <span className="text-[10px] font-mono text-[#7B8DFF] block">
-                      Format: JPG / PNG / WebP
+                      Format JPG, PNG, WebP • Maks. 5 MB
                     </span>
                   </div>
 
@@ -329,6 +518,7 @@ function DocumentationFormContent({
                       type="button"
                       variant="outline"
                       size="sm"
+                      disabled={isSubmitting}
                       onClick={() => {
                         if (fileInputRef.current) fileInputRef.current.value = "";
                         fileInputRef.current?.click();
@@ -338,7 +528,7 @@ function DocumentationFormContent({
                       <RefreshCw className="w-3 h-3" />
                       Ganti Foto
                     </Button>
-                    {selectedFile && (
+                    {selectedFile && !isSubmitting && (
                       <Button
                         type="button"
                         variant="danger"
@@ -352,13 +542,49 @@ function DocumentationFormContent({
                     )}
                   </div>
                 </div>
+
+                {/* Direct Upload Progress Indicator */}
+                {uploadStatus === "UPLOADING" && (
+                  <div className="space-y-2 p-3 rounded-lg bg-[#08090B] border border-[#3D5CFF]/30 animate-in fade-in">
+                    <div className="flex items-center justify-between text-xs font-mono">
+                      <div className="flex items-center gap-2 text-[#F5F5F2]">
+                        <span className="inline-block w-2 h-2 rounded-full bg-[#3D5CFF] animate-pulse" />
+                        <span>Mengunggah foto...</span>
+                      </div>
+                      <span className="font-semibold text-[#7B8DFF]">{uploadProgress}%</span>
+                    </div>
+
+                    {/* Progress Bar */}
+                    <div className="w-full h-2 rounded-full bg-[#181B21] overflow-hidden border border-[#2A2D34]">
+                      <div
+                        className="h-full bg-gradient-to-r from-[#3D5CFF] to-[#536DFF] transition-all duration-150 ease-out"
+                        style={{ width: `${uploadProgress}%` }}
+                      />
+                    </div>
+
+                    <div className="flex items-center justify-between text-[10px] font-mono text-[#9A9DA5]">
+                      <span className="truncate max-w-[200px] sm:max-w-xs">{fileName}</span>
+                      <span>{fileSize}</span>
+                    </div>
+                  </div>
+                )}
+
+                {uploadStatus === "SUCCESS" && isSavingDb && (
+                  <div className="flex items-center justify-between p-2.5 rounded-lg bg-[#22C55E]/10 border border-[#22C55E]/30 text-xs text-[#4ADE80] font-mono animate-in fade-in">
+                    <div className="flex items-center gap-2">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] shrink-0" />
+                      <span>Foto berhasil diunggah. Menyimpan ke database...</span>
+                    </div>
+                    <span className="text-[11px] font-semibold">100%</span>
+                  </div>
+                )}
               </div>
             ) : (
               <div
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
                 onDrop={handleDrop}
-                onClick={() => fileInputRef.current?.click()}
+                onClick={() => !isSubmitting && fileInputRef.current?.click()}
                 className={`relative border-2 border-dashed rounded-xl p-6 sm:p-8 text-center cursor-pointer transition-all ${
                   isDragging
                     ? "border-[#3D5CFF] bg-[#3D5CFF]/10"
@@ -373,7 +599,7 @@ function DocumentationFormContent({
                     Tarik dan lepaskan foto ke sini, atau klik untuk memilih
                   </p>
                   <p className="text-[11px] text-[#9A9DA5] font-mono">
-                    Format: JPG, PNG, WebP (Maksimal 5 MB)
+                    Format JPG, PNG, WebP • Maks. 5 MB
                   </p>
                 </div>
               </div>
@@ -392,6 +618,7 @@ function DocumentationFormContent({
                 value={categoryLabel}
                 onChange={(e) => setCategoryLabel(e.target.value)}
                 placeholder="DOCUMENTATION / 01"
+                disabled={isSubmitting}
                 className="font-mono text-xs"
               />
               <span className="text-[10px] text-[#555A64] block">
@@ -409,6 +636,7 @@ function DocumentationFormContent({
                 value={metaText}
                 onChange={(e) => setMetaText(e.target.value)}
                 placeholder="X RPL 2 / 2026"
+                disabled={isSubmitting}
                 className="font-mono text-xs"
               />
               <span className="text-[10px] text-[#555A64] block">
@@ -427,7 +655,8 @@ function DocumentationFormContent({
               onChange={(e) => setCaption(e.target.value)}
               placeholder="Tulis kalimat atau kutipan cerita untuk foto ini..."
               rows={3}
-              className="w-full rounded-xl bg-[#181B21] border border-[#2A2D34] p-3 text-xs sm:text-sm text-[#F5F5F2] placeholder-[#555A64] focus:outline-none focus:border-[#3D5CFF] focus:ring-1 focus:ring-[#3D5CFF] transition-all resize-none"
+              disabled={isSubmitting}
+              className="w-full rounded-xl bg-[#181B21] border border-[#2A2D34] p-3 text-xs sm:text-sm text-[#F5F5F2] placeholder-[#555A64] focus:outline-none focus:border-[#3D5CFF] focus:ring-1 focus:ring-[#3D5CFF] transition-all resize-none disabled:opacity-60"
             />
           </div>
 
@@ -441,6 +670,7 @@ function DocumentationFormContent({
               value={overlayText}
               onChange={(e) => setOverlayText(e.target.value)}
               placeholder="ARCHIVE // 2026"
+              disabled={isSubmitting}
               className="font-mono text-xs"
             />
             <span className="text-[10px] text-[#555A64] block">
@@ -455,6 +685,7 @@ function DocumentationFormContent({
               variant="outline"
               size="sm"
               onClick={() => setActiveTab("preview")}
+              disabled={isSubmitting}
               className="text-xs gap-1.5"
             >
               <Eye className="w-3.5 h-3.5" />
@@ -480,7 +711,13 @@ function DocumentationFormContent({
                 disabled={isSubmitting}
                 className="text-xs bg-[#3D5CFF] hover:bg-[#536DFF] text-white"
               >
-                {itemToEdit ? "Simpan Perubahan" : "Tambah Dokumentasi"}
+                {uploadStatus === "UPLOADING"
+                  ? `Mengunggah (${uploadProgress}%)`
+                  : isSavingDb
+                  ? "Menyimpan Data..."
+                  : itemToEdit
+                  ? "Simpan Perubahan"
+                  : "Tambah Dokumentasi"}
               </Button>
             </div>
           </div>
