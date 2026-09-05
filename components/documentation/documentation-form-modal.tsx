@@ -119,6 +119,12 @@ function DocumentationFormContent({
   const [caption, setCaption] = React.useState(itemToEdit?.caption || "");
   const [metaText, setMetaText] = React.useState(itemToEdit?.meta_text || "X RPL 2 / 2026");
   const [overlayText, setOverlayText] = React.useState(itemToEdit?.overlay_text || "");
+  const [footerText, setFooterText] = React.useState(
+    itemToEdit?.footer_text || "ARSIP DOKUMENTER KELAS"
+  );
+  const [taglineText, setTaglineText] = React.useState(
+    itemToEdit?.tagline_text || "SATU KELAS. BANYAK CERITA."
+  );
   const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = React.useState<string>(itemToEdit?.image_url || "");
   const [fileName, setFileName] = React.useState<string>("");
@@ -301,6 +307,8 @@ function DocumentationFormContent({
           category_label: categoryLabel.trim(),
           meta_text: metaText.trim(),
           overlay_text: overlayText.trim(),
+          footer_text: footerText.trim(),
+          tagline_text: taglineText.trim(),
           storage_path: urlRes.storagePath,
           image_url: urlRes.publicUrl,
         });
@@ -329,6 +337,8 @@ function DocumentationFormContent({
           category_label: categoryLabel.trim(),
           meta_text: metaText.trim(),
           overlay_text: overlayText.trim(),
+          footer_text: footerText.trim(),
+          tagline_text: taglineText.trim(),
         });
 
         setIsSavingDb(false);
@@ -406,6 +416,8 @@ function DocumentationFormContent({
             categoryLabel={categoryLabel}
             metaText={metaText}
             overlayText={overlayText}
+            footerText={footerText}
+            taglineText={taglineText}
             imageUrl={previewUrl}
           />
 
@@ -676,6 +688,45 @@ function DocumentationFormContent({
             <span className="text-[10px] text-[#555A64] block">
               Badge teks kecil yang mengambang di atas sudut foto jika diinginkan
             </span>
+          </div>
+
+          {/* Teks Dokumentasi & Tagline Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
+            {/* Teks Dokumentasi */}
+            <div className="space-y-1.5">
+              <label className="text-xs font-mono uppercase tracking-wider text-[#9A9DA5] block">
+                Teks Dokumentasi
+              </label>
+              <Input
+                type="text"
+                value={footerText}
+                onChange={(e) => setFooterText(e.target.value)}
+                placeholder="ARSIP DOKUMENTER KELAS"
+                disabled={isSubmitting}
+                className="font-mono text-xs"
+              />
+              <span className="text-[10px] text-[#555A64] block">
+                Teks footer kiri kartu, misal: ARSIP DOKUMENTER KELAS
+              </span>
+            </div>
+
+            {/* Tagline / Footer */}
+            <div className="space-y-1.5">
+              <label className="text-xs font-mono uppercase tracking-wider text-[#9A9DA5] block">
+                Tagline / Footer
+              </label>
+              <Input
+                type="text"
+                value={taglineText}
+                onChange={(e) => setTaglineText(e.target.value)}
+                placeholder="SATU KELAS. BANYAK CERITA."
+                disabled={isSubmitting}
+                className="font-mono text-xs"
+              />
+              <span className="text-[10px] text-[#555A64] block">
+                Teks tagline kanan kartu, misal: SATU KELAS. BANYAK CERITA.
+              </span>
+            </div>
           </div>
 
           {/* Actions */}

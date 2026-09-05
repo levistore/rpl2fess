@@ -3,8 +3,21 @@
 import * as React from "react";
 import Image from "next/image";
 import { Camera } from "lucide-react";
+import { DocumentationItem } from "@/types/database";
 
-export function HeroComposerPreview() {
+interface HeroComposerPreviewProps {
+  item?: DocumentationItem | null;
+}
+
+export function HeroComposerPreview({ item }: HeroComposerPreviewProps) {
+  const categoryLabel = item?.category_label || "DOCUMENTATION / 01";
+  const metaText = item?.meta_text || "X RPL 2 / 2026";
+  const caption = item?.caption || "X RPL 2 — awal dari banyak cerita.";
+  const overlayText = item?.overlay_text || "'26 09 04";
+  const footerText = item?.footer_text || "ARSIP DOKUMENTER KELAS";
+  const taglineText = item?.tagline_text || "SATU KELAS. BANYAK CERITA.";
+  const imageUrl = item?.image_url || "/images/class/class-main.jpg";
+
   return (
     <div className="relative w-full max-w-lg mx-auto lg:max-w-none">
       {/* Tape on Top Center */}
@@ -15,10 +28,11 @@ export function HeroComposerPreview() {
         {/* Photo Container */}
         <div className="relative aspect-[16/10] sm:aspect-[16/9] w-full overflow-hidden rounded-xl bg-[#08090B] border border-white/5">
           <Image
-            src="/images/class/class-main.jpg"
-            alt="Dokumentasi Kelas RPL 2"
+            src={imageUrl}
+            alt={caption || "Dokumentasi Kelas RPL 2"}
             fill
             priority
+            unoptimized={imageUrl.startsWith("blob:") || imageUrl.startsWith("data:")}
             className="object-cover transition-transform duration-500 hover:scale-[1.02]"
             sizes="(max-width: 768px) 100vw, 540px"
           />
@@ -26,32 +40,34 @@ export function HeroComposerPreview() {
           {/* Film Viewfinder Overlay */}
           <div className="absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-black/70 backdrop-blur-sm border border-white/10 text-[10px] font-mono tracking-widest text-[#7B8DFF]">
             <Camera className="w-3 h-3 text-[#3D5CFF]" />
-            <span>DOCUMENTATION / 01</span>
+            <span className="uppercase">{categoryLabel}</span>
           </div>
 
-          <div className="absolute bottom-3 right-3 px-2 py-0.5 rounded bg-black/70 backdrop-blur-sm text-[11px] font-mono font-bold text-[#FFB84D] tracking-wider">
-            &apos;26 09 04
-          </div>
+          {overlayText && (
+            <div className="absolute bottom-3 right-3 px-2 py-0.5 rounded bg-black/70 backdrop-blur-sm text-[11px] font-mono font-bold text-[#FFB84D] tracking-wider uppercase">
+              {overlayText}
+            </div>
+          )}
         </div>
 
         {/* Polaroid Scrapbook Caption */}
         <div className="pt-4 pb-2 px-2 space-y-1.5 border-t border-[#2A2D34]/50 mt-2">
           <div className="flex items-center justify-between">
             <span className="text-[10px] font-mono uppercase tracking-widest text-[#3D5CFF]">
-              DOCUMENTATION / 01
+              {categoryLabel}
             </span>
             <span className="text-[10px] font-mono uppercase tracking-wider text-[#9A9DA5]">
-              X RPL 2 / 2026
+              {metaText}
             </span>
           </div>
 
           <p className="font-handwriting text-xl sm:text-2xl text-[#F5F5F2] leading-snug">
-            &ldquo;X RPL 2 — awal dari banyak cerita.&rdquo;
+            &ldquo;{caption}&rdquo;
           </p>
 
           <div className="pt-2 flex items-center justify-between text-[11px] font-mono text-[#9A9DA5]/70 border-t border-white/5">
-            <span>ARSIP DOKUMENTER KELAS</span>
-            <span>SATU KELAS. BANYAK CERITA.</span>
+            <span>{footerText}</span>
+            <span>{taglineText}</span>
           </div>
         </div>
       </div>

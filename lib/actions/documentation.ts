@@ -54,6 +54,8 @@ export interface SaveDocumentationPayload {
   category_label: string;
   meta_text: string;
   overlay_text?: string;
+  footer_text?: string;
+  tagline_text?: string;
   storage_path?: string;
   image_url?: string;
 }
@@ -147,7 +149,9 @@ export async function saveDocumentationDirectAction(
     const category_label = (payload.category_label || "").trim() || "DOCUMENTATION";
     const meta_text = (payload.meta_text || "").trim() || "X RPL 2 / 2026";
     const overlay_text = (payload.overlay_text || "").trim();
-    const title = (payload.title || "").trim() || caption.slice(0, 40);
+    const footer_text = (payload.footer_text || "").trim() || "ARSIP DOKUMENTER KELAS";
+    const tagline_text = (payload.tagline_text || "").trim() || "SATU KELAS. BANYAK CERITA.";
+    const title = (payload.title || "").trim() || footer_text || caption.slice(0, 40);
 
     if (!caption) {
       return { success: false, error: "Caption dokumentasi wajib diisi." };
@@ -176,6 +180,8 @@ export async function saveDocumentationDirectAction(
         category_label,
         meta_text,
         overlay_text: overlay_text || null,
+        footer_text,
+        tagline_text,
         updated_at: new Date().toISOString(),
       };
 
@@ -247,6 +253,8 @@ export async function saveDocumentationDirectAction(
           category_label,
           meta_text,
           overlay_text: overlay_text || null,
+          footer_text,
+          tagline_text,
           image_url: payload.image_url,
           storage_path: payload.storage_path,
           display_order: nextOrder,
@@ -318,7 +326,9 @@ export async function createDocumentationAction(
     const category_label = ((formData.get("category_label") as string) || "").trim() || "DOCUMENTATION";
     const meta_text = ((formData.get("meta_text") as string) || "").trim() || "X RPL 2 / 2026";
     const overlay_text = ((formData.get("overlay_text") as string) || "").trim();
-    const title = ((formData.get("title") as string) || "").trim() || caption.slice(0, 40);
+    const footer_text = ((formData.get("footer_text") as string) || "").trim() || "ARSIP DOKUMENTER KELAS";
+    const tagline_text = ((formData.get("tagline_text") as string) || "").trim() || "SATU KELAS. BANYAK CERITA.";
+    const title = ((formData.get("title") as string) || "").trim() || footer_text || caption.slice(0, 40);
     const file = formData.get("image") as File | null;
 
     if (!caption) {
@@ -376,6 +386,8 @@ export async function createDocumentationAction(
         category_label,
         meta_text,
         overlay_text: overlay_text || null,
+        footer_text,
+        tagline_text,
         image_url: imageUrl,
         storage_path: storagePath,
         display_order: nextOrder,
@@ -440,7 +452,9 @@ export async function updateDocumentationAction(
     const category_label = ((formData.get("category_label") as string) || "").trim() || existing.category_label;
     const meta_text = ((formData.get("meta_text") as string) || "").trim() || existing.meta_text;
     const overlay_text = ((formData.get("overlay_text") as string) || "").trim();
-    const title = ((formData.get("title") as string) || "").trim() || caption.slice(0, 40) || existing.title;
+    const footer_text = ((formData.get("footer_text") as string) || "").trim() || existing.footer_text || "ARSIP DOKUMENTER KELAS";
+    const tagline_text = ((formData.get("tagline_text") as string) || "").trim() || existing.tagline_text || "SATU KELAS. BANYAK CERITA.";
+    const title = ((formData.get("title") as string) || "").trim() || footer_text || caption.slice(0, 40) || existing.title;
     const newFile = formData.get("image") as File | null;
 
     if (!caption) {
@@ -495,6 +509,8 @@ export async function updateDocumentationAction(
         category_label,
         meta_text,
         overlay_text: overlay_text || null,
+        footer_text,
+        tagline_text,
         image_url: updatedImageUrl,
         storage_path: updatedStoragePath,
         updated_at: new Date().toISOString(),

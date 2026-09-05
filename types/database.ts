@@ -57,6 +57,8 @@ export interface DocumentationItem {
   category_label: string;
   meta_text: string;
   overlay_text: string | null;
+  footer_text?: string | null;
+  tagline_text?: string | null;
   image_url: string;
   storage_path: string | null;
   display_order: number;

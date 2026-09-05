@@ -306,6 +306,12 @@ export function DocumentationManager({ initialItems }: DocumentationManagerProps
                     </p>
                   </div>
 
+                  {/* Footer & Tagline metadata */}
+                  <div className="flex items-center justify-between text-[11px] font-mono text-[#9A9DA5]/75 px-1">
+                    <span>{item.footer_text || "ARSIP DOKUMENTER KELAS"}</span>
+                    <span>{item.tagline_text || "SATU KELAS. BANYAK CERITA."}</span>
+                  </div>
+
                   {/* Bottom Controls */}
                   <div className="flex items-center justify-between gap-2 pt-1 flex-wrap">
                     <div className="flex items-center gap-2">
@@ -398,6 +404,8 @@ export function DocumentationManager({ initialItems }: DocumentationManagerProps
               categoryLabel={previewItem.category_label}
               metaText={previewItem.meta_text}
               overlayText={previewItem.overlay_text}
+              footerText={previewItem.footer_text}
+              taglineText={previewItem.tagline_text}
               imageUrl={previewItem.image_url}
             />
             <div className="flex justify-end pt-2 border-t border-[#2A2D34]">

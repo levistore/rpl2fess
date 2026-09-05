@@ -81,7 +81,7 @@ export default async function HomePage() {
 
           {/* Right Column: Photographic Scrapbook Hero */}
           <div className="lg:col-span-6 lg:pl-4">
-            <HeroComposerPreview />
+            <HeroComposerPreview item={documentationItems[0]} />
           </div>
         </div>
       </section>
@@ -238,6 +238,10 @@ export default async function HomePage() {
                     <span className="text-[10px] font-mono text-[#9A9DA5] block">
                       {doc.meta_text || "X RPL 2 / 2026"}
                     </span>
+                    <div className="pt-2 flex items-center justify-between text-[10px] font-mono text-[#9A9DA5]/70 border-t border-white/5 mt-1">
+                      <span>{doc.footer_text || "ARSIP DOKUMENTER KELAS"}</span>
+                      <span>{doc.tagline_text || "SATU KELAS. BANYAK CERITA."}</span>
+                    </div>
                   </div>
                 </div>
               );
