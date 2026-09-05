@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { getSiteSettings } from "@/lib/queries/messages";
+import { getSendPageDocumentation } from "@/lib/queries/documentation";
 import { SendForm } from "@/components/messages/send-form";
 import { MessageSquare, ArrowLeft, Shield, Camera } from "lucide-react";
 import type { Metadata } from "next";
@@ -12,7 +13,10 @@ export const metadata: Metadata = {
 };
 
 export default async function SendPage() {
-  const settings = await getSiteSettings();
+  const [settings, sendDoc] = await Promise.all([
+    getSiteSettings(),
+    getSendPageDocumentation(),
+  ]);
 
   return (
     <div className="min-h-screen bg-[#08090B] text-[#F5F5F2] flex flex-col justify-between py-8 sm:py-12 px-4 sm:px-6 relative overflow-hidden">
@@ -74,37 +78,55 @@ export default async function SendPage() {
 
           {/* Right Column: Class Documentary Photo Frame (Scrapbook) */}
           <div className="lg:col-span-5 space-y-4">
-            <div className="relative rounded-2xl bg-[#111318] border border-[#2A2D34] p-3 sm:p-4 shadow-2xl shadow-black/70 rotate-[1deg] hover:rotate-0 transition-transform duration-300">
-              <div className="scrapbook-tape w-20 -top-2.5 left-8 rotate-[-2deg]" />
-              
-              <div className="relative aspect-[4/3] w-full rounded-xl overflow-hidden bg-[#08090B]">
-                <Image
-                  src="/images/class/class-main.jpg"
-                  alt="Dokumentasi Kelas RPL 2"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 400px"
-                />
+            {sendDoc && (
+              <div className="relative rounded-2xl bg-[#111318] border border-[#2A2D34] p-3 sm:p-4 shadow-2xl shadow-black/70 rotate-[1deg] hover:rotate-0 transition-transform duration-300">
+                <div className="scrapbook-tape w-20 -top-2.5 left-8 rotate-[-2deg]" />
+                
+                <div className="relative aspect-[4/3] w-full rounded-xl overflow-hidden bg-[#08090B]">
+                  <Image
+                    src={sendDoc.image_url}
+                    alt={sendDoc.title || sendDoc.caption || "Dokumentasi Kirim Pesan"}
+                    fill
+                    className="object-cover"
+                    unoptimized={sendDoc.image_url.startsWith("blob:") || sendDoc.image_url.startsWith("data:")}
+                    sizes="(max-width: 768px) 100vw, 400px"
+                  />
 
-                <div className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded bg-black/70 backdrop-blur-sm border border-white/10 text-[9px] font-mono tracking-widest text-[#7B8DFF] flex items-center gap-1">
-                  <Camera className="w-3 h-3 text-[#3D5CFF]" />
-                  <span>DOCUMENTATION / NOTE</span>
+                  {sendDoc.category_label && (
+                    <div className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded bg-black/70 backdrop-blur-sm border border-white/10 text-[9px] font-mono tracking-widest text-[#7B8DFF] flex items-center gap-1">
+                      <Camera className="w-3 h-3 text-[#3D5CFF]" />
+                      <span>{sendDoc.category_label}</span>
+                    </div>
+                  )}
+
+                  {sendDoc.overlay_text && (
+                    <div className="absolute bottom-2.5 right-2.5 px-1.5 py-0.5 rounded bg-black/70 backdrop-blur-sm text-[10px] font-mono text-[#FFB84D]">
+                      {sendDoc.overlay_text}
+                    </div>
+                  )}
                 </div>
 
-                <div className="absolute bottom-2.5 right-2.5 px-1.5 py-0.5 rounded bg-black/70 backdrop-blur-sm text-[10px] font-mono text-[#FFB84D]">
-                  &apos;26 09 04
+                <div className="pt-3 pb-1 px-1 space-y-1">
+                  {sendDoc.caption && (
+                    <p className="font-handwriting text-xl text-[#F5F5F2]">
+                      &ldquo;{sendDoc.caption}&rdquo;
+                    </p>
+                  )}
+                  {sendDoc.meta_text && (
+                    <span className="text-[10px] font-mono uppercase text-[#9A9DA5] tracking-wider block">
+                      {sendDoc.meta_text}
+                    </span>
+                  )}
+                  {(sendDoc.footer_text || sendDoc.tagline_text) && (
+                    <div className="pt-2 flex items-center justify-between text-[10px] font-mono text-[#9A9DA5]/70 border-t border-white/5 mt-1">
+                      <span>{sendDoc.footer_text || ""}</span>
+                      <span>{sendDoc.tagline_text || ""}</span>
+                    </div>
+                  )}
                 </div>
               </div>
+            )}
 
-              <div className="pt-3 pb-1 px-1 space-y-1">
-                <p className="font-handwriting text-xl text-[#F5F5F2]">
-                  &ldquo;Dokumentasi kecil dari satu kelas yang sama.&rdquo;
-                </p>
-                <span className="text-[10px] font-mono uppercase text-[#9A9DA5] tracking-wider block">
-                  Kelas RPL 2 / 2026
-                </span>
-              </div>
-            </div>
 
             {/* Note block */}
             <div className="p-4 rounded-xl bg-[#111318] border border-[#2A2D34] text-xs text-[#9A9DA5] space-y-1.5">

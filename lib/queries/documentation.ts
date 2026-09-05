@@ -1,139 +1,162 @@
-import { createClient } from "@/lib/supabase/server";
 import { createClient as createSupabaseClient } from "@supabase/supabase-js";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { DocumentationItem } from "@/types/database";
 
-// Fallback items in case table is empty or error occurs
-const FALLBACK_DOCUMENTATION: DocumentationItem[] = [
-  {
-    id: "fallback-01",
-    title: "Awal dari Banyak Cerita",
-    caption: "X RPL 2 — awal dari banyak cerita.",
-    category_label: "DOCUMENTATION / 01",
-    meta_text: "X RPL 2 / 2026",
-    overlay_text: "'26 09 04",
-    footer_text: "ARSIP DOKUMENTER KELAS",
-    tagline_text: "SATU KELAS. BANYAK CERITA.",
-    image_url: "/images/class/class-01.jpg",
-    storage_path: null,
-    display_order: 1,
-    is_active: true,
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-  },
-  {
-    id: "fallback-02",
-    title: "Momen Berharga",
-    caption: "Di balik tugas, deadline, dan hari-hari biasa.",
-    category_label: "DOCUMENTATION / 02",
-    meta_text: "LAB KOMPUTER / 2026",
-    overlay_text: "SERIES // VOL. 01",
-    footer_text: "ARSIP DOKUMENTER KELAS",
-    tagline_text: "SATU KELAS. BANYAK CERITA.",
-    image_url: "/images/class/class-02.jpg",
-    storage_path: null,
-    display_order: 2,
-    is_active: true,
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-  },
-  {
-    id: "fallback-03",
-    title: "Di Balik Layar",
-    caption: "Dokumentasi kecil dari satu kelas yang sama.",
-    category_label: "DOCUMENTATION / 03",
-    meta_text: "SESI PROJEK / 2026",
-    overlay_text: "MEMORIES // 03",
-    footer_text: "ARSIP DOKUMENTER KELAS",
-    tagline_text: "SATU KELAS. BANYAK CERITA.",
-    image_url: "/images/class/class-03.jpg",
-    storage_path: null,
-    display_order: 3,
-    is_active: true,
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-  },
-  {
-    id: "fallback-04",
-    title: "Langkah Bersama",
-    caption: "Satu langkah kecil menuju masa depan bersama.",
-    category_label: "DOCUMENTATION / 04",
-    meta_text: "X RPL 2 / 2026",
-    overlay_text: "MOMENTS // 04",
-    footer_text: "ARSIP DOKUMENTER KELAS",
-    tagline_text: "SATU KELAS. BANYAK CERITA.",
-    image_url: "/images/class/class-04.jpg",
-    storage_path: null,
-    display_order: 4,
-    is_active: true,
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-  },
-];
+function getPublicClient() {
+  const supabaseUrl =
+    process.env.NEXT_PUBLIC_SUPABASE_URL || "https://your-project.supabase.co";
+  const supabaseAnonKey =
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "dummy_anon_key";
+  return createSupabaseClient(supabaseUrl, supabaseAnonKey, {
+    auth: { persistSession: false },
+  });
+}
 
 /**
- * Get all documentation items for the Admin Panel.
- * Ordered by display_order ASC, created_at DESC.
+ * Get Featured Documentation for Hero Homepage.
+ * Strictly queries type = 'featured'.
+ * Returns null if no active record exists. NEVER falls back to gallery or send_page.
  */
-export async function getAllDocumentation(): Promise<DocumentationItem[]> {
+export async function getFeaturedDocumentation(): Promise<DocumentationItem | null> {
   try {
-    const supabase = await createClient();
-    const { data, error } = await supabase
+    const client = getPublicClient();
+    const { data, error } = await client
       .from("documentation")
       .select("*")
+      .eq("type", "featured")
+      .eq("is_active", true)
       .order("display_order", { ascending: true })
-      .order("created_at", { ascending: false });
+      .limit(1)
+      .maybeSingle();
 
-    if (!error && data) {
-      return data as DocumentationItem[];
+    if (error) {
+      console.error("[getFeaturedDocumentation] Supabase error:", error.message);
+      return null;
     }
 
-    // Fallback to admin client if user client encounters an RLS/cookie issue
-    const { createAdminClient } = await import("@/lib/supabase/admin");
-    const admin = createAdminClient();
-    const { data: adminData } = await admin
+    return (data as DocumentationItem) || null;
+  } catch (err) {
+    console.error("[getFeaturedDocumentation] Unexpected error:", err);
+    return null;
+  }
+}
+
+/**
+ * Get Gallery Documentation for the Homepage Gallery section.
+ * Strictly queries type = 'gallery', ordered by display_order ASC.
+ * Returns empty array if no active records exist. NEVER falls back to featured or send_page.
+ */
+export async function getGalleryDocumentation(): Promise<DocumentationItem[]> {
+  try {
+    const client = getPublicClient();
+    const { data, error } = await client
       .from("documentation")
       .select("*")
-      .order("display_order", { ascending: true })
-      .order("created_at", { ascending: false });
+      .eq("type", "gallery")
+      .eq("is_active", true)
+      .order("display_order", { ascending: true });
 
-    return (adminData as DocumentationItem[]) || [];
+    if (error) {
+      console.error("[getGalleryDocumentation] Supabase error:", error.message);
+      return [];
+    }
+
+    return (data as DocumentationItem[]) || [];
   } catch (err) {
-    console.error("[getAllDocumentation] Unexpected error:", err);
+    console.error("[getGalleryDocumentation] Unexpected error:", err);
     return [];
   }
 }
 
 /**
- * Get active documentation items for the Homepage.
- * Ordered by display_order ASC.
- * Falls back to default documentation if table is empty.
+ * Get Send Page Documentation for /send.
+ * Strictly queries type = 'send_page'.
+ * Returns null if no active record exists. NEVER falls back to featured or gallery.
  */
-export async function getActiveDocumentation(): Promise<DocumentationItem[]> {
+export async function getSendPageDocumentation(): Promise<DocumentationItem | null> {
   try {
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://your-project.supabase.co";
-    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "dummy_anon_key";
-    const publicClient = createSupabaseClient(supabaseUrl, supabaseAnonKey, {
-      auth: { persistSession: false },
-    });
-
-    const { data, error } = await publicClient
+    const client = getPublicClient();
+    const { data, error } = await client
       .from("documentation")
       .select("*")
+      .eq("type", "send_page")
       .eq("is_active", true)
-      .order("display_order", { ascending: true });
+      .order("display_order", { ascending: true })
+      .limit(1)
+      .maybeSingle();
 
     if (error) {
-      console.error("[getActiveDocumentation] Supabase error:", error.message);
-      return FALLBACK_DOCUMENTATION;
+      console.error("[getSendPageDocumentation] Supabase error:", error.message);
+      return null;
     }
 
-    if (!data || data.length === 0) {
-      return FALLBACK_DOCUMENTATION;
+    return (data as DocumentationItem) || null;
+  } catch (err) {
+    console.error("[getSendPageDocumentation] Unexpected error:", err);
+    return null;
+  }
+}
+
+export interface GroupedDocumentation {
+  featured: DocumentationItem | null;
+  gallery: DocumentationItem[];
+  sendPage: DocumentationItem | null;
+}
+
+/**
+ * Get all documentation items grouped by type for the Admin Panel.
+ * Uses adminSupabase to ensure all items (active & inactive) are accessible.
+ */
+export async function getAllDocumentationGrouped(): Promise<GroupedDocumentation> {
+  try {
+    const admin = createAdminClient();
+    const { data, error } = await admin
+      .from("documentation")
+      .select("*")
+      .order("display_order", { ascending: true })
+      .order("created_at", { ascending: false });
+
+    if (error || !data) {
+      console.error("[getAllDocumentationGrouped] Supabase error:", error?.message);
+      return { featured: null, gallery: [], sendPage: null };
+    }
+
+    const allItems = data as DocumentationItem[];
+    const featured = allItems.find((it) => it.type === "featured") || null;
+    const sendPage = allItems.find((it) => it.type === "send_page") || null;
+    const gallery = allItems.filter((it) => it.type === "gallery");
+
+    return {
+      featured,
+      gallery,
+      sendPage,
+    };
+  } catch (err) {
+    console.error("[getAllDocumentationGrouped] Unexpected error:", err);
+    return { featured: null, gallery: [], sendPage: null };
+  }
+}
+
+/**
+ * Backward-compatible helper to fetch all documentation.
+ * Zero hardcoded fallback.
+ */
+export async function getAllDocumentation(): Promise<DocumentationItem[]> {
+  try {
+    const admin = createAdminClient();
+    const { data, error } = await admin
+      .from("documentation")
+      .select("*")
+      .order("display_order", { ascending: true })
+      .order("created_at", { ascending: false });
+
+    if (error || !data) {
+      return [];
     }
 
     return data as DocumentationItem[];
   } catch (err) {
-    console.error("[getActiveDocumentation] Unexpected error:", err);
-    return FALLBACK_DOCUMENTATION;
+    console.error("[getAllDocumentation] Unexpected error:", err);
+    return [];
   }
 }

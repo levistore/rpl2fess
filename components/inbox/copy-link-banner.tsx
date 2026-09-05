@@ -5,14 +5,18 @@ import { Copy, Check, Link as LinkIcon } from "lucide-react";
 import { useToast } from "@/components/ui/toast";
 import { Button } from "@/components/ui/button";
 
+function subscribe() {
+  return () => {};
+}
+
 export function CopyLinkBanner() {
   const { toast } = useToast();
   const [copied, setCopied] = React.useState(false);
-  const [url, setUrl] = React.useState("/send");
-
-  React.useEffect(() => {
-    setUrl(`${window.location.origin}/send`);
-  }, []);
+  const url = React.useSyncExternalStore(
+    subscribe,
+    () => (typeof window !== "undefined" ? `${window.location.origin}/send` : "/send"),
+    () => "/send"
+  );
 
   const handleCopy = () => {
     navigator.clipboard.writeText(url);

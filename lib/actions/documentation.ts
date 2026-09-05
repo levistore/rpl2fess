@@ -3,6 +3,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { revalidatePath } from "next/cache";
+import { DocumentationType } from "@/types/database";
 
 export interface DocumentationActionResult {
   success: boolean;
@@ -49,6 +50,7 @@ export interface GetUploadUrlResult {
 
 export interface SaveDocumentationPayload {
   id?: string;
+  type?: DocumentationType;
   title?: string;
   caption: string;
   category_label: string;
@@ -58,20 +60,24 @@ export interface SaveDocumentationPayload {
   tagline_text?: string;
   storage_path?: string;
   image_url?: string;
+  display_order?: number;
+  is_active?: boolean;
 }
 
 /**
  * Creates a signed upload URL for direct client-to-Supabase-Storage upload.
- * Avoids passing large image bodies through serverless server actions.
+ * Segregates file paths by entity type (featured, gallery, send-page) to avoid conflicts.
  */
 export async function getDocumentationUploadUrlAction({
   fileName,
   fileType,
   fileSize,
+  docType = "gallery",
 }: {
   fileName: string;
   fileType: string;
   fileSize: number;
+  docType?: DocumentationType;
 }): Promise<GetUploadUrlResult> {
   try {
     const supabase = await createClient();
@@ -97,10 +103,17 @@ export async function getDocumentationUploadUrlAction({
       };
     }
 
+    const subfolder =
+      docType === "featured"
+        ? "featured"
+        : docType === "send_page"
+        ? "send-page"
+        : "gallery";
+
     const ext =
       fileName.split(".").pop()?.toLowerCase() ||
       (fileType === "image/png" ? "png" : fileType === "image/webp" ? "webp" : "jpg");
-    const storagePath = `doc_${Date.now()}_${Math.random().toString(36).substring(2, 8)}.${ext}`;
+    const storagePath = `${subfolder}/doc_${Date.now()}_${Math.random().toString(36).substring(2, 8)}.${ext}`;
 
     const adminSupabase = createAdminClient();
     const { data: signedData, error: signError } = await adminSupabase.storage
@@ -130,7 +143,7 @@ export async function getDocumentationUploadUrlAction({
 
 /**
  * Saves documentation item directly to the database after successful direct storage upload.
- * Handles both create and update operations, and cleans up orphaned files appropriately.
+ * Handles create and update, ensuring strict entity type awareness and rollback safety.
  */
 export async function saveDocumentationDirectAction(
   payload: SaveDocumentationPayload
@@ -174,7 +187,7 @@ export async function saveDocumentationDirectAction(
         return { success: false, error: "Data dokumentasi tidak ditemukan." };
       }
 
-      const updateData: Record<string, any> = {
+      const updateData: Record<string, unknown> = {
         title,
         caption,
         category_label,
@@ -184,6 +197,15 @@ export async function saveDocumentationDirectAction(
         tagline_text,
         updated_at: new Date().toISOString(),
       };
+
+      // Explicit type preservation/update
+      if (payload.type) {
+        updateData.type = payload.type;
+      }
+
+      if (typeof payload.is_active === "boolean") {
+        updateData.is_active = payload.is_active;
+      }
 
       if (payload.image_url && payload.storage_path) {
         updateData.image_url = payload.image_url;
@@ -221,6 +243,7 @@ export async function saveDocumentationDirectAction(
       }
 
       revalidatePath("/");
+      revalidatePath("/send");
       revalidatePath("/dashboard/documentation");
 
       return {
@@ -233,21 +256,31 @@ export async function saveDocumentationDirectAction(
         return { success: false, error: "Foto dokumentasi wajib diunggah." };
       }
 
-      // Determine display_order: max + 1
-      const { data: currentItems } = await adminSupabase
-        .from("documentation")
-        .select("display_order")
-        .order("display_order", { ascending: false })
-        .limit(1);
+      const docType: DocumentationType = payload.type || "gallery";
+      let displayOrder = payload.display_order;
 
-      const nextOrder =
-        currentItems && currentItems.length > 0
-          ? (currentItems[0].display_order || 0) + 1
-          : 1;
+      if (!displayOrder) {
+        if (docType === "gallery") {
+          const { data: currentGallery } = await adminSupabase
+            .from("documentation")
+            .select("display_order")
+            .eq("type", "gallery")
+            .order("display_order", { ascending: false })
+            .limit(1);
+
+          displayOrder =
+            currentGallery && currentGallery.length > 0
+              ? (currentGallery[0].display_order || 0) + 1
+              : 1;
+        } else {
+          displayOrder = 1;
+        }
+      }
 
       const { data: inserted, error: insertErr } = await adminSupabase
         .from("documentation")
         .insert({
+          type: docType,
           title,
           caption,
           category_label,
@@ -257,8 +290,8 @@ export async function saveDocumentationDirectAction(
           tagline_text,
           image_url: payload.image_url,
           storage_path: payload.storage_path,
-          display_order: nextOrder,
-          is_active: true,
+          display_order: displayOrder,
+          is_active: payload.is_active ?? true,
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString(),
         })
@@ -275,6 +308,7 @@ export async function saveDocumentationDirectAction(
       }
 
       revalidatePath("/");
+      revalidatePath("/send");
       revalidatePath("/dashboard/documentation");
 
       return {
@@ -307,7 +341,7 @@ export async function cleanupOrphanedUploadAction(storagePath: string): Promise<
 }
 
 /**
- * Creates a new documentation item
+ * Creates a new documentation item via multipart form
  */
 export async function createDocumentationAction(
   formData: FormData
@@ -322,6 +356,7 @@ export async function createDocumentationAction(
       return { success: false, error: "Akses ditolak. Silakan login sebagai admin." };
     }
 
+    const type = ((formData.get("type") as DocumentationType) || "gallery");
     const caption = ((formData.get("caption") as string) || "").trim();
     const category_label = ((formData.get("category_label") as string) || "").trim() || "DOCUMENTATION";
     const meta_text = ((formData.get("meta_text") as string) || "").trim() || "X RPL 2 / 2026";
@@ -340,21 +375,27 @@ export async function createDocumentationAction(
       return { success: false, error: fileValidation.error || "Foto wajib diunggah." };
     }
 
-    // Determine display_order: max + 1
-    const { data: currentItems } = await supabase
-      .from("documentation")
-      .select("display_order")
-      .order("display_order", { ascending: false })
-      .limit(1);
-
-    const nextOrder = currentItems && currentItems.length > 0
-      ? (currentItems[0].display_order || 0) + 1
-      : 1;
-
-    // Upload image to Supabase Storage
     const adminSupabase = createAdminClient();
+
+    let displayOrder = 1;
+    if (type === "gallery") {
+      const { data: currentItems } = await adminSupabase
+        .from("documentation")
+        .select("display_order")
+        .eq("type", "gallery")
+        .order("display_order", { ascending: false })
+        .limit(1);
+
+      displayOrder =
+        currentItems && currentItems.length > 0
+          ? (currentItems[0].display_order || 0) + 1
+          : 1;
+    }
+
+    const subfolder =
+      type === "featured" ? "featured" : type === "send_page" ? "send-page" : "gallery";
     const ext = file.name.split(".").pop()?.toLowerCase() || "jpg";
-    const storagePath = `doc_${Date.now()}_${Math.random().toString(36).substring(2, 8)}.${ext}`;
+    const storagePath = `${subfolder}/doc_${Date.now()}_${Math.random().toString(36).substring(2, 8)}.${ext}`;
 
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
@@ -377,10 +418,10 @@ export async function createDocumentationAction(
 
     const imageUrl = publicUrlData.publicUrl;
 
-    // Insert into database using adminSupabase to ensure atomic and reliable write
     const { data: inserted, error: insertError } = await adminSupabase
       .from("documentation")
       .insert({
+        type,
         title,
         caption,
         category_label,
@@ -390,7 +431,7 @@ export async function createDocumentationAction(
         tagline_text,
         image_url: imageUrl,
         storage_path: storagePath,
-        display_order: nextOrder,
+        display_order: displayOrder,
         is_active: true,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
@@ -399,13 +440,13 @@ export async function createDocumentationAction(
       .single();
 
     if (insertError) {
-      // If DB insert failed, clean up uploaded image
       await adminSupabase.storage.from("documentation").remove([storagePath]);
       console.error("[createDocumentationAction] DB error:", insertError);
       return { success: false, error: "Dokumentasi gagal disimpan. Coba lagi." };
     }
 
     revalidatePath("/");
+    revalidatePath("/send");
     revalidatePath("/dashboard/documentation");
 
     return {
@@ -420,8 +461,7 @@ export async function createDocumentationAction(
 }
 
 /**
- * Updates an existing documentation item
- * If a new image is provided: uploads new, saves DB, then removes old file.
+ * Updates an existing documentation item via multipart form
  */
 export async function updateDocumentationAction(
   id: string,
@@ -437,8 +477,9 @@ export async function updateDocumentationAction(
       return { success: false, error: "Akses ditolak. Silakan login sebagai admin." };
     }
 
-    // Fetch existing item
-    const { data: existing, error: fetchError } = await supabase
+    const adminSupabase = createAdminClient();
+
+    const { data: existing, error: fetchError } = await adminSupabase
       .from("documentation")
       .select("*")
       .eq("id", id)
@@ -449,12 +490,24 @@ export async function updateDocumentationAction(
     }
 
     const caption = ((formData.get("caption") as string) || "").trim();
-    const category_label = ((formData.get("category_label") as string) || "").trim() || existing.category_label;
-    const meta_text = ((formData.get("meta_text") as string) || "").trim() || existing.meta_text;
+    const category_label =
+      ((formData.get("category_label") as string) || "").trim() || existing.category_label;
+    const meta_text =
+      ((formData.get("meta_text") as string) || "").trim() || existing.meta_text;
     const overlay_text = ((formData.get("overlay_text") as string) || "").trim();
-    const footer_text = ((formData.get("footer_text") as string) || "").trim() || existing.footer_text || "ARSIP DOKUMENTER KELAS";
-    const tagline_text = ((formData.get("tagline_text") as string) || "").trim() || existing.tagline_text || "SATU KELAS. BANYAK CERITA.";
-    const title = ((formData.get("title") as string) || "").trim() || footer_text || caption.slice(0, 40) || existing.title;
+    const footer_text =
+      ((formData.get("footer_text") as string) || "").trim() ||
+      existing.footer_text ||
+      "ARSIP DOKUMENTER KELAS";
+    const tagline_text =
+      ((formData.get("tagline_text") as string) || "").trim() ||
+      existing.tagline_text ||
+      "SATU KELAS. BANYAK CERITA.";
+    const title =
+      ((formData.get("title") as string) || "").trim() ||
+      footer_text ||
+      caption.slice(0, 40) ||
+      existing.title;
     const newFile = formData.get("image") as File | null;
 
     if (!caption) {
@@ -464,17 +517,21 @@ export async function updateDocumentationAction(
     let updatedImageUrl = existing.image_url;
     let updatedStoragePath = existing.storage_path;
     let newlyUploadedPath: string | null = null;
-    const adminSupabase = createAdminClient();
 
-    // Check if new image file was provided
     if (newFile && newFile.size > 0) {
       const fileValidation = validateImageFile(newFile);
       if (!fileValidation.valid) {
         return { success: false, error: fileValidation.error || "File foto tidak valid." };
       }
 
+      const subfolder =
+        existing.type === "featured"
+          ? "featured"
+          : existing.type === "send_page"
+          ? "send-page"
+          : "gallery";
       const ext = newFile.name.split(".").pop()?.toLowerCase() || "jpg";
-      const newStoragePath = `doc_${Date.now()}_${Math.random().toString(36).substring(2, 8)}.${ext}`;
+      const newStoragePath = `${subfolder}/doc_${Date.now()}_${Math.random().toString(36).substring(2, 8)}.${ext}`;
 
       const arrayBuffer = await newFile.arrayBuffer();
       const buffer = Buffer.from(arrayBuffer);
@@ -500,7 +557,6 @@ export async function updateDocumentationAction(
       newlyUploadedPath = newStoragePath;
     }
 
-    // Update database record using adminSupabase for 100% reliability
     const { error: updateError } = await adminSupabase
       .from("documentation")
       .update({
@@ -518,7 +574,6 @@ export async function updateDocumentationAction(
       .eq("id", id);
 
     if (updateError) {
-      // If DB update failed and we uploaded a new file, remove the orphaned new file
       if (newlyUploadedPath) {
         await adminSupabase.storage.from("documentation").remove([newlyUploadedPath]);
       }
@@ -526,7 +581,6 @@ export async function updateDocumentationAction(
       return { success: false, error: "Dokumentasi gagal diperbarui. Coba lagi." };
     }
 
-    // Clean up old file from storage only after DB update succeeded and old file had a storage_path
     if (newlyUploadedPath && existing.storage_path && existing.storage_path !== newlyUploadedPath) {
       try {
         await adminSupabase.storage.from("documentation").remove([existing.storage_path]);
@@ -536,6 +590,7 @@ export async function updateDocumentationAction(
     }
 
     revalidatePath("/");
+    revalidatePath("/send");
     revalidatePath("/dashboard/documentation");
 
     return {
@@ -549,7 +604,9 @@ export async function updateDocumentationAction(
 }
 
 /**
- * Reorders documentation items
+ * Reorders documentation items.
+ * Strictly applies ONLY to records of type 'gallery'.
+ * Featured and Send Page orders are never altered by this action.
  */
 export async function reorderDocumentationAction(
   orderedIds: string[]
@@ -564,20 +621,41 @@ export async function reorderDocumentationAction(
       return { success: false, error: "Akses ditolak. Silakan login sebagai admin." };
     }
 
-    // Update display_order for each ID using adminSupabase
     const adminSupabase = createAdminClient();
-    const updates = orderedIds.map((id, index) =>
+
+    // Verify all IDs belong to 'gallery'
+    const { data: galleryItems, error: fetchErr } = await adminSupabase
+      .from("documentation")
+      .select("id")
+      .eq("type", "gallery");
+
+    if (fetchErr || !galleryItems) {
+      return { success: false, error: "Gagal memeriksa daftar galeri." };
+    }
+
+    const galleryIdSet = new Set(galleryItems.map((g) => g.id));
+    const validOrderedIds = orderedIds.filter((id) => galleryIdSet.has(id));
+
+    if (validOrderedIds.length === 0) {
+      return { success: false, error: "Tidak ada item galeri yang valid untuk diurutkan." };
+    }
+
+    const updates = validOrderedIds.map((id, index) =>
       adminSupabase
         .from("documentation")
-        .update({ display_order: index + 1, updated_at: new Date().toISOString() })
+        .update({
+          display_order: index + 1,
+          updated_at: new Date().toISOString(),
+        })
         .eq("id", id)
+        .eq("type", "gallery")
     );
 
     const results = await Promise.all(updates);
     const hasError = results.some((r) => r.error !== null);
 
     if (hasError) {
-      return { success: false, error: "Gagal memperbarui urutan dokumentasi." };
+      return { success: false, error: "Gagal memperbarui urutan galeri." };
     }
 
     revalidatePath("/");
@@ -585,7 +663,7 @@ export async function reorderDocumentationAction(
 
     return {
       success: true,
-      message: "Urutan dokumentasi berhasil diperbarui.",
+      message: "Urutan galeri berhasil diperbarui.",
     };
   } catch (err) {
     console.error("[reorderDocumentationAction] Unexpected error:", err);
@@ -624,6 +702,7 @@ export async function toggleActiveDocumentationAction(
     }
 
     revalidatePath("/");
+    revalidatePath("/send");
     revalidatePath("/dashboard/documentation");
 
     return {
@@ -637,7 +716,8 @@ export async function toggleActiveDocumentationAction(
 }
 
 /**
- * Deletes a documentation item and cleans up storage
+ * Deletes a documentation item and cleans up storage.
+ * Strictly prevents deletion of 'featured' or 'send_page' singleton records.
  */
 export async function deleteDocumentationAction(
   id: string
@@ -654,12 +734,22 @@ export async function deleteDocumentationAction(
 
     const adminSupabase = createAdminClient();
 
-    // Get item info first for storage path
-    const { data: existing } = await adminSupabase
+    const { data: existing, error: fetchErr } = await adminSupabase
       .from("documentation")
-      .select("storage_path")
+      .select("type, storage_path")
       .eq("id", id)
       .single();
+
+    if (fetchErr || !existing) {
+      return { success: false, error: "Dokumentasi tidak ditemukan." };
+    }
+
+    if (existing.type !== "gallery") {
+      return {
+        success: false,
+        error: "Dokumentasi utama dan Kirim Pesan tidak boleh dihapus. Anda hanya dapat mengedit isinya.",
+      };
+    }
 
     const { error } = await adminSupabase.from("documentation").delete().eq("id", id);
 
@@ -667,8 +757,7 @@ export async function deleteDocumentationAction(
       return { success: false, error: "Gagal menghapus dokumentasi." };
     }
 
-    // Delete image from storage if stored in bucket
-    if (existing?.storage_path) {
+    if (existing.storage_path) {
       await adminSupabase.storage.from("documentation").remove([existing.storage_path]);
     }
 
@@ -677,7 +766,7 @@ export async function deleteDocumentationAction(
 
     return {
       success: true,
-      message: "Dokumentasi berhasil dihapus.",
+      message: "Dokumentasi galeri berhasil dihapus.",
     };
   } catch (err) {
     console.error("[deleteDocumentationAction] Unexpected error:", err);

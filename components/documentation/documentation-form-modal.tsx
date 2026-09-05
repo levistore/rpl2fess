@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Modal } from "@/components/ui/modal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { DocumentationItem } from "@/types/database";
+import { DocumentationItem, DocumentationType } from "@/types/database";
 import { DocumentationPreviewCard } from "./documentation-preview-card";
 import {
   UploadCloud,
@@ -28,12 +28,14 @@ interface DocumentationFormModalProps {
   onClose: () => void;
   itemToEdit?: DocumentationItem | null;
   defaultOrderNumber?: number;
+  docType?: DocumentationType;
   onSuccess?: () => void;
 }
 
 interface FormContentProps {
   itemToEdit?: DocumentationItem | null;
   defaultOrderNumber: number;
+  docType?: DocumentationType;
   onClose: () => void;
   onSuccess?: () => void;
 }
@@ -103,19 +105,28 @@ function uploadFileWithProgress(
 function DocumentationFormContent({
   itemToEdit,
   defaultOrderNumber,
+  docType,
   onClose,
   onSuccess,
 }: FormContentProps) {
   const { success, error: toastError } = useToast();
   const fileInputRef = React.useRef<HTMLInputElement>(null);
 
+  const effectiveDocType: DocumentationType =
+    docType || itemToEdit?.type || "gallery";
   const formattedOrder = String(defaultOrderNumber).padStart(2, "0");
   const [activeTab, setActiveTab] = React.useState<"form" | "preview">("form");
 
+  const defaultCategoryLabel =
+    itemToEdit?.category_label ||
+    (effectiveDocType === "send_page"
+      ? "DOCUMENTATION / NOTE"
+      : effectiveDocType === "featured"
+      ? "DOCUMENTATION / 01"
+      : `DOCUMENTATION / ${formattedOrder}`);
+
   // Initial state derived cleanly from props without effects
-  const [categoryLabel, setCategoryLabel] = React.useState(
-    itemToEdit?.category_label || `DOCUMENTATION / ${formattedOrder}`
-  );
+  const [categoryLabel, setCategoryLabel] = React.useState(defaultCategoryLabel);
   const [caption, setCaption] = React.useState(itemToEdit?.caption || "");
   const [metaText, setMetaText] = React.useState(itemToEdit?.meta_text || "X RPL 2 / 2026");
   const [overlayText, setOverlayText] = React.useState(itemToEdit?.overlay_text || "");
@@ -262,6 +273,7 @@ function DocumentationFormContent({
           fileName: selectedFile.name,
           fileType: selectedFile.type,
           fileSize: selectedFile.size,
+          docType: effectiveDocType,
         });
 
         if (!urlRes.success || !urlRes.signedUrl || !urlRes.storagePath || !urlRes.publicUrl) {
@@ -302,6 +314,7 @@ function DocumentationFormContent({
         setIsSavingDb(true);
         const saveRes = await saveDocumentationDirectAction({
           id: itemToEdit?.id,
+          type: effectiveDocType,
           title: caption.trim().slice(0, 40),
           caption: caption.trim(),
           category_label: categoryLabel.trim(),
@@ -332,6 +345,7 @@ function DocumentationFormContent({
         setIsSavingDb(true);
         const saveRes = await saveDocumentationDirectAction({
           id: itemToEdit.id,
+          type: effectiveDocType,
           title: caption.trim().slice(0, 40),
           caption: caption.trim(),
           category_label: categoryLabel.trim(),
@@ -783,25 +797,43 @@ export function DocumentationFormModal({
   onClose,
   itemToEdit,
   defaultOrderNumber = 1,
+  docType,
   onSuccess,
 }: DocumentationFormModalProps) {
+  const effectiveDocType = docType || itemToEdit?.type || "gallery";
+
+  const getTitle = () => {
+    if (effectiveDocType === "featured") return "Edit Dokumentasi Utama (Hero Homepage)";
+    if (effectiveDocType === "send_page") return "Edit Dokumentasi Kirim Pesan (/send)";
+    return itemToEdit ? "Edit Dokumentasi Galeri" : "Tambah Dokumentasi Galeri";
+  };
+
+  const getDescription = () => {
+    if (effectiveDocType === "featured") {
+      return "Ubah foto, label, caption, atau teks dokumentasi utama yang tampil di Hero Homepage.";
+    }
+    if (effectiveDocType === "send_page") {
+      return "Ubah foto, label, caption, atau teks dokumentasi yang tampil di samping form halaman /send.";
+    }
+    return itemToEdit
+      ? "Ubah teks, metadata, atau ganti foto dokumentasi galeri homepage."
+      : "Unggah foto baru ke section Galeri Dokumentasi di homepage.";
+  };
+
   return (
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      title={itemToEdit ? "Edit Dokumentasi" : "Tambah Dokumentasi"}
-      description={
-        itemToEdit
-          ? "Ubah teks, metadata, atau ganti foto dokumentasi."
-          : "Unggah foto baru ke arsip dokumentasi kelas."
-      }
+      title={getTitle()}
+      description={getDescription()}
       maxWidth="lg"
     >
       {isOpen && (
         <DocumentationFormContent
-          key={itemToEdit ? itemToEdit.id : "new-doc-form"}
+          key={itemToEdit ? itemToEdit.id : `new-${effectiveDocType}-form`}
           itemToEdit={itemToEdit}
           defaultOrderNumber={defaultOrderNumber}
+          docType={effectiveDocType}
           onClose={onClose}
           onSuccess={onSuccess}
         />

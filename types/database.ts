@@ -50,8 +50,11 @@ export interface DashboardStats {
   todayMessages: number;
 }
 
+export type DocumentationType = "featured" | "gallery" | "send_page";
+
 export interface DocumentationItem {
   id: string;
+  type: DocumentationType;
   title: string;
   caption: string;
   category_label: string;

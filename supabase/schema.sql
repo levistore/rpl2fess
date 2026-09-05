@@ -125,11 +125,14 @@ create policy "Owner can update site settings"
 -- 6. DOCUMENTATION TABLE
 create table if not exists public.documentation (
   id uuid primary key default gen_random_uuid(),
+  type text not null default 'gallery',
   title text not null default '',
   caption text not null default '',
   category_label text not null default 'DOCUMENTATION',
   meta_text text not null default 'X RPL 2 / 2026',
   overlay_text text default '',
+  footer_text text default 'ARSIP DOKUMENTER KELAS',
+  tagline_text text default 'SATU KELAS. BANYAK CERITA.',
   image_url text not null,
   storage_path text,
   display_order integer not null default 1,
@@ -138,6 +141,7 @@ create table if not exists public.documentation (
   updated_at timestamptz not null default now()
 );
 
+create index if not exists idx_documentation_type_active_order on public.documentation (type, is_active, display_order asc);
 create index if not exists idx_documentation_active_order on public.documentation (is_active, display_order asc);
 
 alter table public.documentation enable row level security;

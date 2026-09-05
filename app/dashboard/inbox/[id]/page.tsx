@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { getMessageById, getSiteSettings } from "@/lib/queries/messages";
+import { getMessageById } from "@/lib/queries/messages";
 import { MessageDetailView } from "@/components/messages/message-detail-view";
 
 interface MessageDetailPageProps {
@@ -12,10 +12,7 @@ export default async function MessageDetailPage({
   params,
 }: MessageDetailPageProps) {
   const { id } = await params;
-  const [message, settings] = await Promise.all([
-    getMessageById(id),
-    getSiteSettings(),
-  ]);
+  const message = await getMessageById(id);
 
   if (!message) {
     notFound();

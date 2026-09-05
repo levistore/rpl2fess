@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { getInboxMessages, getSiteSettings } from "@/lib/queries/messages";
+import { getInboxMessages } from "@/lib/queries/messages";
 import { MessageCard } from "@/components/messages/message-card";
 import { InboxToolbar } from "@/components/inbox/inbox-toolbar";
 import { CopyLinkBanner } from "@/components/inbox/copy-link-banner";
@@ -20,14 +20,11 @@ export default async function InboxPage({ searchParams }: InboxPageProps) {
   const sort = params.sort || "newest";
   const search = params.q || "";
 
-  const [{ messages, unreadCount, totalCount }, settings] = await Promise.all([
-    getInboxMessages({
-      filter,
-      sort,
-      search,
-    }),
-    getSiteSettings(),
-  ]);
+  const { messages, unreadCount, totalCount } = await getInboxMessages({
+    filter,
+    sort,
+    search,
+  });
 
   return (
     <div className="p-4 sm:p-6 lg:p-10 max-w-5xl mx-auto w-full space-y-6">

@@ -10,13 +10,28 @@ interface HeroComposerPreviewProps {
 }
 
 export function HeroComposerPreview({ item }: HeroComposerPreviewProps) {
-  const categoryLabel = item?.category_label || "DOCUMENTATION / 01";
-  const metaText = item?.meta_text || "X RPL 2 / 2026";
-  const caption = item?.caption || "X RPL 2 — awal dari banyak cerita.";
-  const overlayText = item?.overlay_text || "'26 09 04";
-  const footerText = item?.footer_text || "ARSIP DOKUMENTER KELAS";
-  const taglineText = item?.tagline_text || "SATU KELAS. BANYAK CERITA.";
-  const imageUrl = item?.image_url || "/images/class/class-main.jpg";
+  if (!item) {
+    return (
+      <div className="relative w-full max-w-lg mx-auto lg:max-w-none">
+        <div className="relative rounded-2xl bg-[#111318] border border-dashed border-[#2A2D34] p-8 text-center space-y-3">
+          <div className="w-12 h-12 rounded-xl bg-[#181B21] border border-[#2A2D34] mx-auto flex items-center justify-center text-[#7B8DFF]">
+            <Camera className="w-6 h-6 text-[#3D5CFF]" />
+          </div>
+          <p className="font-mono text-xs uppercase tracking-wider text-[#9A9DA5]">
+            Dokumentasi Utama Belum Diatur
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  const categoryLabel = item.category_label || "DOCUMENTATION";
+  const metaText = item.meta_text || "";
+  const caption = item.caption || "";
+  const overlayText = item.overlay_text || "";
+  const footerText = item.footer_text || "";
+  const taglineText = item.tagline_text || "";
+  const imageUrl = item.image_url;
 
   return (
     <div className="relative w-full max-w-lg mx-auto lg:max-w-none">
@@ -56,19 +71,25 @@ export function HeroComposerPreview({ item }: HeroComposerPreviewProps) {
             <span className="text-[10px] font-mono uppercase tracking-widest text-[#3D5CFF]">
               {categoryLabel}
             </span>
-            <span className="text-[10px] font-mono uppercase tracking-wider text-[#9A9DA5]">
-              {metaText}
-            </span>
+            {metaText && (
+              <span className="text-[10px] font-mono uppercase tracking-wider text-[#9A9DA5]">
+                {metaText}
+              </span>
+            )}
           </div>
 
-          <p className="font-handwriting text-xl sm:text-2xl text-[#F5F5F2] leading-snug">
-            &ldquo;{caption}&rdquo;
-          </p>
+          {caption && (
+            <p className="font-handwriting text-xl sm:text-2xl text-[#F5F5F2] leading-snug">
+              &ldquo;{caption}&rdquo;
+            </p>
+          )}
 
-          <div className="pt-2 flex items-center justify-between text-[11px] font-mono text-[#9A9DA5]/70 border-t border-white/5">
-            <span>{footerText}</span>
-            <span>{taglineText}</span>
-          </div>
+          {(footerText || taglineText) && (
+            <div className="pt-2 flex items-center justify-between text-[11px] font-mono text-[#9A9DA5]/70 border-t border-white/5">
+              <span>{footerText}</span>
+              <span>{taglineText}</span>
+            </div>
+          )}
         </div>
       </div>
     </div>

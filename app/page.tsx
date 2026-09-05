@@ -13,10 +13,16 @@ import {
   ShieldAlert,
   Camera,
 } from "lucide-react";
-import { getActiveDocumentation } from "@/lib/queries/documentation";
+import {
+  getFeaturedDocumentation,
+  getGalleryDocumentation,
+} from "@/lib/queries/documentation";
 
 export default async function HomePage() {
-  const documentationItems = await getActiveDocumentation();
+  const [featuredDoc, galleryDocs] = await Promise.all([
+    getFeaturedDocumentation(),
+    getGalleryDocumentation(),
+  ]);
   return (
     <div className="min-h-screen bg-[#08090B] text-[#F5F5F2] flex flex-col selection:bg-[#3D5CFF] selection:text-white">
       {/* Top Navigation */}
@@ -81,7 +87,7 @@ export default async function HomePage() {
 
           {/* Right Column: Photographic Scrapbook Hero */}
           <div className="lg:col-span-6 lg:pl-4">
-            <HeroComposerPreview item={documentationItems[0]} />
+            <HeroComposerPreview item={featuredDoc} />
           </div>
         </div>
       </section>
@@ -187,66 +193,75 @@ export default async function HomePage() {
           </div>
 
           {/* Photo Collage Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {documentationItems.map((doc, index) => {
-              const cardRotations = [
-                "rotate-[-1deg] hover:rotate-0",
-                "rotate-[1.5deg] hover:rotate-0",
-                "rotate-[-1.5deg] hover:rotate-0",
-                "rotate-[1deg] hover:rotate-0",
-              ];
-              const tapeClasses = [
-                "scrapbook-tape w-16 -top-2 left-4 rotate-[-3deg]",
-                "scrapbook-tape w-16 -top-2 right-4 rotate-[2deg]",
-                "scrapbook-tape w-16 -top-2 left-6 rotate-[-2deg]",
-                "scrapbook-tape w-16 -top-2 right-6 rotate-[3deg]",
-              ];
-              const rotationClass = cardRotations[index % cardRotations.length];
-              const tapeClass = tapeClasses[index % tapeClasses.length];
-              const orderLabel = String(index + 1).padStart(2, "0");
+          {galleryDocs.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {galleryDocs.map((doc, index) => {
+                const cardRotations = [
+                  "rotate-[-1deg] hover:rotate-0",
+                  "rotate-[1.5deg] hover:rotate-0",
+                  "rotate-[-1.5deg] hover:rotate-0",
+                  "rotate-[1deg] hover:rotate-0",
+                ];
+                const tapeClasses = [
+                  "scrapbook-tape w-16 -top-2 left-4 rotate-[-3deg]",
+                  "scrapbook-tape w-16 -top-2 right-4 rotate-[2deg]",
+                  "scrapbook-tape w-16 -top-2 left-6 rotate-[-2deg]",
+                  "scrapbook-tape w-16 -top-2 right-6 rotate-[3deg]",
+                ];
+                const rotationClass = cardRotations[index % cardRotations.length];
+                const tapeClass = tapeClasses[index % tapeClasses.length];
+                const orderLabel = String(index + 1).padStart(2, "0");
 
-              return (
-                <div
-                  key={doc.id}
-                  className={`relative rounded-xl bg-[#111318] border border-[#2A2D34] p-3 shadow-xl shadow-black/50 ${rotationClass} transition-transform duration-300 flex flex-col justify-between`}
-                >
-                  <div className={tapeClass} />
-                  <div className="relative aspect-[4/3] w-full rounded-lg overflow-hidden bg-[#08090B]">
-                    <Image
-                      src={doc.image_url}
-                      alt={doc.title || doc.caption || "Dokumentasi Kelas"}
-                      fill
-                      priority={index === 0}
-                      loading={index === 0 ? undefined : "lazy"}
-                      className="object-cover hover:scale-105 transition-transform duration-500"
-                      unoptimized={doc.image_url.startsWith("blob:") || doc.image_url.startsWith("data:")}
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                    />
-                    {doc.overlay_text && (
-                      <div className="absolute bottom-2 left-2 px-2 py-0.5 rounded bg-black/75 backdrop-blur-sm border border-white/10 text-[9px] font-mono tracking-widest text-[#F5F5F2] uppercase">
-                        {doc.overlay_text}
+                return (
+                  <div
+                    key={doc.id}
+                    className={`relative rounded-xl bg-[#111318] border border-[#2A2D34] p-3 shadow-xl shadow-black/50 ${rotationClass} transition-transform duration-300 flex flex-col justify-between`}
+                  >
+                    <div className={tapeClass} />
+                    <div className="relative aspect-[4/3] w-full rounded-lg overflow-hidden bg-[#08090B]">
+                      <Image
+                        src={doc.image_url}
+                        alt={doc.title || doc.caption || "Dokumentasi Kelas"}
+                        fill
+                        priority={index === 0}
+                        loading={index === 0 ? undefined : "lazy"}
+                        className="object-cover hover:scale-105 transition-transform duration-500"
+                        unoptimized={doc.image_url.startsWith("blob:") || doc.image_url.startsWith("data:")}
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                      />
+                      {doc.overlay_text && (
+                        <div className="absolute bottom-2 left-2 px-2 py-0.5 rounded bg-black/75 backdrop-blur-sm border border-white/10 text-[9px] font-mono tracking-widest text-[#F5F5F2] uppercase">
+                          {doc.overlay_text}
+                        </div>
+                      )}
+                    </div>
+                    <div className="pt-3 pb-1 px-1 space-y-1">
+                      <span className="text-[10px] font-mono uppercase tracking-widest text-[#3D5CFF] block">
+                        {doc.category_label || `DOCUMENTATION / ${orderLabel}`}
+                      </span>
+                      <p className="font-handwriting text-lg text-[#F5F5F2] leading-tight">
+                        &ldquo;{doc.caption}&rdquo;
+                      </p>
+                      <span className="text-[10px] font-mono text-[#9A9DA5] block">
+                        {doc.meta_text || "X RPL 2 / 2026"}
+                      </span>
+                      <div className="pt-2 flex items-center justify-between text-[10px] font-mono text-[#9A9DA5]/70 border-t border-white/5 mt-1">
+                        <span>{doc.footer_text || "ARSIP DOKUMENTER KELAS"}</span>
+                        <span>{doc.tagline_text || "SATU KELAS. BANYAK CERITA."}</span>
                       </div>
-                    )}
-                  </div>
-                  <div className="pt-3 pb-1 px-1 space-y-1">
-                    <span className="text-[10px] font-mono uppercase tracking-widest text-[#3D5CFF] block">
-                      {doc.category_label || `DOCUMENTATION / ${orderLabel}`}
-                    </span>
-                    <p className="font-handwriting text-lg text-[#F5F5F2] leading-tight">
-                      &ldquo;{doc.caption}&rdquo;
-                    </p>
-                    <span className="text-[10px] font-mono text-[#9A9DA5] block">
-                      {doc.meta_text || "X RPL 2 / 2026"}
-                    </span>
-                    <div className="pt-2 flex items-center justify-between text-[10px] font-mono text-[#9A9DA5]/70 border-t border-white/5 mt-1">
-                      <span>{doc.footer_text || "ARSIP DOKUMENTER KELAS"}</span>
-                      <span>{doc.tagline_text || "SATU KELAS. BANYAK CERITA."}</span>
                     </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="text-center py-16 border border-dashed border-[#2A2D34] rounded-2xl bg-[#111318]/50 space-y-3">
+              <Camera className="w-8 h-8 text-[#9A9DA5]/40 mx-auto" />
+              <p className="font-mono text-xs uppercase tracking-wider text-[#9A9DA5]">
+                Belum ada dokumentasi galeri
+              </p>
+            </div>
+          )}
         </div>
       </section>
 
