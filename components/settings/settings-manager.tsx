@@ -19,6 +19,7 @@ import {
   Send,
 } from "lucide-react";
 import { PushNotificationSettings } from "./push-notification-settings";
+import { InstallSettingsSection } from "@/components/pwa/install-settings-section";
 
 interface SettingsManagerProps {
   settings: SiteSettings;
@@ -156,7 +157,10 @@ export function SettingsManager({ settings }: SettingsManagerProps) {
       {/* 2. Pengaturan Notifikasi Inbox (Web Push) */}
       <PushNotificationSettings />
 
-      {/* 3. Danger Zone */}
+      {/* 3. Install RPLTwoFess Section */}
+      <InstallSettingsSection />
+
+      {/* 4. Danger Zone */}
       <Card
         className="p-6 sm:p-8 space-y-5 border border-[#FF4D4D]/30 bg-[#FF4D4D]/5"
       >

@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Menu, X, Shield, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { InstallButton } from "@/components/pwa/install-button";
 
 export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
@@ -133,6 +134,11 @@ export function Navbar() {
             <Shield className="w-4 h-4 text-[#42D392]" /> Kebijakan Privasi
           </Link>
           <div className="pt-2 border-t border-[#2A2D34] flex flex-col gap-2.5">
+            <InstallButton
+              size="md"
+              className="w-full"
+              onInstallSuccess={() => setIsMobileMenuOpen(false)}
+            />
             <Link href="/send" onClick={() => setIsMobileMenuOpen(false)}>
               <Button variant="primary" className="w-full">
                 <Send className="w-4 h-4 mr-2" /> Kirim Pesan Sekarang

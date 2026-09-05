@@ -3,6 +3,7 @@ import "./globals.css";
 import { ToastProvider } from "@/components/ui/toast";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { ServiceWorkerRegister } from "@/components/pwa/service-worker-register";
+import { PWAProvider } from "@/components/pwa/pwa-provider";
 
 export const metadata: Metadata = {
   title: {
@@ -71,8 +72,10 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col font-sans transition-colors duration-150">
         <ThemeProvider>
           <ToastProvider>
-            <ServiceWorkerRegister />
-            {children}
+            <PWAProvider>
+              <ServiceWorkerRegister />
+              {children}
+            </PWAProvider>
           </ToastProvider>
         </ThemeProvider>
       </body>
