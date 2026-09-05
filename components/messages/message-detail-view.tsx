@@ -126,8 +126,8 @@ export function MessageDetailView({ message, recipientName = "Seseorang" }: Mess
         </div>
 
         {/* Handwritten prompt */}
-        <div className="flex items-center justify-between">
-          <p className="font-handwriting text-xl text-[#3D5CFF]">
+        <div className="flex items-center justify-between border-b border-[#2A2D34]/70 pb-3">
+          <p className="font-handwriting text-2xl text-[#3D5CFF] leading-none">
             Pesan anonim untukmu:
           </p>
           <span className="text-[10px] font-mono px-2 py-0.5 rounded border border-[#2A2D34] text-[#9A9DA5]">
@@ -137,15 +137,16 @@ export function MessageDetailView({ message, recipientName = "Seseorang" }: Mess
 
         {/* Digital Letter Message Body with Paper Lines */}
         <div
-          className="py-6 px-4 rounded-xl bg-[#181B21]/50 border border-[#2A2D34]/50"
+          className="relative min-h-[224px] py-1 px-1 sm:px-2 bg-transparent"
           style={{
             backgroundImage:
-              "repeating-linear-gradient(transparent, transparent 31px, var(--notebook-line, rgba(255, 255, 255, 0.04)) 31px, var(--notebook-line, rgba(255, 255, 255, 0.04)) 32px)",
+              "repeating-linear-gradient(transparent, transparent 31px, var(--notebook-line, rgba(255, 255, 255, 0.05)) 31px, var(--notebook-line, rgba(255, 255, 255, 0.05)) 32px)",
             lineHeight: "32px",
+            backgroundAttachment: "local",
           }}
         >
-          <p className="text-xl sm:text-2xl font-normal text-[#F5F5F2] leading-[32px] break-words font-sans selection:bg-[#3D5CFF] selection:text-white">
-            &ldquo;{message.content}&rdquo;
+          <p className="text-sm sm:text-base font-normal text-[#F5F5F2] leading-[32px] break-words font-sans selection:bg-[#3D5CFF] selection:text-white whitespace-pre-wrap pt-0.5">
+            {message.content}
           </p>
         </div>
 

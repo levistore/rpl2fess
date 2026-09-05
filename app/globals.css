@@ -67,7 +67,7 @@
   --success: #159A68;
   --danger: #D93636;
   --warning: #B87900;
-  --notebook-line: rgba(0, 0, 0, 0.04);
+  --notebook-line: rgba(61, 92, 255, 0.1);
 
   color-scheme: light;
 }
