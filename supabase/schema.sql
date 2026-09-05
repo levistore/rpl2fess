@@ -129,7 +129,7 @@ create table if not exists public.documentation (
   title text not null default '',
   caption text not null default '',
   category_label text not null default 'DOCUMENTATION',
-  meta_text text not null default 'X RPL 2 / 2026',
+  meta_text text not null default 'XI RPL 2 / 2026',
   overlay_text text default '',
   footer_text text default 'ARSIP DOKUMENTER KELAS',
   tagline_text text default 'SATU KELAS. BANYAK CERITA.',

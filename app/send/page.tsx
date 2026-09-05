@@ -3,7 +3,8 @@ import Image from "next/image";
 import { getSiteSettings } from "@/lib/queries/messages";
 import { getSendPageDocumentation } from "@/lib/queries/documentation";
 import { SendForm } from "@/components/messages/send-form";
-import { MessageSquare, ArrowLeft, Shield, Camera } from "lucide-react";
+import { ArrowLeft, Shield, Camera } from "lucide-react";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -24,7 +25,7 @@ export default async function SendPage() {
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] bg-[#3D5CFF]/10 blur-[120px] pointer-events-none rounded-full" />
 
       <div className="w-full max-w-5xl mx-auto space-y-8 relative z-10">
-        {/* Navigation back */}
+        {/* Navigation back & brand & theme toggle */}
         <div className="flex items-center justify-between">
           <Link
             href="/"
@@ -33,14 +34,23 @@ export default async function SendPage() {
             <ArrowLeft className="w-4 h-4" /> Beranda
           </Link>
 
-          <Link href="/" className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-lg bg-[#181B21] border border-[#2A2D34] flex items-center justify-center text-[#3D5CFF]">
-              <MessageSquare className="w-3.5 h-3.5" />
-            </div>
-            <span className="font-display text-lg tracking-wide uppercase">
-              RPLTWOFESS
-            </span>
-          </Link>
+          <div className="flex items-center gap-3">
+            <ThemeToggle />
+            <Link href="/" className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-lg bg-[#181B21] border border-[#2A2D34] flex items-center justify-center p-1 overflow-hidden shrink-0 shadow-sm">
+                <Image
+                  src="/images/brand/rpl-logo.png"
+                  alt="RPL Logo"
+                  width={24}
+                  height={24}
+                  className="w-full h-full object-contain"
+                />
+              </div>
+              <span className="font-display text-lg tracking-wide uppercase">
+                RPLTWOFESS
+              </span>
+            </Link>
+          </div>
         </div>
 
         {/* Main Content Grid: Form (Left) + Class Photo Polaroid (Right) */}
@@ -49,7 +59,7 @@ export default async function SendPage() {
           <div className="lg:col-span-7 space-y-6">
             <div className="space-y-2">
               <span className="text-xs font-mono uppercase tracking-widest text-[#3D5CFF]">
-                RPL 2 • PESAN ANONIM
+                XI RPL 2 • PESAN ANONIM
               </span>
               <h1 className="text-4xl sm:text-6xl font-display font-normal uppercase tracking-tight leading-none text-[#F5F5F2]">
                 KIRIM <span className="text-[#3D5CFF]">SESUATU.</span>
@@ -146,7 +156,7 @@ export default async function SendPage() {
 
       {/* Mini footer */}
       <footer className="text-center pt-10 text-xs font-mono uppercase tracking-wider text-[#9A9DA5]/50 relative z-10">
-        RPLTwoFess &#8226; Kelas RPL 2
+        RPLTwoFess &#8226; Kelas XI RPL 2
       </footer>
     </div>
   );

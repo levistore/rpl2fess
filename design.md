@@ -246,9 +246,10 @@ Contoh:
 
 ---
 
-# 7. Landing Page
+# 7. Class & Landing Page
 
-Landing page harus menjadi visual utama website.
+- **Class**: XI RPL 2
+- **Graduation / Target Year**: 2026
 
 ## Header
 
@@ -356,7 +357,7 @@ Gunakan secara restrained.
 Contoh:
 
 ```text
-X RPL 2
+XI RPL 2
 2026
 
 BEST CLASS.

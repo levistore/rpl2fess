@@ -2,8 +2,10 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { MessageSquare, Menu, X, Shield, Send } from "lucide-react";
+import Image from "next/image";
+import { Menu, X, Shield, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
@@ -13,15 +15,22 @@ export function Navbar() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 h-18 flex items-center justify-between">
         {/* Brand Logo */}
         <Link href="/" className="flex items-center gap-3 group select-none">
-          <div className="w-9 h-9 rounded-lg bg-[#181B21] border border-[#2A2D34] flex items-center justify-center text-[#7B8DFF] group-hover:border-[#3D5CFF] group-hover:shadow-[0_0_15px_-3px_rgba(61,92,255,0.4)] transition-all">
-            <MessageSquare className="w-4 h-4 text-[#3D5CFF]" />
+          <div className="w-10 h-10 rounded-xl bg-[#181B21] border border-[#2A2D34] flex items-center justify-center p-1.5 group-hover:border-[#3D5CFF] group-hover:shadow-[0_0_15px_-3px_rgba(61,92,255,0.4)] transition-all overflow-hidden shrink-0">
+            <Image
+              src="/images/brand/rpl-logo.png"
+              alt="RPL Logo"
+              width={32}
+              height={32}
+              className="w-full h-full object-contain"
+              priority
+            />
           </div>
           <div>
             <span className="font-bold text-xl tracking-tight text-[#F5F5F2] block leading-none font-display">
               RPLTWOFESS
             </span>
             <span className="text-[10px] font-mono tracking-widest text-[#9A9DA5] uppercase">
-              X RPL 2 &#8226; 2026
+              XI RPL 2 &#8226; 2026
             </span>
           </div>
         </Link>
@@ -54,6 +63,7 @@ export function Navbar() {
           </Link>
 
           <div className="flex items-center gap-3 pl-2 border-l border-[#2A2D34]">
+            <ThemeToggle />
             <Link href="/login">
               <Button variant="ghost" size="sm">
                 Owner Login
@@ -68,7 +78,8 @@ export function Navbar() {
         </nav>
 
         {/* Mobile Menu Toggle */}
-        <div className="flex md:hidden items-center gap-2.5">
+        <div className="flex md:hidden items-center gap-2">
+          <ThemeToggle />
           <Link href="/send">
             <Button variant="primary" size="sm">
               Kirim

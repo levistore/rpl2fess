@@ -2,13 +2,15 @@
 
 import * as React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useActionState, Suspense } from "react";
 import { signInAction, ActionState } from "@/lib/actions/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
-import { MessageSquare, ArrowLeft, ShieldAlert } from "lucide-react";
+import { ArrowLeft, ShieldAlert } from "lucide-react";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 function LoginForm() {
   const searchParams = useSearchParams();
@@ -23,8 +25,15 @@ function LoginForm() {
     <Card variant="surface" className="p-8 sm:p-9 border border-[#2A2D34] shadow-2xl shadow-black/80">
       {/* Header */}
       <div className="text-center mb-8">
-        <div className="inline-flex w-12 h-12 rounded-xl bg-[#181B21] border border-[#2A2D34] items-center justify-center text-[#3D5CFF] mb-4 shadow-[0_0_20px_-5px_rgba(61,92,255,0.3)]">
-          <MessageSquare className="w-6 h-6" />
+        <div className="inline-flex w-14 h-14 rounded-2xl bg-[#181B21] border border-[#2A2D34] items-center justify-center p-2.5 mb-4 shadow-[0_0_20px_-5px_rgba(61,92,255,0.3)] overflow-hidden">
+          <Image
+            src="/images/brand/rpl-logo.png"
+            alt="RPL Logo"
+            width={40}
+            height={40}
+            className="w-full h-full object-contain"
+            priority
+          />
         </div>
         <span className="block text-xs font-mono uppercase tracking-widest text-[#7B8DFF] mb-1">
           &#8226; PORTAL PRIVAT &#8226;
@@ -105,13 +114,14 @@ export default function LoginPage() {
       {/* Background glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[300px] bg-[#3D5CFF]/10 blur-[120px] pointer-events-none rounded-full" />
 
-      <div className="w-full max-w-md mb-6 relative z-10">
+      <div className="w-full max-w-md mb-6 relative z-10 flex items-center justify-between">
         <Link
           href="/"
           className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-[#9A9DA5] hover:text-[#F5F5F2] transition-colors"
         >
           <ArrowLeft className="w-4 h-4" /> Kembali ke Beranda
         </Link>
+        <ThemeToggle />
       </div>
 
       <div className="w-full max-w-md relative z-10">

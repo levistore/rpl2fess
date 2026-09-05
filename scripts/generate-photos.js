@@ -68,7 +68,7 @@ async function makePhoto(filename, width, height, title, subtitle, date, tag) {
 }
 
 async function buildAll() {
-  await makePhoto('class-main.jpg', 1280, 720, 'DOKUMENTASI RESMI KELAS', 'X RPL 2 \u2022 Satu Kelas. Banyak Cerita.', "'26 09 04", 'DOKUMENTASI KELAS');
+  await makePhoto('class-main.jpg', 1280, 720, 'DOKUMENTASI RESMI KELAS', 'XI RPL 2 \u2022 Satu Kelas. Banyak Cerita.', "'26 09 04", 'DOKUMENTASI KELAS');
   await makePhoto('class-01.jpg', 800, 600, 'LAB KOMPUTER RPL 2', 'Sesi Belajar dan Diskusi Bersama', "'26 08 14", 'LABORATORIUM');
   await makePhoto('class-02.jpg', 800, 600, 'PRESENTASI PROJEK', 'Showcase Aplikasi dan Kolaborasi', "'26 08 20", 'PRESENTASI');
   await makePhoto('class-03.jpg', 800, 600, 'KENANGAN BERSAMA', 'Momen Santai dan Kebersamaan', "'26 08 25", 'KEBERSAMAAN');

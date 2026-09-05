@@ -160,7 +160,7 @@ export async function saveDocumentationDirectAction(
 
     const caption = (payload.caption || "").trim();
     const category_label = (payload.category_label || "").trim() || "DOCUMENTATION";
-    const meta_text = (payload.meta_text || "").trim() || "X RPL 2 / 2026";
+    const meta_text = (payload.meta_text || "").trim() || "XI RPL 2 / 2026";
     const overlay_text = (payload.overlay_text || "").trim();
     const footer_text = (payload.footer_text || "").trim() || "ARSIP DOKUMENTER KELAS";
     const tagline_text = (payload.tagline_text || "").trim() || "SATU KELAS. BANYAK CERITA.";
@@ -359,7 +359,7 @@ export async function createDocumentationAction(
     const type = ((formData.get("type") as DocumentationType) || "gallery");
     const caption = ((formData.get("caption") as string) || "").trim();
     const category_label = ((formData.get("category_label") as string) || "").trim() || "DOCUMENTATION";
-    const meta_text = ((formData.get("meta_text") as string) || "").trim() || "X RPL 2 / 2026";
+    const meta_text = ((formData.get("meta_text") as string) || "").trim() || "XI RPL 2 / 2026";
     const overlay_text = ((formData.get("overlay_text") as string) || "").trim();
     const footer_text = ((formData.get("footer_text") as string) || "").trim() || "ARSIP DOKUMENTER KELAS";
     const tagline_text = ((formData.get("tagline_text") as string) || "").trim() || "SATU KELAS. BANYAK CERITA.";

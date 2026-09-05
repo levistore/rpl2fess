@@ -589,7 +589,7 @@ export function DocumentationManager({
                       </p>
 
                       <div className="flex flex-wrap items-center gap-3 text-xs text-[#9A9DA5] font-mono">
-                        <span>{item.meta_text || "X RPL 2 / 2026"}</span>
+                        <span>{item.meta_text || "XI RPL 2 / 2026"}</span>
                         <span>•</span>
                         <span>{item.footer_text || "ARSIP DOKUMENTER KELAS"}</span>
                       </div>

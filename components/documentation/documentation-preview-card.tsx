@@ -25,7 +25,7 @@ export function DocumentationPreviewCard({
   imageUrl,
 }: DocumentationPreviewCardProps) {
   const displayLabel = categoryLabel || "DOCUMENTATION / 01";
-  const displayMeta = metaText || "X RPL 2 / 2026";
+  const displayMeta = metaText || "XI RPL 2 / 2026";
   const displayCaption = caption || "Tulis caption dokumentasi...";
   const displayOverlay = overlayText || "";
   const displayFooter = footerText || "ARSIP DOKUMENTER KELAS";

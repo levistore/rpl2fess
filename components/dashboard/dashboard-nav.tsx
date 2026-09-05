@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
@@ -10,11 +11,11 @@ import {
   Settings,
   LogOut,
   ExternalLink,
-  MessageSquare,
   Send,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { signOutAction } from "@/lib/actions/auth";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 interface DashboardNavProps {
   unreadCount?: number;
@@ -53,8 +54,14 @@ export function DashboardSidebar({ unreadCount = 0 }: DashboardNavProps) {
       <div className="space-y-6">
         {/* Brand */}
         <Link href="/" className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-lg bg-[#181B21] border border-[#2A2D34] flex items-center justify-center text-[#3D5CFF]">
-            <MessageSquare className="w-4 h-4" />
+          <div className="w-10 h-10 rounded-xl bg-[#181B21] border border-[#2A2D34] flex items-center justify-center p-1.5 overflow-hidden shrink-0 shadow-sm">
+            <Image
+              src="/images/brand/rpl-logo.png"
+              alt="RPL Logo"
+              width={32}
+              height={32}
+              className="w-full h-full object-contain"
+            />
           </div>
           <div>
             <span className="font-bold text-xl tracking-tight text-[#F5F5F2] block leading-none font-display">
@@ -113,16 +120,24 @@ export function DashboardSidebar({ unreadCount = 0 }: DashboardNavProps) {
         </nav>
       </div>
 
-      {/* Logout button */}
-      <form action={signOutAction} className="pt-6 border-t border-[#2A2D34]">
-        <button
-          type="submit"
-          className="w-full flex items-center gap-2 px-3.5 py-2.5 rounded-xl border border-[#2A2D34] bg-[#181B21] hover:bg-[#FF4D4D]/15 hover:border-[#FF4D4D]/30 hover:text-[#FF4D4D] text-[#9A9DA5] transition-all text-xs font-medium cursor-pointer"
-        >
-          <LogOut className="w-4 h-4" />
-          <span>Keluar Sesi</span>
-        </button>
-      </form>
+      {/* Theme toggle & Logout button */}
+      <div className="pt-5 border-t border-[#2A2D34] space-y-3">
+        <div className="flex items-center justify-between px-1">
+          <span className="text-[11px] font-mono uppercase tracking-wider text-[#9A9DA5]">
+            Tema Tampilan
+          </span>
+          <ThemeToggle />
+        </div>
+        <form action={signOutAction}>
+          <button
+            type="submit"
+            className="w-full flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl border border-[#2A2D34] bg-[#181B21] hover:bg-[#FF4D4D]/15 hover:border-[#FF4D4D]/30 hover:text-[#FF4D4D] text-[#9A9DA5] transition-all text-xs font-medium cursor-pointer"
+          >
+            <LogOut className="w-4 h-4" />
+            <span>Keluar Sesi</span>
+          </button>
+        </form>
+      </div>
     </aside>
   );
 }
@@ -131,22 +146,31 @@ export function MobileDashboardHeader() {
   return (
     <header className="lg:hidden sticky top-0 z-30 w-full bg-[#111318]/90 backdrop-blur-md border-b border-[#2A2D34] px-4 py-3 flex items-center justify-between">
       <Link href="/" className="flex items-center gap-2.5">
-        <div className="w-7 h-7 rounded-lg bg-[#181B21] border border-[#2A2D34] flex items-center justify-center text-[#3D5CFF]">
-          <MessageSquare className="w-3.5 h-3.5" />
+        <div className="w-8 h-8 rounded-lg bg-[#181B21] border border-[#2A2D34] flex items-center justify-center p-1 overflow-hidden shrink-0">
+          <Image
+            src="/images/brand/rpl-logo.png"
+            alt="RPL Logo"
+            width={24}
+            height={24}
+            className="w-full h-full object-contain"
+          />
         </div>
         <span className="font-display text-lg tracking-wide uppercase text-[#F5F5F2]">
           RPLTWOFESS
         </span>
       </Link>
 
-      <Link
-        href="/send"
-        target="_blank"
-        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#3D5CFF] text-[#F5F5F2] text-xs font-medium hover:bg-[#536DFF] transition-all"
-      >
-        <Send className="w-3 h-3" />
-        <span>Kirim Pesan</span>
-      </Link>
+      <div className="flex items-center gap-2">
+        <ThemeToggle />
+        <Link
+          href="/send"
+          target="_blank"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#3D5CFF] text-[#F5F5F2] text-xs font-medium hover:bg-[#536DFF] transition-all"
+        >
+          <Send className="w-3 h-3" />
+          <span>Kirim</span>
+        </Link>
+      </div>
     </header>
   );
 }

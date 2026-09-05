@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { MessageSquare, Shield, Lock, Heart } from "lucide-react";
+import Image from "next/image";
+import { Shield, Lock, Heart } from "lucide-react";
 
 export function Footer() {
   return (
@@ -9,8 +10,14 @@ export function Footer() {
           {/* Col 1: Brand & Identity */}
           <div className="md:col-span-6 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-[#181B21] border border-[#2A2D34] flex items-center justify-center text-[#3D5CFF]">
-                <MessageSquare className="w-4 h-4" />
+              <div className="w-9 h-9 rounded-xl bg-[#181B21] border border-[#2A2D34] flex items-center justify-center p-1.5 overflow-hidden shrink-0">
+                <Image
+                  src="/images/brand/rpl-logo.png"
+                  alt="RPL Logo"
+                  width={28}
+                  height={28}
+                  className="w-full h-full object-contain"
+                />
               </div>
               <div>
                 <span className="font-bold text-2xl tracking-tight text-[#F5F5F2] block leading-none font-display">
@@ -22,7 +29,7 @@ export function Footer() {
               </div>
             </div>
             <p className="text-sm text-[#9A9DA5] max-w-md leading-relaxed font-normal">
-              Platform pesan anonim personal dari kelas RPL 2. Tempat untuk menyampaikan pesan, cerita, pertanyaan, atau sesuatu yang ingin kamu sampaikan kepada seseorang secara rahasia tanpa perlu nama.
+              Platform pesan anonim personal dari kelas XI RPL 2. Tempat untuk menyampaikan pesan, cerita, pertanyaan, atau sesuatu yang ingin kamu sampaikan kepada seseorang secara rahasia tanpa perlu nama.
             </p>
             <div className="flex flex-wrap items-center gap-2 pt-1">
               <span className="inline-flex items-center gap-1.5 text-[11px] font-mono tracking-wider px-2.5 py-1 rounded-md bg-[#111318] border border-[#2A2D34] text-[#42D392]">
@@ -91,7 +98,7 @@ export function Footer() {
 
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-[#2A2D34] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#9A9DA5]/60 font-mono">
-          <p>&#169; {new Date().getFullYear()} RPLTwoFess &#8226; Kelas RPL 2.</p>
+          <p>&#169; {new Date().getFullYear()} RPLTwoFess &#8226; Kelas XI RPL 2.</p>
           <div className="flex items-center gap-1 text-xs">
             <span>Dibuat dengan</span>
             <Heart className="w-3.5 h-3.5 text-[#FF4D4D] fill-[#FF4D4D]" />

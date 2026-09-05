@@ -39,7 +39,7 @@ export default async function HomePage() {
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#181B21] border border-[#2A2D34] text-xs font-mono text-[#7B8DFF]">
               <span className="w-1.5 h-1.5 rounded-full bg-[#3D5CFF] shrink-0" />
               <span className="tracking-widest uppercase text-[11px]">
-                RPLTWOFESS / X RPL 2
+                RPLTWOFESS / XI RPL 2
               </span>
             </div>
 
@@ -243,7 +243,7 @@ export default async function HomePage() {
                         &ldquo;{doc.caption}&rdquo;
                       </p>
                       <span className="text-[10px] font-mono text-[#9A9DA5] block">
-                        {doc.meta_text || "X RPL 2 / 2026"}
+                        {doc.meta_text || "XI RPL 2 / 2026"}
                       </span>
                       <div className="pt-2 flex items-center justify-between text-[10px] font-mono text-[#9A9DA5]/70 border-t border-white/5 mt-1">
                         <span>{doc.footer_text || "ARSIP DOKUMENTER KELAS"}</span>

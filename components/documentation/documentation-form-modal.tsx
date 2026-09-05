@@ -128,7 +128,7 @@ function DocumentationFormContent({
   // Initial state derived cleanly from props without effects
   const [categoryLabel, setCategoryLabel] = React.useState(defaultCategoryLabel);
   const [caption, setCaption] = React.useState(itemToEdit?.caption || "");
-  const [metaText, setMetaText] = React.useState(itemToEdit?.meta_text || "X RPL 2 / 2026");
+  const [metaText, setMetaText] = React.useState(itemToEdit?.meta_text || "XI RPL 2 / 2026");
   const [overlayText, setOverlayText] = React.useState(itemToEdit?.overlay_text || "");
   const [footerText, setFooterText] = React.useState(
     itemToEdit?.footer_text || "ARSIP DOKUMENTER KELAS"
@@ -661,12 +661,12 @@ function DocumentationFormContent({
                 type="text"
                 value={metaText}
                 onChange={(e) => setMetaText(e.target.value)}
-                placeholder="X RPL 2 / 2026"
+                placeholder="XI RPL 2 / 2026"
                 disabled={isSubmitting}
                 className="font-mono text-xs"
               />
               <span className="text-[10px] text-[#555A64] block">
-                Keterangan kelas atau tahun, misal: X RPL 2 / 2026
+                Keterangan kelas atau tahun, misal: XI RPL 2 / 2026
               </span>
             </div>
           </div>
