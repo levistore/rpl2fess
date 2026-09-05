@@ -59,7 +59,6 @@ export default async function SendPage() {
             <SendForm
               acceptingMessages={settings.accepting_messages}
               maxLength={settings.max_length}
-              recipientName={settings.recipient_name || "Owner RPL 2"}
             />
 
             {/* Privacy note */}

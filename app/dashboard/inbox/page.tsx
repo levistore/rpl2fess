@@ -102,7 +102,7 @@ export default async function InboxPage({ searchParams }: InboxPageProps) {
             <MessageCard
               key={msg.id}
               message={msg}
-              recipientName={settings.recipient_name || "Owner RPL 2"}
+              recipientName={msg.recipient_name || "Seseorang"}
             />
           ))}
         </div>

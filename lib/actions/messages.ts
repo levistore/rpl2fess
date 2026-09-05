@@ -58,15 +58,22 @@ export async function sendAnonymousMessageAction(
     : null;
 
   const cleanRecipientName = validation.data.recipientName
-    ? sanitizeMessageContent(validation.data.recipientName).slice(0, 100).trim() || null
-    : null;
+    ? sanitizeMessageContent(validation.data.recipientName).slice(0, 100).trim()
+    : "";
+
+  if (!cleanRecipientName) {
+    return {
+      success: false,
+      error: "Masukkan nama penerima terlebih dahulu.",
+    };
+  }
 
   const supabase = await createClient();
 
   // 3. Check site settings (accepting_messages status)
   const { data: settings } = await supabase
     .from("site_settings")
-    .select("accepting_messages, max_length, recipient_name")
+    .select("accepting_messages, max_length")
     .eq("id", "default")
     .maybeSingle();
 
@@ -85,8 +92,7 @@ export async function sendAnonymousMessageAction(
     };
   }
 
-  const finalRecipientName =
-    cleanRecipientName || settings?.recipient_name || "Owner RPL 2";
+  const finalRecipientName = cleanRecipientName;
 
   // 4. Cryptographic privacy-preserving sender hash
   const senderHash = await generateSenderHash();

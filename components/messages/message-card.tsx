@@ -27,7 +27,7 @@ interface MessageCardProps {
   recipientName?: string;
 }
 
-export function MessageCard({ message, recipientName = "Owner RPL 2" }: MessageCardProps) {
+export function MessageCard({ message, recipientName = "Seseorang" }: MessageCardProps) {
   const { toast } = useToast();
   const [isRead, setIsRead] = React.useState(message.is_read);
   const [isUpdatingRead, setIsUpdatingRead] = React.useState(false);

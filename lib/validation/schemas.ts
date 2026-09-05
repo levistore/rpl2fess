@@ -33,8 +33,8 @@ export const messageSchema = z.object({
   recipientName: z
     .string()
     .trim()
-    .max(100, "Nama penerima maksimal 100 karakter")
-    .nullish(),
+    .min(1, "Masukkan nama penerima terlebih dahulu.")
+    .max(100, "Nama penerima maksimal 100 karakter"),
   turnstileToken: z.string().nullish(),
 });
 

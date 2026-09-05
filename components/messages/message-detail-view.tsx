@@ -30,7 +30,7 @@ interface MessageDetailViewProps {
   recipientName?: string;
 }
 
-export function MessageDetailView({ message, recipientName = "Owner RPL 2" }: MessageDetailViewProps) {
+export function MessageDetailView({ message, recipientName = "Seseorang" }: MessageDetailViewProps) {
   const router = useRouter();
   const { toast } = useToast();
   const [isRead, setIsRead] = React.useState(message.is_read);

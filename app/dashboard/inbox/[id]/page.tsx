@@ -25,7 +25,7 @@ export default async function MessageDetailPage({
     <div className="p-4 sm:p-6 lg:p-10 max-w-4xl mx-auto w-full">
       <MessageDetailView
         message={message}
-        recipientName={settings.recipient_name || "Owner RPL 2"}
+        recipientName={message.recipient_name || "Seseorang"}
       />
     </div>
   );

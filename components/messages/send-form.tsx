@@ -19,15 +19,14 @@ import confetti from "canvas-confetti";
 interface SendFormProps {
   acceptingMessages: boolean;
   maxLength: number;
-  recipientName?: string;
 }
 
 export function SendForm({
   acceptingMessages,
   maxLength = 500,
-  recipientName = "Owner RPL 2",
 }: SendFormProps) {
   const [content, setContent] = React.useState("");
+  const [recipientName, setRecipientName] = React.useState("");
   const [senderName, setSenderName] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
@@ -35,16 +34,24 @@ export function SendForm({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!content.trim() || isLoading) return;
+    if (isLoading) return;
+
+    if (!recipientName.trim()) {
+      setError("Masukkan nama penerima terlebih dahulu.");
+      return;
+    }
+
+    if (!content.trim()) {
+      setError("Pesan tidak boleh kosong.");
+      return;
+    }
 
     setIsLoading(true);
     setError(null);
 
     const formData = new FormData();
     formData.append("content", content.trim());
-    if (recipientName.trim()) {
-      formData.append("recipient_name", recipientName.trim());
-    }
+    formData.append("recipient_name", recipientName.trim());
     if (senderName.trim()) {
       formData.append("sender_name", senderName.trim());
     }
@@ -76,6 +83,7 @@ export function SendForm({
 
   const handleReset = () => {
     setContent("");
+    setRecipientName("");
     setSenderName("");
     setError(null);
     setIsSuccess(false);
@@ -123,8 +131,8 @@ export function SendForm({
           </h2>
           <p className="text-sm text-[#9A9DA5] max-w-md mx-auto leading-relaxed">
             {senderName.trim()
-              ? `Pesanmu telah dikirim kepada ${recipientName} dengan nama "${senderName.trim()}".`
-              : `Pesanmu telah dikirim kepada ${recipientName} secara anonim.`}
+              ? `Pesanmu telah dikirim kepada ${recipientName.trim()} dengan nama "${senderName.trim()}".`
+              : `Pesanmu telah dikirim kepada ${recipientName.trim()} secara anonim.`}
           </p>
         </div>
 
@@ -154,25 +162,48 @@ export function SendForm({
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      {/* 1. Recipient Target Header */}
-      <div className="p-4 rounded-xl bg-[#111318] border border-[#2A2D34] flex items-center justify-between gap-4">
-        <div className="space-y-0.5">
-          <span className="text-[10px] font-mono uppercase tracking-widest text-[#7B8DFF] block">
-            UNTUK
-          </span>
-          <span className="text-sm sm:text-base font-semibold text-[#F5F5F2] font-display uppercase tracking-tight">
-            {recipientName || "Owner RPL 2"}
+      {/* 1. Recipient Target Field (Wajib Diisi Sendiri) */}
+      <div className="p-4 rounded-xl bg-[#111318] border border-[#2A2D34] space-y-2">
+        <div className="flex items-center justify-between">
+          <label
+            htmlFor="recipient-name"
+            className="text-xs font-mono uppercase tracking-wider text-[#9A9DA5] flex items-center gap-1.5"
+          >
+            <User className="w-3.5 h-3.5 text-[#3D5CFF]" />
+            <span>UNTUK SIAPA?</span>
+            <span className="text-[#3D5CFF]">*</span>
+          </label>
+          <span className="text-[10px] font-mono text-[#555A64]">
+            {recipientName.length} / 100
           </span>
         </div>
-        <div className="px-2.5 py-1 rounded-md bg-[#3D5CFF]/10 border border-[#3D5CFF]/30 text-[10px] font-mono text-[#7B8DFF] uppercase tracking-wider">
-          PESAN PERSONAL
-        </div>
+        <input
+          id="recipient-name"
+          name="recipient_name"
+          type="text"
+          value={recipientName}
+          onChange={(e) => {
+            setRecipientName(e.target.value);
+            if (error) setError(null);
+          }}
+          maxLength={100}
+          placeholder="Masukkan nama penerima"
+          disabled={isLoading}
+          required
+          className="w-full rounded-lg bg-[#181B21] border border-[#2A2D34] px-3.5 py-2.5 text-xs sm:text-sm text-[#F5F5F2] placeholder-[#555A64] focus:outline-none focus:border-[#3D5CFF] focus:ring-1 focus:ring-[#3D5CFF] transition-all"
+        />
+        <p className="text-[11px] text-[#9A9DA5] leading-tight">
+          Pesan akan ditujukan kepada nama yang kamu tulis.
+        </p>
       </div>
 
       {/* 2. Optional Sender Name Field */}
       <div className="p-4 rounded-xl bg-[#111318] border border-[#2A2D34] space-y-2">
         <div className="flex items-center justify-between">
-          <label htmlFor="sender-name" className="text-xs font-mono uppercase tracking-wider text-[#9A9DA5] flex items-center gap-1.5">
+          <label
+            htmlFor="sender-name"
+            className="text-xs font-mono uppercase tracking-wider text-[#9A9DA5] flex items-center gap-1.5"
+          >
             <User className="w-3.5 h-3.5 text-[#7B8DFF]" />
             <span>NAMA PENGIRIM</span>
             <span className="text-[#555A64] font-sans lowercase">(opsional)</span>
@@ -233,7 +264,10 @@ export function SendForm({
           <textarea
             name="content"
             value={content}
-            onChange={(e) => setContent(e.target.value)}
+            onChange={(e) => {
+              setContent(e.target.value);
+              if (error) setError(null);
+            }}
             maxLength={maxLength}
             placeholder="Tulis pesan, cerita, pertanyaan, atau sesuatu yang ingin kamu sampaikan kepada seseorang..."
             rows={7}
@@ -280,7 +314,7 @@ export function SendForm({
           variant="primary"
           size="lg"
           isLoading={isLoading}
-          disabled={!content.trim() || isLoading}
+          disabled={!content.trim() || !recipientName.trim() || isLoading}
           className="w-full sm:w-auto px-7"
         >
           <Send className="w-4 h-4 mr-2" /> Kirim Pesan Anonim
