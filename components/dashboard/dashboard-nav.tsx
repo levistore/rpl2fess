@@ -53,16 +53,14 @@ export function DashboardSidebar({ unreadCount = 0 }: DashboardNavProps) {
     <aside className="hidden lg:flex flex-col w-64 bg-[#111318] border-r border-[#2A2D34] min-h-screen p-6 shrink-0 justify-between">
       <div className="space-y-6">
         {/* Brand */}
-        <Link href="/" className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-[#181B21] border border-[#2A2D34] flex items-center justify-center p-1.5 overflow-hidden shrink-0 shadow-sm">
-            <Image
-              src="/images/brand/rpl-logo.png"
-              alt="RPL Logo"
-              width={32}
-              height={32}
-              className="w-full h-full object-contain"
-            />
-          </div>
+        <Link href="/" className="flex items-center gap-3 group">
+          <Image
+            src="/images/brand/rpl-logo.png"
+            alt="RPL Logo"
+            width={48}
+            height={48}
+            className="w-11 h-11 sm:w-12 sm:h-12 object-contain shrink-0 drop-shadow-md group-hover:scale-105 transition-transform duration-200"
+          />
           <div>
             <span className="font-bold text-xl tracking-tight text-[#F5F5F2] block leading-none font-display">
               RPLTWOFESS
@@ -145,16 +143,14 @@ export function DashboardSidebar({ unreadCount = 0 }: DashboardNavProps) {
 export function MobileDashboardHeader() {
   return (
     <header className="lg:hidden sticky top-0 z-30 w-full bg-[#111318]/90 backdrop-blur-md border-b border-[#2A2D34] px-4 py-3 flex items-center justify-between">
-      <Link href="/" className="flex items-center gap-2.5">
-        <div className="w-8 h-8 rounded-lg bg-[#181B21] border border-[#2A2D34] flex items-center justify-center p-1 overflow-hidden shrink-0">
-          <Image
-            src="/images/brand/rpl-logo.png"
-            alt="RPL Logo"
-            width={24}
-            height={24}
-            className="w-full h-full object-contain"
-          />
-        </div>
+      <Link href="/" className="flex items-center gap-2.5 group">
+        <Image
+          src="/images/brand/rpl-logo.png"
+          alt="RPL Logo"
+          width={36}
+          height={36}
+          className="w-9 h-9 object-contain shrink-0 drop-shadow-sm group-hover:scale-105 transition-transform"
+        />
         <span className="font-display text-lg tracking-wide uppercase text-[#F5F5F2]">
           RPLTWOFESS
         </span>

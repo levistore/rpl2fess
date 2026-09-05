@@ -36,16 +36,14 @@ export default async function SendPage() {
 
           <div className="flex items-center gap-3">
             <ThemeToggle />
-            <Link href="/" className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-[#181B21] border border-[#2A2D34] flex items-center justify-center p-1 overflow-hidden shrink-0 shadow-sm">
-                <Image
-                  src="/images/brand/rpl-logo.png"
-                  alt="RPL Logo"
-                  width={24}
-                  height={24}
-                  className="w-full h-full object-contain"
-                />
-              </div>
+            <Link href="/" className="flex items-center gap-2.5 group">
+              <Image
+                src="/images/brand/rpl-logo.png"
+                alt="RPL Logo"
+                width={40}
+                height={40}
+                className="w-10 h-10 object-contain shrink-0 drop-shadow-sm group-hover:scale-105 transition-transform"
+              />
               <span className="font-display text-lg tracking-wide uppercase">
                 RPLTWOFESS
               </span>

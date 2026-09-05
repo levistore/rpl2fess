@@ -16,16 +16,14 @@ export function Navbar() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 h-18 flex items-center justify-between">
         {/* Brand Logo */}
         <Link href="/" className="flex items-center gap-3 group select-none">
-          <div className="w-10 h-10 rounded-xl bg-[#181B21] border border-[#2A2D34] flex items-center justify-center p-1.5 group-hover:border-[#3D5CFF] group-hover:shadow-[0_0_15px_-3px_rgba(61,92,255,0.4)] transition-all overflow-hidden shrink-0">
-            <Image
-              src="/images/brand/rpl-logo.png"
-              alt="RPL Logo"
-              width={32}
-              height={32}
-              className="w-full h-full object-contain"
-              priority
-            />
-          </div>
+          <Image
+            src="/images/brand/rpl-logo.png"
+            alt="RPL Logo"
+            width={48}
+            height={48}
+            className="w-11 h-11 sm:w-12 sm:h-12 object-contain shrink-0 drop-shadow-md group-hover:scale-105 transition-transform duration-200"
+            priority
+          />
           <div>
             <span className="font-bold text-xl tracking-tight text-[#F5F5F2] block leading-none font-display">
               RPLTWOFESS

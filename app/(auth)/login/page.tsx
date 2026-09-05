@@ -25,13 +25,13 @@ function LoginForm() {
     <Card variant="surface" className="p-8 sm:p-9 border border-[#2A2D34] shadow-2xl shadow-black/80">
       {/* Header */}
       <div className="text-center mb-8">
-        <div className="inline-flex w-14 h-14 rounded-2xl bg-[#181B21] border border-[#2A2D34] items-center justify-center p-2.5 mb-4 shadow-[0_0_20px_-5px_rgba(61,92,255,0.3)] overflow-hidden">
+        <div className="flex justify-center mb-3">
           <Image
             src="/images/brand/rpl-logo.png"
             alt="RPL Logo"
-            width={40}
-            height={40}
-            className="w-full h-full object-contain"
+            width={80}
+            height={80}
+            className="w-20 h-20 sm:w-22 sm:h-22 object-contain drop-shadow-[0_4px_20px_rgba(61,92,255,0.35)]"
             priority
           />
         </div>

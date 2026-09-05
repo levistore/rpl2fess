@@ -10,15 +10,13 @@ export function Footer() {
           {/* Col 1: Brand & Identity */}
           <div className="md:col-span-6 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-[#181B21] border border-[#2A2D34] flex items-center justify-center p-1.5 overflow-hidden shrink-0">
-                <Image
-                  src="/images/brand/rpl-logo.png"
-                  alt="RPL Logo"
-                  width={28}
-                  height={28}
-                  className="w-full h-full object-contain"
-                />
-              </div>
+              <Image
+                src="/images/brand/rpl-logo.png"
+                alt="RPL Logo"
+                width={48}
+                height={48}
+                className="w-11 h-11 sm:w-12 sm:h-12 object-contain shrink-0 drop-shadow-md"
+              />
               <div>
                 <span className="font-bold text-2xl tracking-tight text-[#F5F5F2] block leading-none font-display">
                   RPLTWOFESS
