@@ -219,6 +219,7 @@ export default async function HomePage() {
                       priority={index === 0}
                       loading={index === 0 ? undefined : "lazy"}
                       className="object-cover hover:scale-105 transition-transform duration-500"
+                      unoptimized={doc.image_url.startsWith("blob:") || doc.image_url.startsWith("data:")}
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                     />
                     {doc.overlay_text && (

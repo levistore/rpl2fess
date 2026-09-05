@@ -262,6 +262,7 @@ export function DocumentationManager({ initialItems }: DocumentationManagerProps
                     src={item.image_url}
                     alt={item.caption || "Foto dokumentasi"}
                     fill
+                    unoptimized={item.image_url.startsWith("blob:") || item.image_url.startsWith("data:")}
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
                     sizes="(max-width: 768px) 100vw, 220px"
                   />

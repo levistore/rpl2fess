@@ -42,6 +42,9 @@ export function SendForm({
 
     const formData = new FormData();
     formData.append("content", content.trim());
+    if (recipientName.trim()) {
+      formData.append("recipient_name", recipientName.trim());
+    }
     if (senderName.trim()) {
       formData.append("sender_name", senderName.trim());
     }

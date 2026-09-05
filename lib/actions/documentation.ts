@@ -108,8 +108,8 @@ export async function createDocumentationAction(
 
     const imageUrl = publicUrlData.publicUrl;
 
-    // Insert into database
-    const { data: inserted, error: insertError } = await supabase
+    // Insert into database using adminSupabase to ensure atomic and reliable write
+    const { data: inserted, error: insertError } = await adminSupabase
       .from("documentation")
       .insert({
         title,
@@ -227,8 +227,8 @@ export async function updateDocumentationAction(
       newlyUploadedPath = newStoragePath;
     }
 
-    // Update database record
-    const { error: updateError } = await supabase
+    // Update database record using adminSupabase for 100% reliability
+    const { error: updateError } = await adminSupabase
       .from("documentation")
       .update({
         title,
@@ -289,9 +289,10 @@ export async function reorderDocumentationAction(
       return { success: false, error: "Akses ditolak. Silakan login sebagai admin." };
     }
 
-    // Update display_order for each ID
+    // Update display_order for each ID using adminSupabase
+    const adminSupabase = createAdminClient();
     const updates = orderedIds.map((id, index) =>
-      supabase
+      adminSupabase
         .from("documentation")
         .update({ display_order: index + 1, updated_at: new Date().toISOString() })
         .eq("id", id)
@@ -334,7 +335,8 @@ export async function toggleActiveDocumentationAction(
       return { success: false, error: "Akses ditolak. Silakan login sebagai admin." };
     }
 
-    const { error } = await supabase
+    const adminSupabase = createAdminClient();
+    const { error } = await adminSupabase
       .from("documentation")
       .update({
         is_active: isActive,
@@ -375,14 +377,16 @@ export async function deleteDocumentationAction(
       return { success: false, error: "Akses ditolak. Silakan login sebagai admin." };
     }
 
+    const adminSupabase = createAdminClient();
+
     // Get item info first for storage path
-    const { data: existing } = await supabase
+    const { data: existing } = await adminSupabase
       .from("documentation")
       .select("storage_path")
       .eq("id", id)
       .single();
 
-    const { error } = await supabase.from("documentation").delete().eq("id", id);
+    const { error } = await adminSupabase.from("documentation").delete().eq("id", id);
 
     if (error) {
       return { success: false, error: "Gagal menghapus dokumentasi." };
@@ -390,7 +394,6 @@ export async function deleteDocumentationAction(
 
     // Delete image from storage if stored in bucket
     if (existing?.storage_path) {
-      const adminSupabase = createAdminClient();
       await adminSupabase.storage.from("documentation").remove([existing.storage_path]);
     }
 

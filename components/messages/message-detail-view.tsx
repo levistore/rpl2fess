@@ -117,7 +117,7 @@ export function MessageDetailView({ message, recipientName = "Owner RPL 2" }: Me
               UNTUK
             </span>
             <span className="text-base font-semibold text-[#F5F5F2] font-display uppercase tracking-tight block">
-              {recipientName}
+              {message.recipient_name || recipientName}
             </span>
             <span className="text-[10px] text-[#9A9DA5] block">
               Penerima Pesan Personal

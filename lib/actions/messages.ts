@@ -19,13 +19,21 @@ export async function sendAnonymousMessageAction(
 ): Promise<SendMessageResult> {
   const rawContent = formData.get("content");
   const rawSenderName = formData.get("sender_name");
+  const rawRecipientName = formData.get("recipient_name");
   const turnstileToken = formData.get("turnstileToken");
   const tokenStr = typeof turnstileToken === "string" ? turnstileToken : null;
 
   // 1. Zod schema validation
   const validation = messageSchema.safeParse({
     content: typeof rawContent === "string" ? rawContent : "",
-    senderName: typeof rawSenderName === "string" && rawSenderName.trim() ? rawSenderName.trim() : null,
+    senderName:
+      typeof rawSenderName === "string" && rawSenderName.trim()
+        ? rawSenderName.trim()
+        : null,
+    recipientName:
+      typeof rawRecipientName === "string" && rawRecipientName.trim()
+        ? rawRecipientName.trim()
+        : null,
     turnstileToken: tokenStr,
   });
 
@@ -49,12 +57,16 @@ export async function sendAnonymousMessageAction(
     ? sanitizeMessageContent(validation.data.senderName).slice(0, 50).trim() || null
     : null;
 
+  const cleanRecipientName = validation.data.recipientName
+    ? sanitizeMessageContent(validation.data.recipientName).slice(0, 100).trim() || null
+    : null;
+
   const supabase = await createClient();
 
   // 3. Check site settings (accepting_messages status)
   const { data: settings } = await supabase
     .from("site_settings")
-    .select("accepting_messages, max_length")
+    .select("accepting_messages, max_length, recipient_name")
     .eq("id", "default")
     .maybeSingle();
 
@@ -72,6 +84,9 @@ export async function sendAnonymousMessageAction(
       error: `Pesan melebihi batas maksimal ${maxLen} karakter.`,
     };
   }
+
+  const finalRecipientName =
+    cleanRecipientName || settings?.recipient_name || "Owner RPL 2";
 
   // 4. Cryptographic privacy-preserving sender hash
   const senderHash = await generateSenderHash();
@@ -114,6 +129,7 @@ export async function sendAnonymousMessageAction(
   const { error: insertError } = await supabase.from("messages").insert({
     content: cleanContent,
     sender_name: cleanSenderName,
+    recipient_name: finalRecipientName,
     sender_hash: senderHash,
     is_read: false,
     is_deleted: false,

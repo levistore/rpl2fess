@@ -329,7 +329,10 @@ function DocumentationFormContent({
                       type="button"
                       variant="outline"
                       size="sm"
-                      onClick={() => fileInputRef.current?.click()}
+                      onClick={() => {
+                        if (fileInputRef.current) fileInputRef.current.value = "";
+                        fileInputRef.current?.click();
+                      }}
                       className="text-xs gap-1.5"
                     >
                       <RefreshCw className="w-3 h-3" />

@@ -2,6 +2,7 @@ export interface Message {
   id: string;
   content: string;
   sender_name?: string | null;
+  recipient_name?: string | null;
   is_read: boolean;
   is_deleted: boolean;
   sender_hash: string | null;

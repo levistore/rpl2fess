@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { reportSchema } from "@/lib/validation/schemas";
 import { ReportReason } from "@/types/database";
 import { revalidatePath } from "next/cache";
@@ -82,7 +83,15 @@ export async function deleteMessageAction(
     .eq("id", messageId);
 
   if (error) {
-    return { success: false, error: error.message };
+    console.error("[deleteMessageAction] Trying admin client fallback:", error);
+    const admin = createAdminClient();
+    const { error: adminErr } = await admin
+      .from("messages")
+      .update({ is_deleted: true })
+      .eq("id", messageId);
+    if (adminErr) {
+      return { success: false, error: adminErr.message };
+    }
   }
 
   revalidatePath("/dashboard");

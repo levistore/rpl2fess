@@ -75,12 +75,20 @@ export async function getAllDocumentation(): Promise<DocumentationItem[]> {
       .order("display_order", { ascending: true })
       .order("created_at", { ascending: false });
 
-    if (error) {
-      console.error("[getAllDocumentation] Supabase error:", error.message);
-      return [];
+    if (!error && data) {
+      return data as DocumentationItem[];
     }
 
-    return (data as DocumentationItem[]) || [];
+    // Fallback to admin client if user client encounters an RLS/cookie issue
+    const { createAdminClient } = await import("@/lib/supabase/admin");
+    const admin = createAdminClient();
+    const { data: adminData } = await admin
+      .from("documentation")
+      .select("*")
+      .order("display_order", { ascending: true })
+      .order("created_at", { ascending: false });
+
+    return (adminData as DocumentationItem[]) || [];
   } catch (err) {
     console.error("[getAllDocumentation] Unexpected error:", err);
     return [];

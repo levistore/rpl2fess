@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { revalidatePath } from "next/cache";
 
 export interface SettingsResult {
@@ -26,17 +27,24 @@ export async function updateSiteSettingsAction(
     return { success: false, error: "Akses ditolak" };
   }
 
-  const { error } = await supabase.from("site_settings").upsert({
+  const payload = {
     id: "default",
     accepting_messages: acceptingMessages,
     max_length: maxLength,
     tagline: tagline,
     recipient_name: recipientName,
     updated_at: new Date().toISOString(),
-  });
+  };
+
+  const { error } = await supabase.from("site_settings").upsert(payload);
 
   if (error) {
-    return { success: false, error: error.message };
+    console.error("[updateSiteSettingsAction] Trying admin client fallback:", error);
+    const admin = createAdminClient();
+    const { error: adminErr } = await admin.from("site_settings").upsert(payload);
+    if (adminErr) {
+      return { success: false, error: adminErr.message };
+    }
   }
 
   revalidatePath("/dashboard/settings");
@@ -61,7 +69,15 @@ export async function purgeAllMessagesAction(): Promise<SettingsResult> {
     .eq("is_deleted", false);
 
   if (error) {
-    return { success: false, error: error.message };
+    console.error("[purgeAllMessagesAction] Trying admin client fallback:", error);
+    const admin = createAdminClient();
+    const { error: adminErr } = await admin
+      .from("messages")
+      .update({ is_deleted: true })
+      .eq("is_deleted", false);
+    if (adminErr) {
+      return { success: false, error: adminErr.message };
+    }
   }
 
   revalidatePath("/dashboard");

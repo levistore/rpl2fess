@@ -103,7 +103,7 @@ export function MessageCard({ message, recipientName = "Owner RPL 2" }: MessageC
           <div className="flex items-center gap-1.5 px-2 py-0.5 rounded bg-[#181B21] border border-[#2A2D34]">
             <span className="text-[10px] text-[#7B8DFF] uppercase tracking-wider">Untuk:</span>
             <span className="text-[#F5F5F2] font-medium text-xs font-sans">
-              {recipientName}
+              {message.recipient_name || recipientName}
             </span>
           </div>
         </div>
