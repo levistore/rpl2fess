@@ -71,7 +71,18 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const toggleTheme = React.useCallback(() => {
     const current = getClientThemeSnapshot();
     const nextTheme = current === "dark" ? "light" : "dark";
-    setTheme(nextTheme);
+
+    if (
+      typeof document !== "undefined" &&
+      "startViewTransition" in document &&
+      !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      (document as unknown as { startViewTransition: (cb: () => void) => void }).startViewTransition(() => {
+        setTheme(nextTheme);
+      });
+    } else {
+      setTheme(nextTheme);
+    }
   }, [setTheme]);
 
   return (
