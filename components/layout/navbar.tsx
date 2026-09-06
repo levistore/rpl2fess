@@ -8,11 +8,31 @@ import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { InstallButton } from "@/components/pwa/install-button";
 
+import { motion, AnimatePresence } from "motion/react";
+import { cn } from "@/lib/utils";
+
 export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+  const [isScrolled, setIsScrolled] = React.useState(false);
+
+  React.useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    <header className="sticky top-0 z-40 w-full bg-[#08090B]/85 backdrop-blur-md border-b border-[#2A2D34]">
+    <header
+      className={cn(
+        "sticky top-0 z-40 w-full transition-colors duration-200",
+        isScrolled
+          ? "bg-[#08090B]/95 backdrop-blur-md border-b border-[#2A2D34] shadow-md shadow-black/30"
+          : "bg-[#08090B]/75 backdrop-blur-sm border-b border-[#2A2D34]/50"
+      )}
+    >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 h-18 flex items-center justify-between">
         {/* Brand Logo */}
         <Link href="/" className="flex items-center gap-3 group select-none">
@@ -100,56 +120,64 @@ export function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Menu Dropdown */}
-      {isMobileMenuOpen && (
-        <div className="md:hidden border-t border-[#2A2D34] bg-[#08090B] p-5 flex flex-col gap-3 animate-in slide-in-from-top-2 duration-150">
-          <Link
-            href="/"
-            onClick={() => setIsMobileMenuOpen(false)}
-            className="p-3 text-sm font-medium tracking-wide text-[#F5F5F2] border border-[#2A2D34] rounded-xl bg-[#111318]"
+      {/* Mobile Menu Dropdown with Smooth Animation */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+            className="md:hidden border-t border-[#2A2D34] bg-[#08090B] p-5 flex flex-col gap-3 overflow-hidden"
           >
-            Beranda
-          </Link>
-          <Link
-            href="/#cara-kerja"
-            onClick={() => setIsMobileMenuOpen(false)}
-            className="p-3 text-sm font-medium tracking-wide text-[#F5F5F2] border border-[#2A2D34] rounded-xl bg-[#111318]"
-          >
-            Cara Kerja
-          </Link>
-          <Link
-            href="/#dokumentasi"
-            onClick={() => setIsMobileMenuOpen(false)}
-            className="p-3 text-sm font-medium tracking-wide text-[#F5F5F2] border border-[#2A2D34] rounded-xl bg-[#111318]"
-          >
-            Dokumentasi Kelas
-          </Link>
-          <Link
-            href="/privacy"
-            onClick={() => setIsMobileMenuOpen(false)}
-            className="p-3 text-sm font-medium tracking-wide text-[#F5F5F2] border border-[#2A2D34] rounded-xl bg-[#111318] flex items-center gap-2"
-          >
-            <Shield className="w-4 h-4 text-[#42D392]" /> Kebijakan Privasi
-          </Link>
-          <div className="pt-2 border-t border-[#2A2D34] flex flex-col gap-2.5">
-            <InstallButton
-              size="md"
-              className="w-full"
-              onInstallSuccess={() => setIsMobileMenuOpen(false)}
-            />
-            <Link href="/send" onClick={() => setIsMobileMenuOpen(false)}>
-              <Button variant="primary" className="w-full">
-                <Send className="w-4 h-4 mr-2" /> Kirim Pesan Sekarang
-              </Button>
+            <Link
+              href="/"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="p-3 text-sm font-medium tracking-wide text-[#F5F5F2] border border-[#2A2D34] rounded-xl bg-[#111318]"
+            >
+              Beranda
             </Link>
-            <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
-              <Button variant="secondary" className="w-full">
-                Owner Login
-              </Button>
+            <Link
+              href="/#cara-kerja"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="p-3 text-sm font-medium tracking-wide text-[#F5F5F2] border border-[#2A2D34] rounded-xl bg-[#111318]"
+            >
+              Cara Kerja
             </Link>
-          </div>
-        </div>
-      )}
+            <Link
+              href="/#dokumentasi"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="p-3 text-sm font-medium tracking-wide text-[#F5F5F2] border border-[#2A2D34] rounded-xl bg-[#111318]"
+            >
+              Dokumentasi Kelas
+            </Link>
+            <Link
+              href="/privacy"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="p-3 text-sm font-medium tracking-wide text-[#F5F5F2] border border-[#2A2D34] rounded-xl bg-[#111318] flex items-center gap-2"
+            >
+              <Shield className="w-4 h-4 text-[#42D392]" /> Kebijakan Privasi
+            </Link>
+            <div className="pt-2 border-t border-[#2A2D34] flex flex-col gap-2.5">
+              <InstallButton
+                size="md"
+                className="w-full"
+                onInstallSuccess={() => setIsMobileMenuOpen(false)}
+              />
+              <Link href="/send" onClick={() => setIsMobileMenuOpen(false)}>
+                <Button variant="primary" className="w-full">
+                  <Send className="w-4 h-4 mr-2" /> Kirim Pesan Sekarang
+                </Button>
+              </Link>
+              <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
+                <Button variant="secondary" className="w-full">
+                  Owner Login
+                </Button>
+              </Link>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }
