@@ -43,8 +43,8 @@ export function ShareTrigger({ className, variant = "badge" }: ShareTriggerProps
       <Modal
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
-        title="Bagikan RPLTwoFess"
-        maxWidth="lg"
+        title="Bagikan RPLTwoFess — Poster Generator"
+        maxWidth="5xl"
       >
         <QRShareCard variant="embedded" />
       </Modal>

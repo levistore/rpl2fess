@@ -221,82 +221,107 @@ export function QRShareCard({
   }, [handleDownloadPoster, handleCopyLink, toast]);
 
   const content = (
-    <div className="space-y-8">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-[#2A2D34]">
-        <div>
-          <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-[#3D5CFF]/15 border border-[#3D5CFF]/30 text-xs font-mono font-medium text-[#7B8DFF] uppercase tracking-wider mb-2">
-            <Smartphone className="w-3.5 h-3.5" /> POSTER GENERATOR
+    <div className="space-y-6 sm:space-y-8 w-full overflow-hidden">
+      {/* Header: Full on Dashboard Card, streamlined when embedded in Modal */}
+      {variant !== "embedded" ? (
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-[#2A2D34]">
+          <div>
+            <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-[#3D5CFF]/15 border border-[#3D5CFF]/30 text-xs font-mono font-medium text-[#7B8DFF] uppercase tracking-wider mb-2">
+              <Smartphone className="w-3.5 h-3.5" /> POSTER GENERATOR
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-display uppercase tracking-wide text-[#F5F5F2]">
+              Bagikan RPLTwoFess
+            </h2>
+            <p className="text-xs sm:text-sm text-[#9A9DA5] mt-1">
+              Pilih template & ukuran untuk membuat poster QR yang siap diposting ke IG Story atau WA Status.
+            </p>
           </div>
-          <h2 className="text-2xl sm:text-3xl font-display uppercase tracking-wide text-[#F5F5F2]">
-            Bagikan RPLTwoFess
-          </h2>
-          <p className="text-xs sm:text-sm text-[#9A9DA5] mt-1">
-            Pilih template & ukuran untuk membuat poster QR yang siap diposting ke IG Story atau WA Status.
+
+          {/* Direct Link Box */}
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#181B21] border border-[#2A2D34] w-fit shrink-0">
+            <span className="text-xs font-mono text-[#7B8DFF] select-all max-w-[220px] truncate">
+              {TARGET_URL}
+            </span>
+            <button
+              type="button"
+              onClick={handleCopyLink}
+              aria-label="Salin link langsung"
+              className="text-[#9A9DA5] hover:text-[#F5F5F2] transition-colors p-1"
+            >
+              {copied ? (
+                <Check className="w-3.5 h-3.5 text-[#42D392]" />
+              ) : (
+                <Copy className="w-3.5 h-3.5" />
+              )}
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-[#2A2D34]">
+          <p className="text-xs text-[#9A9DA5]">
+            Pilih template & format poster untuk diunduh atau dibagikan ke status/story media sosial.
           </p>
+          <div className="flex items-center gap-2 px-3 py-1 rounded-xl bg-[#181B21] border border-[#2A2D34] w-fit shrink-0 text-xs font-mono text-[#7B8DFF]">
+            <span className="select-all truncate max-w-[200px]">{TARGET_URL}</span>
+            <button
+              type="button"
+              onClick={handleCopyLink}
+              aria-label="Salin link langsung"
+              className="text-[#9A9DA5] hover:text-[#F5F5F2] transition-colors p-0.5"
+            >
+              {copied ? (
+                <Check className="w-3.5 h-3.5 text-[#42D392]" />
+              ) : (
+                <Copy className="w-3.5 h-3.5" />
+              )}
+            </button>
+          </div>
         </div>
+      )}
 
-        {/* Direct Link Box */}
-        <div className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#181B21] border border-[#2A2D34] w-fit">
-          <span className="text-xs font-mono text-[#7B8DFF] select-all">
-            {TARGET_URL}
-          </span>
-          <button
-            type="button"
-            onClick={handleCopyLink}
-            aria-label="Salin link langsung"
-            className="text-[#9A9DA5] hover:text-[#F5F5F2] transition-colors p-1"
-          >
-            {copied ? (
-              <Check className="w-3.5 h-3.5 text-[#42D392]" />
-            ) : (
-              <Copy className="w-3.5 h-3.5" />
-            )}
-          </button>
-        </div>
-      </div>
-
-      {/* Main Studio Grid: Poster Live Preview (Left/Top) + Controls (Right/Bottom) */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      {/* Main Studio Grid: Poster Live Preview (Left on Desktop, Top on Mobile) + Controls (Right on Desktop, Bottom on Mobile) */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start w-full">
         {/* Left Column: Live Canvas Preview */}
-        <div className="lg:col-span-6 flex flex-col items-center justify-center space-y-3">
-          <div
-            className={cn(
-              "relative w-full max-w-[420px] rounded-2xl overflow-hidden bg-[#07090E] border border-[#2A2D34] shadow-2xl p-2 sm:p-3 flex items-center justify-center transition-all",
-              format === "story" && "aspect-[9/16] max-h-[580px]",
-              format === "square" && "aspect-square max-h-[460px]",
-              format === "landscape" && "aspect-[16/9] max-h-[340px]"
-            )}
-          >
-            {/* Live Canvas */}
-            <canvas
-              ref={canvasRef}
-              className="w-full h-full object-contain rounded-xl shadow-inner"
-            />
+        <div className="lg:col-span-5 flex flex-col items-center justify-center space-y-3 w-full">
+          <div className="w-full flex justify-center py-1">
+            <div
+              className={cn(
+                "relative w-full max-w-[300px] sm:max-w-[340px] lg:max-w-[380px] rounded-2xl overflow-hidden bg-[#07090E] border border-[#2A2D34] shadow-2xl p-2 sm:p-2.5 flex items-center justify-center transition-all mx-auto",
+                format === "story" && "aspect-[9/16] max-h-[480px] sm:max-h-[530px]",
+                format === "square" && "aspect-square max-h-[340px] sm:max-h-[380px]",
+                format === "landscape" && "aspect-[16/9] max-h-[220px] sm:max-h-[260px]"
+              )}
+            >
+              {/* Live Canvas */}
+              <canvas
+                ref={canvasRef}
+                className="w-full h-full object-contain rounded-xl shadow-inner"
+              />
 
-            {/* Rendering Overlay Spinner */}
-            {isRendering && (
-              <div className="absolute inset-0 bg-black/60 backdrop-blur-xs flex items-center justify-center gap-2 text-xs font-mono text-[#F5F5F2]">
-                <RefreshCw className="w-4 h-4 animate-spin text-[#3D5CFF]" />
-                <span>Memperbarui poster...</span>
-              </div>
-            )}
+              {/* Rendering Overlay Spinner */}
+              {isRendering && (
+                <div className="absolute inset-0 bg-black/60 backdrop-blur-xs flex items-center justify-center gap-2 text-xs font-mono text-[#F5F5F2]">
+                  <RefreshCw className="w-4 h-4 animate-spin text-[#3D5CFF]" />
+                  <span>Memperbarui poster...</span>
+                </div>
+              )}
+            </div>
           </div>
 
-          <p className="text-[11px] font-mono text-[#9A9DA5] flex items-center gap-1.5">
-            <CheckCircle2 className="w-3.5 h-3.5 text-[#42D392]" />
+          <p className="text-[11px] font-mono text-[#9A9DA5] flex items-center gap-1.5 text-center justify-center">
+            <CheckCircle2 className="w-3.5 h-3.5 text-[#42D392] shrink-0" />
             <span>Resolusi Export: {FORMAT_CONFIG[format].width} × {FORMAT_CONFIG[format].height} px</span>
           </p>
         </div>
 
-        {/* Right Column: Customization Controls */}
-        <div className="lg:col-span-6 space-y-6">
+        {/* Right Column: Customization Controls & Actions */}
+        <div className="lg:col-span-7 space-y-5 w-full">
           {/* 1. Template Selector */}
-          <div className="space-y-2.5">
+          <div className="space-y-2">
             <label className="text-xs font-mono uppercase tracking-wider text-[#9A9DA5] flex items-center gap-1.5">
               <span>1. PILIH TEMPLATE POSTER</span>
             </label>
-            <div className="grid grid-cols-3 gap-2.5">
+            <div className="grid grid-cols-3 gap-2 sm:gap-2.5">
               {[
                 {
                   id: "editorial" as PosterTemplate,
@@ -319,16 +344,16 @@ export function QRShareCard({
                   type="button"
                   onClick={() => setTemplate(item.id)}
                   className={cn(
-                    "p-3 rounded-xl border text-left transition-all cursor-pointer flex flex-col justify-between gap-1",
+                    "p-2.5 sm:p-3 rounded-xl border text-left transition-all cursor-pointer flex flex-col justify-between gap-1 min-h-[62px] sm:min-h-[68px]",
                     template === item.id
                       ? "bg-[#3D5CFF]/15 border-[#3D5CFF] text-[#F5F5F2] shadow-[0_0_15px_-3px_rgba(61,92,255,0.4)]"
                       : "bg-[#181B21] border-[#2A2D34] text-[#9A9DA5] hover:text-[#F5F5F2] hover:border-[#3E424C]"
                   )}
                 >
-                  <span className="text-xs font-bold font-display uppercase tracking-wide block">
+                  <span className="text-xs font-bold font-display uppercase tracking-wide block truncate">
                     {item.name}
                   </span>
-                  <span className="text-[10px] text-[#9A9DA5] block">
+                  <span className="text-[10px] text-[#9A9DA5] block truncate">
                     {item.desc}
                   </span>
                 </button>
@@ -337,11 +362,11 @@ export function QRShareCard({
           </div>
 
           {/* 2. Format / Aspect Ratio Selector */}
-          <div className="space-y-2.5">
+          <div className="space-y-2">
             <label className="text-xs font-mono uppercase tracking-wider text-[#9A9DA5] flex items-center gap-1.5">
               <span>2. UKURAN & FORMAT</span>
             </label>
-            <div className="grid grid-cols-3 gap-2.5">
+            <div className="grid grid-cols-3 gap-2 sm:gap-2.5">
               {[
                 {
                   id: "story" as PosterFormat,
@@ -366,14 +391,14 @@ export function QRShareCard({
                     type="button"
                     onClick={() => setFormat(item.id)}
                     className={cn(
-                      "p-3 rounded-xl border flex items-center justify-center gap-2 transition-all cursor-pointer text-xs font-medium",
+                      "p-2.5 sm:p-3 rounded-xl border flex items-center justify-center gap-1.5 sm:gap-2 transition-all cursor-pointer text-xs font-medium min-h-[44px]",
                       format === item.id
                         ? "bg-[#3D5CFF]/15 border-[#3D5CFF] text-[#7B8DFF] shadow-[0_0_12px_-2px_rgba(61,92,255,0.3)]"
                         : "bg-[#181B21] border-[#2A2D34] text-[#9A9DA5] hover:text-[#F5F5F2] hover:border-[#3E424C]"
                     )}
                   >
-                    <Icon className="w-4 h-4 shrink-0" />
-                    <span>{item.label}</span>
+                    <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
+                    <span className="text-[11px] sm:text-xs truncate">{item.label}</span>
                   </button>
                 );
               })}
@@ -381,7 +406,7 @@ export function QRShareCard({
           </div>
 
           {/* 3. Photo Selector */}
-          <div className="space-y-2.5">
+          <div className="space-y-2">
             <div className="flex items-center justify-between">
               <label className="text-xs font-mono uppercase tracking-wider text-[#9A9DA5] flex items-center gap-1.5">
                 <ImageIcon className="w-3.5 h-3.5 text-[#3D5CFF]" />
@@ -398,13 +423,14 @@ export function QRShareCard({
               )}
             </div>
 
-            <div className="grid grid-cols-4 sm:grid-cols-5 gap-2.5">
+            {/* Clean Horizontal Scroll Container for Thumbnails */}
+            <div className="flex items-center gap-2.5 overflow-x-auto pb-2 pt-1 overscroll-x-contain w-full scrollbar-none">
               {/* Option: Tanpa Foto */}
               <button
                 type="button"
                 onClick={() => setSelectedPhoto(null)}
                 className={cn(
-                  "h-18 rounded-xl border flex flex-col items-center justify-center p-2 text-center transition-all cursor-pointer",
+                  "shrink-0 w-20 h-16 sm:w-22 sm:h-18 rounded-xl border flex flex-col items-center justify-center p-1.5 text-center transition-all cursor-pointer",
                   selectedPhoto === null
                     ? "bg-[#3D5CFF]/15 border-[#3D5CFF] text-[#7B8DFF]"
                     : "bg-[#181B21] border-[#2A2D34] text-[#9A9DA5] hover:border-[#3E424C]"
@@ -413,7 +439,7 @@ export function QRShareCard({
                 <span className="text-[10px] font-mono font-bold leading-tight uppercase">
                   Tanpa Foto
                 </span>
-                <span className="text-[9px] text-[#9A9DA5] mt-1">Grafis Murni</span>
+                <span className="text-[9px] text-[#9A9DA5] mt-0.5">Grafis Saja</span>
               </button>
 
               {/* Photo Thumbnails */}
@@ -423,9 +449,9 @@ export function QRShareCard({
                   type="button"
                   onClick={() => setSelectedPhoto(photo.url)}
                   className={cn(
-                    "relative h-18 rounded-xl overflow-hidden border transition-all cursor-pointer group",
+                    "relative shrink-0 w-16 h-16 sm:w-18 sm:h-18 rounded-xl overflow-hidden border transition-all cursor-pointer group",
                     selectedPhoto === photo.url
-                      ? "border-[#3D5CFF] ring-2 ring-[#3D5CFF]/40 shadow-md"
+                      ? "border-[#3D5CFF] ring-2 ring-[#3D5CFF]/50 shadow-md"
                       : "border-[#2A2D34] hover:border-[#3E424C] opacity-75 hover:opacity-100"
                   )}
                   title={photo.title}
@@ -447,21 +473,23 @@ export function QRShareCard({
             </div>
           </div>
 
-          {/* Action Buttons */}
-          <div className="pt-3 border-t border-[#2A2D34] space-y-2.5">
-            <div className="flex flex-col sm:flex-row items-stretch gap-3">
-              <Button
-                type="button"
-                variant="primary"
-                size="md"
-                onClick={handleDownloadPoster}
-                isLoading={isDownloading}
-                className="flex-1 bg-[#3D5CFF] text-white hover:bg-[#536DFF] shadow-[0_4px_16px_rgba(61,92,255,0.4)]"
-              >
-                <Download className="w-4 h-4 mr-2 text-white shrink-0" />
-                <span>Download Poster PNG</span>
-              </Button>
+          {/* Action Buttons: Responsive & Anti-Overflow */}
+          <div className="pt-4 border-t border-[#2A2D34] space-y-2.5 w-full">
+            {/* Primary Action Button: Full Width */}
+            <Button
+              type="button"
+              variant="primary"
+              size="lg"
+              onClick={handleDownloadPoster}
+              isLoading={isDownloading}
+              className="w-full bg-[#3D5CFF] text-white hover:bg-[#536DFF] shadow-[0_4px_16px_rgba(61,92,255,0.4)] h-12 text-sm sm:text-base font-semibold"
+            >
+              <Download className="w-4 h-4 mr-2 text-white shrink-0" />
+              <span>Download Poster PNG</span>
+            </Button>
 
+            {/* Secondary Action Buttons Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 w-full">
               {canShare && (
                 <Button
                   type="button"
@@ -469,7 +497,7 @@ export function QRShareCard({
                   size="md"
                   onClick={handleShare}
                   isLoading={isSharing}
-                  className="sm:w-auto"
+                  className="w-full h-11"
                 >
                   <Share2 className="w-4 h-4 mr-2 text-[#7B8DFF] shrink-0" />
                   <span>Bagikan</span>
@@ -481,12 +509,12 @@ export function QRShareCard({
                 variant="secondary"
                 size="md"
                 onClick={handleCopyLink}
-                className="sm:w-auto"
+                className={cn("w-full h-11", !canShare && "sm:col-span-2")}
               >
                 {copied ? (
                   <>
                     <Check className="w-4 h-4 mr-2 text-[#42D392] shrink-0" />
-                    <span>Tersalin!</span>
+                    <span>Link Tersalin!</span>
                   </>
                 ) : (
                   <>
@@ -509,7 +537,7 @@ export function QRShareCard({
   return (
     <Card
       className={cn(
-        "p-6 sm:p-8 bg-[#111318] border border-[#2A2D34]",
+        "p-5 sm:p-7 md:p-8 bg-[#111318] border border-[#2A2D34] w-full overflow-hidden",
         className
       )}
     >
