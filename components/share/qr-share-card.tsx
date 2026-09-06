@@ -344,7 +344,7 @@ export function QRShareCard({
                   type="button"
                   onClick={() => setTemplate(item.id)}
                   className={cn(
-                    "p-2.5 sm:p-3 rounded-xl border text-left transition-all cursor-pointer flex flex-col justify-between gap-1 min-h-[62px] sm:min-h-[68px]",
+                    "p-2.5 sm:p-3 rounded-xl border text-left transition-all duration-150 cursor-pointer flex flex-col justify-between gap-1 min-h-[62px] sm:min-h-[68px] hover:-translate-y-0.5 active:scale-[0.97]",
                     template === item.id
                       ? "bg-[#3D5CFF]/15 border-[#3D5CFF] text-[#F5F5F2] shadow-[0_0_15px_-3px_rgba(61,92,255,0.4)]"
                       : "bg-[#181B21] border-[#2A2D34] text-[#9A9DA5] hover:text-[#F5F5F2] hover:border-[#3E424C]"
@@ -391,7 +391,7 @@ export function QRShareCard({
                     type="button"
                     onClick={() => setFormat(item.id)}
                     className={cn(
-                      "p-2.5 sm:p-3 rounded-xl border flex items-center justify-center gap-1.5 sm:gap-2 transition-all cursor-pointer text-xs font-medium min-h-[44px]",
+                      "p-2.5 sm:p-3 rounded-xl border flex items-center justify-center gap-1.5 sm:gap-2 transition-all duration-150 cursor-pointer text-xs font-medium min-h-[44px] hover:-translate-y-0.5 active:scale-[0.97]",
                       format === item.id
                         ? "bg-[#3D5CFF]/15 border-[#3D5CFF] text-[#7B8DFF] shadow-[0_0_12px_-2px_rgba(61,92,255,0.3)]"
                         : "bg-[#181B21] border-[#2A2D34] text-[#9A9DA5] hover:text-[#F5F5F2] hover:border-[#3E424C]"

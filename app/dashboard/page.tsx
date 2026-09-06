@@ -15,6 +15,8 @@ import {
   Send,
 } from "lucide-react";
 
+import { DashboardStats, StatItem } from "@/components/dashboard/dashboard-stats";
+
 export default async function DashboardPage() {
   const [stats, { messages }, docs] = await Promise.all([
     getDashboardStats(),
@@ -30,7 +32,7 @@ export default async function DashboardPage() {
       url: d.image_url,
     }));
 
-  const statCards = [
+  const statCards: StatItem[] = [
     {
       label: "TOTAL PESAN",
       value: stats.totalMessages,
@@ -79,30 +81,7 @@ export default async function DashboardPage() {
       </div>
 
       {/* Stat Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        {statCards.map((s) => {
-          const Icon = s.icon;
-          return (
-            <Card
-              key={s.label}
-              variant="surface"
-              className="p-6 border border-[#2A2D34] relative overflow-hidden"
-            >
-              <div className="flex items-center justify-between mb-4">
-                <span className="text-xs font-mono tracking-widest uppercase text-[#9A9DA5]">
-                  {s.label}
-                </span>
-                <div className={`w-8 h-8 rounded-lg border flex items-center justify-center ${s.iconBg}`}>
-                  <Icon className={`w-4 h-4 ${s.accentColor}`} />
-                </div>
-              </div>
-              <span className="block font-display text-5xl sm:text-6xl tracking-tight text-[#F5F5F2]">
-                {s.value}
-              </span>
-            </Card>
-          );
-        })}
-      </div>
+      <DashboardStats items={statCards} />
 
       {/* Bagikan RPLTwoFess Section */}
       <QRShareCard availablePhotos={availablePhotos} />

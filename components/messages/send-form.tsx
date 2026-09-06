@@ -16,6 +16,9 @@ import {
 import { cn } from "@/lib/utils";
 import confetti from "canvas-confetti";
 
+import { motion } from "motion/react";
+import { EASE_NATURAL } from "@/lib/motion";
+
 interface SendFormProps {
   acceptingMessages: boolean;
   maxLength: number;
@@ -114,7 +117,12 @@ export function SendForm({
 
   if (isSuccess) {
     return (
-      <div className="relative rounded-2xl bg-[#111318] border border-[#3D5CFF]/40 p-8 sm:p-10 text-center animate-in zoom-in-95 duration-200 space-y-6 shadow-2xl">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.96, y: 12 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ duration: 0.35, ease: EASE_NATURAL }}
+        className="relative rounded-2xl bg-[#111318] border border-[#3D5CFF]/40 p-8 sm:p-10 text-center space-y-6 shadow-2xl"
+      >
         {/* Scrapbook Tape */}
         <div className="scrapbook-tape w-24 -top-3 left-1/2 -translate-x-1/2 rotate-1" />
 
@@ -156,7 +164,7 @@ export function SendForm({
             </Button>
           </Link>
         </div>
-      </div>
+      </motion.div>
     );
   }
 
