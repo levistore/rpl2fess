@@ -65,7 +65,7 @@ export function MessageCard({ message, recipientName = "Seseorang" }: MessageCar
   return (
     <>
       <div
-        className={`group relative rounded-2xl border transition-all duration-200 p-5 sm:p-6 ${
+        className={`group relative rounded-2xl border transition-all duration-150 ease-out p-5 sm:p-6 hover:-translate-y-0.5 active:scale-[0.99] ${
           !isRead
             ? "bg-[#111318] border-[#3D5CFF]/30 shadow-xl shadow-black/60 hover:border-[#3D5CFF]/60"
             : "bg-[#111318]/60 border-[#2A2D34] opacity-80 hover:opacity-100 hover:border-[#3E424C]"
