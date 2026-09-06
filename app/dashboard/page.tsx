@@ -3,6 +3,7 @@ import { getDashboardStats, getInboxMessages } from "@/lib/queries/messages";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { MessageCard } from "@/components/messages/message-card";
+import { QRShareCard } from "@/components/share/qr-share-card";
 import {
   Mail,
   MailOpen,
@@ -92,6 +93,9 @@ export default async function DashboardPage() {
           );
         })}
       </div>
+
+      {/* Bagikan RPLTwoFess Section */}
+      <QRShareCard />
 
       {/* Recent Messages Preview */}
       <div className="space-y-4">

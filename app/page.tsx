@@ -5,6 +5,7 @@ import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { HeroComposerPreview } from "@/components/landing/hero-composer-preview";
+import { ShareTrigger } from "@/components/share/share-trigger";
 import {
   ArrowRight,
   Lock,
@@ -71,17 +72,20 @@ export default async function HomePage() {
               </Link>
             </div>
 
-            {/* Privacy Badges */}
-            <div className="pt-2 flex flex-wrap items-center gap-4 text-xs text-[#9A9DA5]/80 font-mono">
-              <span className="flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#42D392]" /> Tanpa Login
-              </span>
-              <span className="flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#3D5CFF]" /> 100% Rahasia
-              </span>
-              <span className="flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#FFB84D]" /> Anti-Spam Aktif
-              </span>
+            {/* Privacy Badges & Share QR Trigger */}
+            <div className="pt-2 flex flex-wrap items-center justify-between gap-3 text-xs text-[#9A9DA5]/80 font-mono">
+              <div className="flex flex-wrap items-center gap-4">
+                <span className="flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#42D392]" /> Tanpa Login
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#3D5CFF]" /> 100% Rahasia
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#FFB84D]" /> Anti-Spam Aktif
+                </span>
+              </div>
+              <ShareTrigger variant="badge" />
             </div>
           </div>
 
