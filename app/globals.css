@@ -230,8 +230,16 @@ body {
   background-color: var(--background) !important;
 }
 
+.light .bg-\[\#08090B\]\/95 {
+  background-color: rgba(245, 245, 242, 0.96) !important;
+}
+
 .light .bg-\[\#08090B\]\/85 {
   background-color: rgba(245, 245, 242, 0.88) !important;
+}
+
+.light .bg-\[\#08090B\]\/75 {
+  background-color: rgba(245, 245, 242, 0.80) !important;
 }
 
 .light .bg-\[\#111318\] {

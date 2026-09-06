@@ -6,9 +6,6 @@ import { Button } from "@/components/ui/button";
 import { MessageCard } from "@/components/messages/message-card";
 import { QRShareCard } from "@/components/share/qr-share-card";
 import {
-  Mail,
-  MailOpen,
-  Calendar,
   ArrowRight,
   ExternalLink,
   ShieldCheck,
@@ -34,23 +31,23 @@ export default async function DashboardPage() {
 
   const statCards: StatItem[] = [
     {
+      iconType: "total",
       label: "TOTAL PESAN",
       value: stats.totalMessages,
-      icon: Mail,
       accentColor: "text-[#7B8DFF]",
       iconBg: "bg-[#3D5CFF]/15 border-[#3D5CFF]/30",
     },
     {
+      iconType: "unread",
       label: "BELUM DIBACA",
       value: stats.unreadMessages,
-      icon: MailOpen,
       accentColor: stats.unreadMessages > 0 ? "text-[#3D5CFF]" : "text-[#9A9DA5]",
       iconBg: stats.unreadMessages > 0 ? "bg-[#3D5CFF]/20 border-[#3D5CFF]/40 shadow-[0_0_15px_rgba(61,92,255,0.4)]" : "bg-[#181B21] border-[#2A2D34]",
     },
     {
+      iconType: "today",
       label: "HARI INI",
       value: stats.todayMessages,
-      icon: Calendar,
       accentColor: "text-[#42D392]",
       iconBg: "bg-[#42D392]/15 border-[#42D392]/30",
     },

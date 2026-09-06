@@ -92,56 +92,61 @@ export function GallerySection({ galleryDocs }: GallerySectionProps) {
                 <motion.div
                   key={doc.id}
                   variants={cardVariants}
-                  whileHover={{ y: -4, transition: { duration: 0.18 } }}
+                  whileHover={{ y: -4 }}
                   whileTap={{ scale: 0.98 }}
-                  onClick={() => setSelectedIdx(index)}
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") setSelectedIdx(index);
-                  }}
-                  aria-label={`Buka foto: ${doc.title || doc.caption || "Dokumentasi Kelas"}`}
-                  className={`relative rounded-xl bg-[#111318] border border-[#2A2D34] p-3 shadow-xl shadow-black/50 ${rotationClass} transition-all duration-200 flex flex-col justify-between cursor-pointer group hover:border-[#3D5CFF]/60`}
+                  transition={{ duration: 0.2, ease: EASE_NATURAL }}
+                  className="h-full flex flex-col"
                 >
-                  <div className={tapeClass} />
-                  <div className="relative aspect-[4/3] w-full rounded-lg overflow-hidden bg-[#08090B]">
-                    <Image
-                      src={doc.image_url}
-                      alt={doc.title || doc.caption || "Dokumentasi Kelas"}
-                      fill
-                      priority={index === 0}
-                      loading={index === 0 ? undefined : "lazy"}
-                      className="object-cover group-hover:scale-105 transition-transform duration-300"
-                      unoptimized={doc.image_url.startsWith("blob:") || doc.image_url.startsWith("data:")}
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                    />
+                  <div
+                    onClick={() => setSelectedIdx(index)}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") setSelectedIdx(index);
+                    }}
+                    aria-label={`Buka foto: ${doc.title || doc.caption || "Dokumentasi Kelas"}`}
+                    className={`relative rounded-xl bg-[#111318] border border-[#2A2D34] p-3 shadow-xl shadow-black/50 ${rotationClass} transition-[border-color,box-shadow] duration-200 flex flex-col justify-between cursor-pointer group hover:border-[#3D5CFF]/60 h-full`}
+                  >
+                    <div className={tapeClass} />
+                    <div className="relative aspect-[4/3] w-full rounded-lg overflow-hidden bg-[#08090B] isolate">
+                      <Image
+                        src={doc.image_url}
+                        alt={doc.title || doc.caption || "Dokumentasi Kelas"}
+                        fill
+                        priority={index === 0}
+                        loading={index === 0 ? undefined : "lazy"}
+                        className="object-cover group-hover:scale-105 transition-transform duration-300 pointer-events-none"
+                        unoptimized={doc.image_url.startsWith("blob:") || doc.image_url.startsWith("data:")}
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                      />
 
-                    {/* View overlay icon */}
-                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
-                      <div className="p-2 rounded-full bg-black/60 backdrop-blur-sm text-white border border-white/20">
-                        <Maximize2 className="w-4 h-4" />
+                      {/* View overlay icon */}
+                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center z-10 pointer-events-none">
+                        <div className="p-2 rounded-full bg-black/60 backdrop-blur-sm text-white border border-white/20">
+                          <Maximize2 className="w-4 h-4" />
+                        </div>
                       </div>
+
+                      {doc.overlay_text && (
+                        <div className="absolute bottom-2 left-2 z-20 pointer-events-none px-2 py-0.5 rounded bg-black/80 backdrop-blur-sm border border-white/15 text-[9px] font-mono tracking-widest text-white uppercase shadow-sm">
+                          {doc.overlay_text}
+                        </div>
+                      )}
                     </div>
-
-                    {doc.overlay_text && (
-                      <div className="absolute bottom-2 left-2 px-2 py-0.5 rounded bg-black/75 backdrop-blur-sm border border-white/10 text-[9px] font-mono tracking-widest text-[#F5F5F2] uppercase">
-                        {doc.overlay_text}
+                    <div className="pt-3 pb-1 px-1 space-y-1">
+                      <span className="text-[10px] font-mono uppercase tracking-widest text-[#3D5CFF] block">
+                        {doc.category_label || `DOCUMENTATION / ${orderLabel}`}
+                      </span>
+                      <p className="font-handwriting text-lg text-[#F5F5F2] leading-tight">
+                        &ldquo;{doc.caption}&rdquo;
+                      </p>
+                      <span className="text-[10px] font-mono text-[#9A9DA5] block">
+                        {doc.meta_text || "XI RPL 2 / 2026"}
+                      </span>
+                      <div className="pt-2 flex items-center justify-between text-[10px] font-mono text-[#9A9DA5]/70 border-t border-white/5 mt-1">
+                        <span>{doc.footer_text || "ARSIP DOKUMENTER KELAS"}</span>
+                        <span>{doc.tagline_text || "SATU KELAS. BANYAK CERITA."}</span>
                       </div>
-                    )}
-                  </div>
-                  <div className="pt-3 pb-1 px-1 space-y-1">
-                    <span className="text-[10px] font-mono uppercase tracking-widest text-[#3D5CFF] block">
-                      {doc.category_label || `DOCUMENTATION / ${orderLabel}`}
-                    </span>
-                    <p className="font-handwriting text-lg text-[#F5F5F2] leading-tight">
-                      &ldquo;{doc.caption}&rdquo;
-                    </p>
-                    <span className="text-[10px] font-mono text-[#9A9DA5] block">
-                      {doc.meta_text || "XI RPL 2 / 2026"}
-                    </span>
-                    <div className="pt-2 flex items-center justify-between text-[10px] font-mono text-[#9A9DA5]/70 border-t border-white/5 mt-1">
-                      <span>{doc.footer_text || "ARSIP DOKUMENTER KELAS"}</span>
-                      <span>{doc.tagline_text || "SATU KELAS. BANYAK CERITA."}</span>
                     </div>
                   </div>
                 </motion.div>

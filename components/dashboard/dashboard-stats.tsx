@@ -3,16 +3,24 @@
 import * as React from "react";
 import { motion } from "motion/react";
 import { Card } from "@/components/ui/card";
-import { LucideIcon } from "lucide-react";
+import { Mail, MailOpen, Calendar } from "lucide-react";
 import { EASE_NATURAL } from "@/lib/motion";
 
+export type StatIconType = "total" | "unread" | "today";
+
 export interface StatItem {
+  iconType: StatIconType;
   label: string;
   value: number;
-  icon: LucideIcon;
   accentColor: string;
   iconBg: string;
 }
+
+const ICON_MAP = {
+  total: Mail,
+  unread: MailOpen,
+  today: Calendar,
+};
 
 interface DashboardStatsProps {
   items: StatItem[];
@@ -22,7 +30,7 @@ export function DashboardStats({ items }: DashboardStatsProps) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
       {items.map((s, idx) => {
-        const Icon = s.icon;
+        const Icon = ICON_MAP[s.iconType] || Mail;
         return (
           <motion.div
             key={s.label}
