@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getDashboardStats, getInboxMessages } from "@/lib/queries/messages";
+import { getAllDocumentation } from "@/lib/queries/documentation";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { MessageCard } from "@/components/messages/message-card";
@@ -15,10 +16,19 @@ import {
 } from "lucide-react";
 
 export default async function DashboardPage() {
-  const [stats, { messages }] = await Promise.all([
+  const [stats, { messages }, docs] = await Promise.all([
     getDashboardStats(),
     getInboxMessages({ limit: 5 }),
+    getAllDocumentation(),
   ]);
+
+  const availablePhotos = docs
+    .filter((d) => d.is_active && d.image_url)
+    .map((d) => ({
+      id: d.id,
+      title: d.title,
+      url: d.image_url,
+    }));
 
   const statCards = [
     {
@@ -95,7 +105,7 @@ export default async function DashboardPage() {
       </div>
 
       {/* Bagikan RPLTwoFess Section */}
-      <QRShareCard />
+      <QRShareCard availablePhotos={availablePhotos} />
 
       {/* Recent Messages Preview */}
       <div className="space-y-4">
